@@ -47,7 +47,7 @@ button {
 }
 
 button:hover {
-    background-color: #026b34;
+    background-color: #026010;
 }
 
 .actividades-list {
@@ -118,7 +118,7 @@ button:hover {
 
 .fecha-actividad {
     font-size: 0.9rem;
-    color: #54854a;
+    color: #026010;
     margin-top: 0px;
 }
 
@@ -160,7 +160,7 @@ button:hover {
     
     .fecha-actividad {
         font-size: 0.9rem;
-        color: #54854a;
+        color: #026010;
         margin-top: 0px;
     }
     
