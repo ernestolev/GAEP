@@ -132,10 +132,23 @@ const Home = () => {
             <section className="beneficios">
                 <h2>BENEFICIOS Y SERVICIOS</h2>
                 <div className='beneficios-content'>
-                <p>La asociación facilita el acceso a un cuadro selecto de mentores, coachs o ponentes en actividades para alumnos, así como el acceso a investigaciones realizadas por alumnos. Actúa para intensificar la participación ciudadana en proyectos de cambio social, económico y político en la región y el país. Dispone de una red de fomento y acciones, on y offline, en eventos culturales e interculturales en el país y fuera de él. Del mismo modo, divulga y promueve participación en eventos deportivos.</p>
-                <img src={Benefimg} alt="" />
+                    <p>La asociación facilita el acceso a un cuadro selecto de mentores, coachs o ponentes en actividades para alumnos, así como el acceso a investigaciones realizadas por alumnos. Actúa para intensificar la participación ciudadana en proyectos de cambio social, económico y político en la región y el país. Dispone de una red de fomento y acciones, on y offline, en eventos culturales e interculturales en el país y fuera de él. Del mismo modo, divulga y promueve participación en eventos deportivos.</p>
                 </div>
-                
+                <div className="beneficios-cuartos-container">
+                    <div className="beneficio-cuadro">
+                        <h3>Una red exclusiva de oportunidades</h3>
+                        <p>Conéctate con egresados de todas las generaciones y amplía tus horizontes personales y profesionales.</p>
+                    </div>
+                    <div className="beneficio-cuadro">
+                        <h3>Participa en eventos inolvidables</h3>
+                        <p>Disfruta de actividades que celebran nuestras raíces y fortalecen la unión entre exalumnos.</p>
+                    </div>
+                    <div className="beneficio-cuadro">
+                        <h3>Beneficios exclusivos para socios</h3>
+                        <p>Accede a proyectos, recursos y actividades solo para miembros de nuestra comunidad.</p>
+                    </div>
+                </div>
+
             </section>
             <section className="actividades">
                 <h2>CRONOGRAMA DE ACTIVIDADES</h2>
