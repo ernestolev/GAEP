@@ -1,0 +1,425 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.home-container {
+    flex: 1;
+    width: 100%;
+    padding: 65px;
+    box-sizing: border-box;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+.intro {
+    text-align: center;
+}
+
+.intro-box {
+    background-color: #6b846b;
+    height: 310px;
+    border-radius: 40px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.intro-box h2 {
+    padding: 20px;
+    width: 45%;
+    left: 20px;
+    text-align: left;
+    font-size: 2.5rem;
+    margin-top: 120px;
+    position: absolute;
+    color: white;
+}
+
+.intro-box button {
+    position: absolute;
+    margin-top: 90px;
+    left: 40px;
+    background-color: #ffffff;
+    color: #6b846b;
+    border: none;
+    padding: 2px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.intro-box img {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 40px;
+}
+
+.intro-box button:hover {
+    background-color: #b2efd0;
+}
+
+.intro-paragraphs {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.intro-paragraphs img {
+    width: 20px;
+}
+
+.intro-paragraph {
+    width: 30%;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.intro-paragraph h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.intro-paragraph p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.comunidad {
+    text-align: center;
+}
+
+.comunidad-box {
+    background-color: #6b846b;
+    color: rgb(255, 255, 255);
+    padding: 25px 100px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+}
+
+.comunidad-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.comunidad-text {
+    font-size: 0.8rem;
+    padding: 20px 0;
+    width: 45%;
+    text-align: left;
+}
+
+.comunidad-values {
+    font-size: 0.8rem;
+    padding: 50px 0;
+    width: 45%;
+    text-align: left;
+}
+
+.value-bar {
+    margin-bottom: 10px;
+}
+
+.value-bar span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.bar {
+    background-color: #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.fill {
+    background-color: #ffffff;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.comunidad-footer {
+    margin-top: 50px;
+    font-size: 0.7rem;
+    font-style: italic;
+    text-align: left;
+}
+
+.mapa {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.beneficios {
+    text-align: center;
+    margin: 90px 0px;
+    padding: 0 40px;
+}
+
+.beneficios-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.beneficios p {
+    text-align: left;
+    width: 40%;
+    font-size: 1rem;
+    padding: 60px;
+}
+
+.beneficios img {
+    margin-left: 30px;
+    width: 40%;
+    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.actividades {
+    text-align: center;
+    background-color: #6b846b;
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.actividades h2 {
+    color: white;
+    margin-bottom: 40px;
+}
+
+.calendario ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.calendario li {
+    margin-bottom: 10px;
+}
+
+.jade-green-marker {
+    filter: hue-rotate(250deg) saturate(1);
+}
+
+.ubicaciones-principales {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.ubicacion-principal {
+    background-color: #ffffff;
+    color: #028641;
+    width: 130px;
+    border-radius: 15px;
+    padding: 10px 22px;
+    margin: 0 10px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ubicacion-principal:hover {
+    background-color: #f0f0f0;
+}
+
+.ubicacion-principal-nombre {
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.ubicacion-principal-promociones {
+    font-size: 0.6rem;
+}
+
+.ubicacion-principal-count {
+    font-size: 0.7rem;
+}
+
+.mapita {
+    background-color: #d7d7d7;
+    border-radius: 20px;
+    padding-bottom: 25px;
+    padding-top: 10px;
+}
+
+.mapita h2 {
+    color: rgb(255, 255, 255);
+    font-size: 1.2rem;
+    color: #028641;
+}
+
+.mapa-ubicaciones {
+    font-size: 0.6rem;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 0px;
+    transform: translateY(-30px);
+}
+
+.mapa-ubicaciones button {
+    background-color: #6b846b;
+    font-size: 0.5rem;
+    height: 28px;
+    color: #ffffff;
+    border: none;
+    padding: 0px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.actividad-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    transform: translateY(6px);
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .home-container {
+        padding: 40px;
+    }
+
+    .intro-box {
+        height: 200px;
+        padding: 20px;
+    }
+
+    .intro-box h2 {
+        width: 100%;
+        font-size: 1rem;
+        margin-top: 100px;
+        text-align: center;
+    }
+
+    .intro-box button {
+        margin-top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .intro-paragraphs {
+        flex-direction: column;
+        margin-top: 20px;
+        padding: 40px;
+    }
+
+    .intro-paragraph {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .comunidad-content {
+        flex-direction: column;
+    }
+
+    .comunidad-text,
+    .comunidad-values {
+        width: 100%;
+        text-align: center;
+    }
+
+    .beneficios-content {
+        flex-direction: column;
+    }
+
+    .beneficios p,
+    .beneficios img {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .ubicaciones-principales {
+        flex-direction: flex;
+    }
+
+    .ubicacion-principal {
+        width: 30%;
+        margin: 0px 5px;
+        width: 80px;
+        padding: 10px 10px;
+    }
+
+    .mapa-ubicaciones {
+        font-size: 0.8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;
+        transform: translateY(-30px);
+    }
+    
+    .mapa-ubicaciones button {
+        background-color: #6b846b;
+        font-size: 0.6rem;
+        height: 28px;
+        color: #ffffff;
+        border: none;
+        padding: 0px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin: 0 10px;
+    }
+
+}
+
+@media (max-width: 480px) { 
+    .intro-box h2 {
+        font-size: 1.2rem;
+    }
+
+    .intro-box button {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    .intro-paragraph h3 {
+        font-size: 1rem;
+    }
+
+    .intro-paragraph p {
+        font-size: 0.75rem;
+    }
+
+    .comunidad-box {
+        padding: 20px;
+    }
+
+    .comunidad-text,
+    .comunidad-values {
+        font-size: 0.7rem;
+    }
+
+    .beneficios p {
+        font-size: 0.8rem;
+    }
+
+    .ubicacion-principal-nombre,
+    .ubicacion-principal-promociones,
+    .ubicacion-principal-count {
+        font-size: 0.6rem;
+    }
+
+    .ubicaciones-principales{
+        flex-direction: column;
+        align-items: center;
+    }
+    .ubicacion-principal {
+        width: 90%;
+        height: auto;
+        margin: 5px 5px;
+        padding: 15px 0px;
+    }
+}
