@@ -21,7 +21,7 @@ section {
 }
 
 .intro-box {
-    background-color: #6b846b;
+    background-color: #026010;
     height: 310px;
     border-radius: 40px;
     margin-bottom: 20px;
@@ -44,7 +44,7 @@ section {
     margin-top: 90px;
     left: 40px;
     background-color: #ffffff;
-    color: #6b846b;
+    color: #026010;
     border: none;
     padding: 2px 20px;
     border-radius: 15px;
@@ -96,7 +96,7 @@ section {
 }
 
 .comunidad-box {
-    background-color: #6b846b;
+    background-color: #026010;
     color: rgb(255, 255, 255);
     padding: 25px 100px;
     border-radius: 25px;
@@ -186,7 +186,7 @@ section {
 
 .actividades {
     text-align: center;
-    background-color: #6b846b;
+    background-color: #026010;
     padding: 20px;
     border-radius: 25px;
 }
@@ -267,7 +267,7 @@ section {
 }
 
 .mapa-ubicaciones button {
-    background-color: #6b846b;
+    background-color: #026010;
     font-size: 0.5rem;
     height: 28px;
     color: #ffffff;
@@ -350,7 +350,7 @@ section {
         font-size: 1.2rem;
         margin-top: 120px;
         background-color: #ffffff;
-        color: #6b846b;
+        color: #026010;
         border: none;
         padding: 2px 20px;
         border-radius: 15px;
@@ -395,7 +395,7 @@ section {
     }
     
     .comunidad-box {
-        background-color: #6b846b;
+        background-color: #026010;
         color: rgb(255, 255, 255);
         padding: 25px 60px;
         border-radius: 25px;
@@ -483,7 +483,7 @@ section {
     }
     
     .mapa-ubicaciones button {
-        background-color: #6b846b;
+        background-color: #026010;
         font-size: 0.6rem;
         height: 28px;
         color: #ffffff;
@@ -496,7 +496,7 @@ section {
 
     .actividades {
         text-align: center;
-        background-color: #6b846b;
+        background-color: #026010;
         padding: 20px;
         border-radius: 25px;
     }

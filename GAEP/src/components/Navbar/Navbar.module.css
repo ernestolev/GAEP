@@ -4,6 +4,7 @@
   align-items: center;
   background-color: none;
   padding: 10px;
+  margin: 0px 60px;
   font-size: 0.7rem;
 }
 
@@ -26,7 +27,7 @@
 }
 
 .link {
-  color: #028641;
+  color: #026010;
   text-decoration: none;
   padding: 10px 20px;
 }
@@ -45,12 +46,20 @@
 .hamburger div {
   width: 25px;
   height: 3px;
-  background-color: #028641;
+  background-color: #026010;
   margin: 4px;
   transition: 0.4s;
 }
 
 @media (max-width: 768px) {
+  .navbar{
+    margin: 0px 20px;
+  }
+
+  .logo {
+    height: 65px;
+    margin-right: 20px;
+  }
   .menu {
       display: flex;
       flex-direction: column;
@@ -75,5 +84,12 @@
 
   .hamburger {
       display: flex;
+  }
+  .hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #026010;
+    margin: 4px;
+    transition: 0.4s;
   }
 }
