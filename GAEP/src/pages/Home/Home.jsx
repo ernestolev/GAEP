@@ -4,6 +4,11 @@ import { db } from '../../firebase';
 import './Home.modules.css';
 import 'leaflet/dist/leaflet.css';
 
+
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
+
+
 import foto1 from '../../assets/images/img-galeria1.png';
 import foto2 from '../../assets/images/img-bannerbenef.png'; // Asegúrate de que la ruta sea correcta
 import foto3 from '../../assets/images/img-bannerbenef.png';
@@ -146,7 +151,9 @@ const Home = () => {
     };
 
     return (
+        
         <div className="home-container">
+            <Navbar  />
             <section className="intro">
                 <div className="intro-box">
                     <div className="intro-content">
@@ -423,6 +430,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+            <Footer  />
         </div>
     );
 };

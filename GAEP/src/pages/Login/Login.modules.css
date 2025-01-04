@@ -1,4 +1,5 @@
 .login-container {
+    font-family: 'arboria-regular';
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,7 +36,7 @@ input {
 }
 
 button {
-    padding: 10px;
+    padding: 10px !important;
     font-size: 1rem;
     background-color: #026010;
     color: #fff;
@@ -46,7 +47,7 @@ button {
 }
 
 button:hover {
-    background-color: #024d08;
+    background-color: #024d08 !important;
 }
 
 .error {

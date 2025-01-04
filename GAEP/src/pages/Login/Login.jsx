@@ -1,54 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sendSignInLinkToEmail, signInWithEmailLink, isSignInWithEmailLink } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import './Login.modules.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const actionCodeSettings = {
-        url: 'http://localhost:3000/finishSignUp', // URL de redireccionamiento
-        handleCodeInApp: true,
-    };
-
-    const handleSendLink = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-            window.localStorage.setItem('emailForSignIn', email);
-            alert('Enlace de inicio de sesión enviado. Revisa tu correo electrónico.');
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate('/admin'); // Redirigir a la página Admin
         } catch (error) {
             setError(error.message);
+            error.message === 'Firebase: Error (auth/user-not-found).' ? setError('Usuario no encontrado') : setError('Credenciales incorrectas');
         }
     };
-
-    const handleSignInWithEmailLink = async () => {
-        if (isSignInWithEmailLink(auth, window.location.href)) {
-            let email = window.localStorage.getItem('emailForSignIn');
-            if (!email) {
-                email = window.prompt('Por favor, proporciona tu correo electrónico para confirmar.');
-            }
-            try {
-                await signInWithEmailLink(auth, email, window.location.href);
-                window.localStorage.removeItem('emailForSignIn');
-                navigate('/admin'); // Redirigir a la página Admin
-            } catch (error) {
-                setError(error.message);
-            }
-        }
-    };
-
-    React.useEffect(() => {
-        handleSignInWithEmailLink();
-    }, []);
 
     return (
         <div className="login-container">
             <h2>Login</h2>
-            <form onSubmit={handleSendLink}>
+            <form onSubmit={handleLogin}>
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>
                     <input
@@ -59,8 +35,18 @@ const Login = () => {
                         required
                     />
                 </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
                 {error && <p className="error">{error}</p>}
-                <button type="submit">Enviar enlace de inicio de sesión</button>
+                <button type="submit">Login</button>
             </form>
         </div>
     );

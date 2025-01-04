@@ -14,7 +14,6 @@ const AdminPage = () => {
 
     return (
         <div className="admin-page">
-            <h1>Panel de Administración</h1>
             <AdminPanel actividades={actividades} setActividades={setActividades} />
         </div>
     );

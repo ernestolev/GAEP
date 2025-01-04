@@ -4,13 +4,17 @@ import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase
 import { db, auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import './AdminPanel.css';
+import banner from '../../assets/images/img-gaepbanner2.png';
 
-const AdminPanel = ({ actividades, setActividades }) => {
+const AdminPanel = () => {
     const [titulo, setTitulo] = useState('');
     const [fecha, setFecha] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [imagen, setImagen] = useState('');
     const [editId, setEditId] = useState(null);
+    const [actividades, setActividades] = useState([]);
+    const [noticias, setNoticias] = useState([]);
+    const [activeSection, setActiveSection] = useState('actividades');
 
     const navigate = useNavigate();
 
@@ -37,8 +41,26 @@ const AdminPanel = ({ actividades, setActividades }) => {
             }
         };
 
+        const fetchNoticias = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'noticias'));
+                const noticiasData = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return {
+                        ...data,
+                        id: doc.id,
+                        fecha: data.fecha.toDate().toLocaleDateString()
+                    };
+                });
+                setNoticias(noticiasData);
+            } catch (error) {
+                console.error("Error al obtener noticias: ", error);
+            }
+        };
+
         fetchActividades();
-    }, [setActividades]);
+        fetchNoticias();
+    }, []);
 
     const handleAdd = async () => {
         const nuevaActividad = { titulo, fecha: new Date(fecha), descripcion, imagen };
@@ -98,31 +120,30 @@ const AdminPanel = ({ actividades, setActividades }) => {
         }
     };
 
-    return (
-        <div className="admin-panel">
-            <h2>Panel de Administración</h2>
-            <div>
-                <h1>Admin Page</h1>
-                <button onClick={handleLogout}>Cerrar sesión</button>
+    const renderActividades = () => (
+        <div className="section">
+            <h2>Actividades</h2>
+            <div className='actividades-reg'>
+                <div className="form-group">
+                    <label>Título</label>
+                    <input type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Fecha</label>
+                    <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Descripción</label>
+                    <textarea value={descripcion} onChange={(e) => setDescripcion(e.target.value)}></textarea>
+                </div>
+                <div className="form-group">
+                    <label>Imagen</label>
+                    <input type="file" onChange={handleImageUpload} />
+                    {imagen && <img src={imagen} alt="Preview" className="imagen-preview" />}
+                </div>
+                <button onClick={handleAdd}>{editId ? 'Actualizar Actividad' : 'Agregar Actividad'}</button>
             </div>
-            <div className="form-group">
-                <label>Título</label>
-                <input type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
-            </div>
-            <div className="form-group">
-                <label>Fecha</label>
-                <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
-            </div>
-            <div className="form-group">
-                <label>Descripción</label>
-                <textarea value={descripcion} onChange={(e) => setDescripcion(e.target.value)}></textarea>
-            </div>
-            <div className="form-group">
-                <label>Imagen</label>
-                <input type="file" onChange={handleImageUpload} />
-                {imagen && <img src={imagen} alt="Preview" className="imagen-preview" />}
-            </div>
-            <button onClick={handleAdd}>{editId ? 'Actualizar Actividad' : 'Agregar Actividad'}</button>
+
             <div className="actividades-list">
                 {actividades.map((actividad, index) => (
                     <div key={index} className="actividad-item">
@@ -138,6 +159,38 @@ const AdminPanel = ({ actividades, setActividades }) => {
                         </div>
                     </div>
                 ))}
+            </div>
+        </div>
+    );
+
+    const renderNoticias = () => (
+        <div className="section">
+            <h2>Noticias</h2>
+            {/* Similar form and list for noticias */}
+        </div>
+    );
+
+    const renderConsejoDirectivo = () => (
+        <div className="section">
+            <h2>Consejo Directivo</h2>
+            {/* Form and list for consejo directivo */}
+        </div>
+    );
+
+    return (
+        <div className="admin-panel">
+            <div className="sidebar">
+                <img src={banner} alt="GAEP Banner" className="sidebar-banner" />
+                <button onClick={() => setActiveSection('actividades')}>Actividades</button>
+                <button onClick={() => setActiveSection('noticias')}>Noticias</button>
+                <button onClick={() => setActiveSection('consejoDirectivo')}>Consejo Directivo</button>
+                <button onClick={() => setActiveSection('exalumnosInscritos')}>Exalumnos inscritos</button>
+                <button onClick={handleLogout}>Cerrar sesión</button>
+            </div>
+            <div className="content">
+                {activeSection === 'actividades' && renderActividades()}
+                {activeSection === 'noticias' && renderNoticias()}
+                {activeSection === 'consejoDirectivo' && renderConsejoDirectivo()}
             </div>
         </div>
     );
