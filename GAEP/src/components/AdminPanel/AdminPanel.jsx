@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { db, auth } from '../../firebase';
+import { signOut } from 'firebase/auth';
 import './AdminPanel.css';
 
 const AdminPanel = ({ actividades, setActividades }) => {
@@ -9,6 +11,13 @@ const AdminPanel = ({ actividades, setActividades }) => {
     const [descripcion, setDescripcion] = useState('');
     const [imagen, setImagen] = useState('');
     const [editId, setEditId] = useState(null);
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await signOut(auth);
+        navigate('/');
+    };
 
     useEffect(() => {
         const fetchActividades = async () => {
@@ -92,6 +101,10 @@ const AdminPanel = ({ actividades, setActividades }) => {
     return (
         <div className="admin-panel">
             <h2>Panel de Administración</h2>
+            <div>
+                <h1>Admin Page</h1>
+                <button onClick={handleLogout}>Cerrar sesión</button>
+            </div>
             <div className="form-group">
                 <label>Título</label>
                 <input type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} />

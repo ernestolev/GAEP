@@ -11,7 +11,7 @@ const jadeGreenIcon = new L.Icon({
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-    shadowSize: [41, 41],
+    shadowSize: [31, 41],
     className: 'jade-green-marker'
 });
 
@@ -50,8 +50,7 @@ const Mapa = ({ ubicaciones }) => {
 
     return (
         <div className='mapita'>
-            <h2>Pardinos por el mundo</h2>
-            <MapContainer center={[0, 0]} zoom={1} style={{ height: '380px', width: '100%'}} ref={mapRef}>
+            <MapContainer className='mapita-content' center={[0, 0]} zoom={1} style={{ height: '450px', width: '100%'}} ref={mapRef}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution="&copy; OpenStreetMap contributors"

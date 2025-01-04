@@ -4,21 +4,41 @@ import './Footer.modules.css';
 import iconenlace from '../../assets/icons/icon-link.png';
 import iconfb from '../../assets/icons/icon-fb.png';
 import iconig from '../../assets/icons/icon-ig.png';
-
-import { icon } from 'leaflet';
+import link from '../../assets/icons/icon-link2.png';
+import logo from '../../assets/images/img-gaepbanner2.png'; // Asegúrate de que la ruta sea correcta
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="footer-content">
-        <p>&copy; Asociación de Exalumnos José Pardo y Barreda | Chincha Alta - Perú</p>
-        <p><a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Consejo directivo <img className='icon-enlace' src={iconenlace} alt="" /></a></p>
-        <p>Powered by<a href="https://facebook.com" target="_blank" rel="noopener noreferrer"> EDG group <img className='icon-enlace' src={iconenlace} alt="" /> </a></p>
-      </div>
-      <div className='redes'>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><img className='icon-red' src={iconfb} alt="" /></a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><img className='icon-red' src={iconig} alt="" /></a>
+      <div className="footer-top">
+        <div className="footer-left">
+          <img src={logo} alt="Logo" className="footer-logo" />
         </div>
+        <div className="footer-right">
+          <div className="footer-info">
+            <h4>Ubicación</h4>
+            <p>Chincha Alta, Perú</p>
+          </div>
+          <div className="footer-info">
+            <h4>Teléfono</h4>
+            <p>+51 123 456 789</p>
+          </div>
+          <div className="footer-info">
+            <h4>Email</h4>
+            <p>info@ejemplo.com</p>
+          </div>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <div className="footer-legal">
+          <p>&copy; Asociación de Exalumnos José Pardo y Barreda | Chincha Alta - Perú</p>
+        </div>
+        <div className="footer-links">
+          <p><a href="/consejodirect">Consejo directivo<img className='linkimg' src={link} alt="" /></a></p>
+          <p><a href="/privacy">Privacy/Cookies<img className='linkimg' src={link} alt="" /></a></p>
+          <p>Website by <a href="https://edggroup.com" target="_blank" rel="noopener noreferrer">EDG group<img className='linkimg' src={link} alt="" /></a></p>
+        </div>
+      </div>
     </footer>
   );
 };
