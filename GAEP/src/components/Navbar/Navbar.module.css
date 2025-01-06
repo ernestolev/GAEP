@@ -85,17 +85,73 @@
   transition: 0.4s;
 }
 
+
+.menuOverlay.active {
+  transform: translateY(0);
+}
+
+.closeButton {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+
+
 @media (max-width: 768px) {
   .navbar {
     display: flex;
+    position: fixed;
     flex-wrap: nowrap;
     justify-content: flex-end;
     align-items: center;
     background-color: white;
+    width: 100%;
     height: 80px;
     padding: 10px 20px;
     font-size: 0.8rem;
     flex-direction: row-reverse;
+  }
+
+  .menuOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in-out;
+    z-index: 999;
+  }
+
+  .menuOverlay.active {
+    transform: translateY(0);
+  }
+  
+  .closeButton {
+    text-align: center;
+    display: flex;
+    position: absolute;
+    top: 40px;
+    width: 50px;
+    left: 75%;
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1000;
   }
 
   .navbar.shrink {
@@ -112,23 +168,22 @@
   }
 
   .menu {
-    display: none;
+    display: flex;
     flex-direction: column;
     padding: 0px;
     width: 100%;
     position: absolute;
-    top: 80px;
+    top: 0px;
+    left: 0px;
     justify-content: center;
     align-items: flex-start;
     background-color: white;
     overflow: hidden;
     z-index: 1;
+    font-size: 1.6rem;
+    font-family: 'arboria-bold', sans-serif;
   }
 
-  .menu.active {
-    display: flex;
-    max-height: 500px; /* Ajusta este valor según sea necesario */
-  }
 
   .menu li {
     padding: 8px 0;
@@ -156,42 +211,77 @@
     background-color: white;
     padding: 0px 20px;
     font-size: 0.8rem;
-    height: 80px;
+    height: 160px;
     flex-direction: row-reverse;
   }
 
+  .menuOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in-out;
+    z-index: 999;
+  }
+
+  .menuOverlay.active {
+    transform: translateY(0);
+  }
+  
+  .closeButton {
+    text-align: center;
+    display:  flex;
+    position: absolute;
+    top: 40px;
+    width: 50px;
+    left: 87%;
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 1000;
+  }
+
+
   .navbar.shrink {
-    height: 30px; /* Altura reducida */
+    height: 120px; /* Altura reducida */
     padding: 10px 20px; /* Padding reducido */
   }
   .logo {
-    height: 80px;
+    height: 140px;
     margin-left: 20px;
   }
   .navbar.shrink .logo {
-    height: 60px; /* Altura reducida del logo */
+    height: 130px; /* Altura reducida del logo */
   }
   .menu {
-    display: none;
+    display: flex;
     flex-direction: column;
     padding: 0px;
+    margin-left: 0px;
     width: 100%;
     position: absolute;
-    top: 50px;
+    top: 0px;
+    left: 0px;
     justify-content: center;
     align-items: flex-start;
     background-color: white;
     overflow: hidden;
     z-index: 1;
-  }
-
-  .menu.active {
-    display: flex;
-    max-height: 500px; /* Ajusta este valor según sea necesario */
+    font-size: 3rem;
+    font-family: 'arboria-bold', sans-serif;
   }
 
   .menu li {
-    padding: 8px 0px;
+    padding: 15px 10px;
   }
 
   .hamburger {
@@ -199,8 +289,8 @@
   }
 
   .hamburger div {
-    width: 25px;
-    height: 2px;
+    width: 35px;
+    height: 4px;
     background-color: #026010;
     margin: 4px;
     transition: 0.4s;

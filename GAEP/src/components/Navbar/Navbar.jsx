@@ -52,8 +52,9 @@ const Navbar = () => {
         <div></div>
         <div></div>
       </div>
-      <div className="botoneslinks">
-        <ul className={`${styles.menu} ${isOpen ? styles.active : styles.inactive}`}>
+      <div className={`${styles.menuOverlay} ${isOpen ? styles.active : ''}`}>
+        <button className={styles.closeButton} onClick={toggleMenu}>X</button>
+        <ul className={styles.menu}>
           <li><Link className={styles.link} to="/" onClick={toggleMenu}>Inicio</Link></li>
           <li><Link className={styles.link} to="/comunidad" onClick={toggleMenu}>Comunidad</Link></li>
           <li><Link className={styles.link} to="/beneficios" onClick={toggleMenu}>Beneficios y Servicios</Link></li>

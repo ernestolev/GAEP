@@ -1015,35 +1015,62 @@ section {
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
+    .carrusel-eventos{
+        display: none;
+    }
+
     .home-container {
-        padding: 20px;
+        padding: 0px !important;
     }
 
     .intro-box {
+        padding: 0px;
         flex-direction: column;
         height: auto;
+    }
+    .intro-content{
+        padding: 0px;
+        width: 100%;
     }
 
     .intro-text {
         width: 100%;
         text-align: center;
     }
+    .intro-text p{
+        margin-top: 10px;
+        text-align: left;
+    }
 
     .intro-content h2 {
-        font-size: 1.5rem;
+        font-family: 'arboria-bold';
+        font-size: 2.8rem !important;
+        line-height: 2.8rem;
         margin-top: 10px;
     }
 
     .intro-buttons .btn1,
     .intro-buttons .btn2 {
         font-size: 1.2rem;
-        margin-top: 20px;
+        margin-top: 10px !important;
     }
+
 
     .intro-image-container {
         width: 100%;
-        margin-top: 20px;
+        position: absolute;
+        border-radius: 0px 0px; /* Aplicar border-radius al contenedor */
+        overflow: hidden;
+        
+        z-index: -1; /* Asegurarse de que la imagen no se desborde */
     }
+    
+    .intro-image img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+    }
+
 
     .intro-paragraphs {
         flex-direction: column;
@@ -1056,48 +1083,111 @@ section {
     }
 
     .intro-stats {
-        flex-direction: column;
+        display: flex !important;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+        border-radius: 20px;
+        width: 85%;
+        margin: auto;
+        background-color: #026010;
         align-items: center;
+        padding: 0px;
     }
 
     .stat {
-        width: 80%;
-        margin-bottom: 20px;
+        box-shadow: none;
+        width: 200px !important;
+        background-color:#03340b00;
+        margin-bottom: 0px;
+        border-radius: 0px;
+        background-color: none;
+    }
+
+    .stat h3{
+        color: #ffffff;
+    }
+
+    .beneficios{
+        padding: 10px;
+        margin-left: 0px;
     }
 
     .beneficios-grid {
         grid-template-columns: 1fr;
+        margin: auto;
+        width: 90%;
+        grid-gap: 0px;
     }
 
-    .beneficio-item1 {
+    .beneficio-item {
+        width: 100%;
+        margin: 0px;
+        padding: 0px    ;
         flex-direction: column;
         align-items: flex-start;
     }
 
+    .beneficio-text {
+        flex-direction: none;
+        padding: 5px;
+    }
+
     .beneficio-item1 img {
-        width: 100%;
+        width: 45%;
         border-radius: 15px 15px 0 0;
     }
 
+    .beneficio-item1 h4{
+        font-size: 1.9rem;
+        line-height: 1.9rem;
+    }
+    
+    .beneficio-item1 p{
+        font-size: 1.3rem;
+        line-height: 1.3rem;
+    }
+
+    .beneficio-item2 h4{
+        font-size: 1.9rem;
+        line-height: 1.9rem;
+    }
+    
+    .beneficio-item2 p{
+        font-size: 1.3rem;
+        line-height: 1.3rem;
+    }
+
     .beneficio-content {
-        flex-direction: column;
+        flex-direction: none;
+        justify-content: left;
         align-items: flex-start;
         margin-left: 0;
         width: 100%;
     }
 
-    .beneficio-number {
-        margin-bottom: 10px;
-    }
 
     .testimonio {
         margin-top: 40px;
         padding: 0px;
+        background: linear-gradient(to bottom, #ffffff 20%, #026010 0%);
+    }
+
+    .testimonio-content{
+        width: 100%;
+            display: flex;
+            margin-top: 40px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-content: space-around;
     }
 
     .testimonio-cuadro {
         margin: 10px 0;
-        width: 100%;
+        width: 80%;
     }
 
     .testimonio-img {
@@ -1112,12 +1202,20 @@ section {
 
     .eventosmuestra-text {
         width: 100%;
-        text-align: center;
+        text-align: left;
     }
 
     .eventosmuestra-imagen {
         width: 100%;
         margin-top: 20px;
+    }
+
+    .eventosmuestra-content{
+        flex-direction: column;
+    }
+
+    .evento-img{
+        display: none;
     }
 
     .carrusel-eventos {
@@ -1129,101 +1227,9 @@ section {
         width: 80%;
         margin-bottom: 20px;
     }
-}
 
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    .home-container {
-        padding: 20px;
-    }
-
-    .intro-box {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .intro-text {
-        width: 100%;
-        text-align: center;
-    }
-
-    .intro-content h2 {
-        font-size: 1.5rem;
-        margin-top: 10px;
-    }
-
-    .intro-buttons .btn1,
-    .intro-buttons .btn2 {
-        font-size: 1.2rem;
-        margin-top: 20px;
-    }
-
-    .intro-image-container {
-        width: 100%;
-        margin-top: 20px;
-    }
-
-    .intro-paragraphs {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .intro-paragraph {
-        width: 80%;
-        margin: 20px 0;
-    }
-
-    .intro-stats {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .stat {
-        width: 80%;
-        margin-bottom: 20px;
-    }
-
-    .beneficios-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .beneficio-item1 {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .beneficio-item1 img {
-        width: 100%;
-        border-radius: 15px 15px 0 0;
-    }
-
-    .beneficio-content {
-        flex-direction: column;
-        align-items: flex-start;
-        margin-left: 0;
-        width: 100%;
-    }
-
-    .beneficio-number {
-        margin-bottom: 10px;
-    }
-
-    .testimonio {
-        padding: 20px 10px;
-    }
-
-    .testimonio-cuadro {
-        margin: 10px 0;
-        width: 100%;
-    }
-
-    .testimonio-img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .comilla {
-        width: 20px;
-        height: 20px;
+    .ubicaciones-principales{
+        display: none;
     }
 }
+
