@@ -93,6 +93,11 @@
 }
 
 @media (max-width: 768px) {
+
+    .footer {
+        height: auto;
+    }
+
     .footer-top {
         flex-direction: column;
         align-items: center;
@@ -100,7 +105,8 @@
 
     .footer-right {
         flex-direction: column;
-        align-items: center;
+        align-items: baseline;
+        text-align: center;
     }
 
     .footer-info {

@@ -53,3 +53,13 @@
     text-align: center;
   }
 }
+
+@media (max-width: 458px) {
+  #root {
+    width: 100%;
+    max-width: 0px;
+    margin: 0 auto;
+    padding: 0rem;
+    text-align: center;
+  }
+}

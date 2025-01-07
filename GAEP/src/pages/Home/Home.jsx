@@ -9,7 +9,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 
 
-import foto1 from '../../assets/images/img-galeria1.png';
+import foto1 from '../../assets/images/img-flyer.png';
 import foto2 from '../../assets/images/img-bannerbenef.png'; // Asegúrate de que la ruta sea correcta
 import foto3 from '../../assets/images/img-bannerbenef.png';
 import icon1 from '../../assets/icons/icon-unidos.png';
@@ -151,9 +151,9 @@ const Home = () => {
     };
 
     return (
-        
+
         <div className="home-container">
-            <Navbar  />
+            <Navbar />
             <section className="intro">
                 <div className="intro-box">
                     <div className="intro-content">
@@ -386,51 +386,59 @@ const Home = () => {
                 </Modal>
             </section>
             <section className="actividades">
-                <h2>Próximas actividades</h2>
-                <button>Ver todas</button>
-                <div className="tarjetas-actividades">
-                    {actividades.map((actividad, index) => (
-                        <div
-                            key={index}
-                            className={`tarjeta-actividad ${index === 0 ? 'tarjeta-actividad-principal' : ''}`}
-                        >
-                            <div
-                                className="imagen-fondo"
-                                style={{ backgroundImage: `url(${actividad.imagen})` }}
-                            ></div>
-                            <div className="contenido-actividad">
-                                <h3>{actividad.titulo}</h3>
-                                <p className="fecha-actividad"><img src={icon4} alt={"ss"} className="actividad-icon" />{actividad.fecha}</p>
-                                {/*<p>{actividad.descripcion}</p>*/}
-                            </div>
-                        </div>
-                    ))}
+                <div className='actividades-header'>
+                    <h2>Próximas actividades</h2>
+                    <button>Ver todas</button>
                 </div>
+                <div className='actividades-content'>
+                    <div className="tarjetas-actividades">
+                        {actividades.map((actividad, index) => (
+                            <div
+                                key={index}
+                                className={`tarjeta-actividad ${index === 0 ? 'tarjeta-actividad-principal' : ''}`}
+                            >
+                                <div
+                                    className="imagen-fondo"
+                                    style={{ backgroundImage: `url(${actividad.imagen})` }}
+                                ></div>
+                                <div className="contenido-actividad">
+                                    <h3>{actividad.titulo}</h3>
+                                    <p className="fecha-actividad"><img src={icon4} alt={"ss"} className="actividad-icon" />{actividad.fecha}</p>
+                                    {/*<p>{actividad.descripcion}</p>*/}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
             </section>
             <section className="ultimasnoticias">
                 <div className="ultimasnoticias-header">
                     <h2>Últimas Noticias</h2>
                     <button className="ver-mas-noticias">Ver más noticias</button>
                 </div>
-                <div className="noticias-grid">
-                    <div className="noticia">
-                        <img src={foto1} alt="Noticia 1" className="noticia-img" />
-                        <h3>GAEP realiza obra de caridad</h3>
-                        <p>La asociacion hizo alianza con la municipalidad distrital para llevar a cabo una obra de caridad en el centro de la ciudad.</p>
-                    </div>
-                    <div className="noticia">
-                        <img src={foto2} alt="Noticia 2" className="noticia-img" />
-                        <h3>Título de la Noticia 2</h3>
-                        <p>Descripción breve de la noticia 2.</p>
-                    </div>
-                    <div className="noticia">
-                        <img src={foto3} alt="Noticia 3" className="noticia-img" />
-                        <h3>Título de la Noticia 3</h3>
-                        <p>Descripción breve de la noticia 3.</p>
+                <div className='noticias-content'>
+                    <div className="noticias-grid">
+                        <div className="noticia">
+                            <img src={foto1} alt="Noticia 1" className="noticia-img" />
+                            <h3>GAEP realiza obra de caridad</h3>
+                            <p>La asociacion hizo alianza con la municipalidad distrital para llevar a cabo una obra de caridad en el centro de la ciudad.</p>
+                        </div>
+                        <div className="noticia">
+                            <img src={foto2} alt="Noticia 2" className="noticia-img" />
+                            <h3>Título de la Noticia 2</h3>
+                            <p>Descripción breve de la noticia 2.</p>
+                        </div>
+                        <div className="noticia">
+                            <img src={foto3} alt="Noticia 3" className="noticia-img" />
+                            <h3>Título de la Noticia 3</h3>
+                            <p>Descripción breve de la noticia 3.</p>
+                        </div>
                     </div>
                 </div>
+
             </section>
-            <Footer  />
+            <Footer />
         </div>
     );
 };

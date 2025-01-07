@@ -125,7 +125,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -143,12 +143,17 @@
     text-align: center;
     display: flex;
     position: absolute;
-    top: 40px;
-    width: 50px;
-    left: 75%;
+    top: 85%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    left: 45%;
     background: none;
-    border: none;
-    color: rgb(0, 0, 0);
+    border: 3px solid #026010;
+    color: #026010;
     font-size: 2rem;
     cursor: pointer;
     z-index: 1000;
@@ -205,15 +210,18 @@
 @media (max-width: 480px) {
   .navbar {
     display: flex;
+    position: fixed;
     flex-wrap: nowrap;
     justify-content: flex-end;
     align-items: center;
     background-color: white;
-    padding: 0px 20px;
+    width: 100%;
+    height: 80px;
+    padding: 10px 20px;
     font-size: 0.8rem;
-    height: 160px;
     flex-direction: row-reverse;
   }
+
 
   .menuOverlay {
     position: fixed;
@@ -237,30 +245,36 @@
   
   .closeButton {
     text-align: center;
-    display:  flex;
+    display: flex;
     position: absolute;
-    top: 40px;
+    top: 85%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
     width: 50px;
-    left: 87%;
+    height: 50px;
+    border-radius: 50%;
+    left: 44%;
     background: none;
-    border: none;
-    color: rgb(0, 0, 0);
-    font-size: 3rem;
+    border: 3px solid #026010;
+    color: #026010;
+    font-size: 1.4rem;
     cursor: pointer;
     z-index: 1000;
   }
 
 
   .navbar.shrink {
-    height: 120px; /* Altura reducida */
-    padding: 10px 20px; /* Padding reducido */
+    height: 70px; /* Altura reducida */
+    padding: 0px 20px; /* Padding reducido */
   }
   .logo {
-    height: 140px;
+    height: 90px;
     margin-left: 20px;
   }
+
   .navbar.shrink .logo {
-    height: 130px; /* Altura reducida del logo */
+    height: 80px; /* Altura reducida del logo */
   }
   .menu {
     display: flex;
@@ -276,7 +290,7 @@
     background-color: white;
     overflow: hidden;
     z-index: 1;
-    font-size: 3rem;
+    font-size: 1.5rem;
     font-family: 'arboria-bold', sans-serif;
   }
 
@@ -289,8 +303,8 @@
   }
 
   .hamburger div {
-    width: 35px;
-    height: 4px;
+    width: 30px;
+    height: 3px;
     background-color: #026010;
     margin: 4px;
     transition: 0.4s;

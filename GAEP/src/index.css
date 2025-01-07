@@ -23,8 +23,8 @@ html, body {
 body {
   display: flex;
   justify-content: center;
-  min-width: 320px;
-  min-height: 100vh;
+  min-width: 0px;
+  min-height: 0vh;
   
   color: #028641;
   background-color: #FFFFFF;
