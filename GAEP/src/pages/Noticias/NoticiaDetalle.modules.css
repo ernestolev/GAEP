@@ -1,0 +1,112 @@
+.noticia-detalle-page {
+    display: flex;
+    flex-direction: column;
+    font-family: 'arboria-regular', sans-serif;
+    padding: 40px;
+    max-width: 100%;
+    margin-top: 80px;
+    background-color: #e2f7e6;
+    align-items: center;
+}
+
+.breadcrumb {
+    position: sticky;
+    top: 80px;
+    width: 100%;
+    margin: 0 40px;
+    margin-bottom: 30px;
+    font-size: 0.8rem;
+    font-family: 'arboria-bold', sans-serif;
+    color: #666;
+    padding: 15px 0;
+    background-color: #e2f7e6;
+    z-index: 100;
+}
+
+.breadcrumb a {
+    color: #026010;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb span {
+    margin: 0 10px;
+}
+
+.noticia-header {
+    margin: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: center;
+}
+
+.noticia-title-section {
+    padding-right: 20px;
+}
+
+.noticia-title-section h1 {
+    font-family: 'arboria-bold';
+    font-size: 3.5rem;
+    color: #026010;
+    margin: 0 0 20px 0;
+    line-height: 3.5rem;
+}
+
+.destacado-badge {
+    font-family: 'arboria-bold';
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #FFD700;
+    color: #333;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.noticia-image-section {
+    display: flex;
+    justify-content: center;
+}
+
+.noticia-detalle-imagen {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px 40px;
+}
+
+.noticia-descripcion {
+    
+    margin: 0 40px;
+    font-family: 'arboria-regular';
+    max-width: 800px;
+    padding: 20px;
+    line-height: 1.7rem;
+    color: #333;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .noticia-header {
+        grid-template-columns: 1fr;
+    }
+
+    .noticia-title-section {
+        padding-right: 0;
+        order: 2;
+    }
+
+    .noticia-image-section {
+        order: 1;
+    }
+
+    .noticia-detalle-imagen {
+        height: 300px;
+    }
+}

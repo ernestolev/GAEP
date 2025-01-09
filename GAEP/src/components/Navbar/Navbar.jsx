@@ -55,10 +55,67 @@ const Navbar = () => {
       <div className={`${styles.menuOverlay} ${isOpen ? styles.active : ''}`}>
         <button className={styles.closeButton} onClick={toggleMenu}>X</button>
         <ul className={styles.menu}>
-          <li><Link className={styles.link} to="/" onClick={toggleMenu}>Inicio</Link></li>
-          <li><Link className={styles.link} to="/comunidad" onClick={toggleMenu}>Comunidad</Link></li>
-          <li><Link className={styles.link} to="/beneficios" onClick={toggleMenu}>Beneficios y Servicios</Link></li>
+          <li>
+            <Link
+              className={styles.link}
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                if (window.location.pathname === '/') {
+                  const element = document.getElementById('intro');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                } else {
+                  window.location.href = '/#intro';
+                }
+                toggleMenu();
+              }}
+            >
+              Inicio
+            </Link>
+          </li>          <li>
+            <Link
+              className={styles.link}
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                if (window.location.pathname === '/') {
+                  const element = document.getElementById('comunidad');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                } else {
+                  window.location.href = '/#comunidad';
+                }
+                toggleMenu();
+              }}
+            >
+              Comunidad
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={styles.link}
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                if (window.location.pathname === '/') {
+                  const element = document.getElementById('beneficios');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                } else {
+                  window.location.href = '/#beneficios';
+                }
+                toggleMenu();
+              }}
+            >
+              Beneficios y Servicios
+            </Link>
+          </li>
           <li><Link className={styles.link} to="/actividades" onClick={toggleMenu}>Actividades</Link></li>
+          <li><Link className={styles.link} to="/noticias" onClick={toggleMenu}>Noticias</Link></li>
           <li><Link className={styles.link} to="/contacto" onClick={toggleMenu}>Contacto</Link></li>
           <li><Link className={styles.link} to="/inscripciones" onClick={toggleMenu}>Inscripciones</Link></li>
           {user ? (

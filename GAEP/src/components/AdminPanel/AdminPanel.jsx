@@ -395,57 +395,54 @@ const AdminPanel = () => {
         setJuntaDirectiva(sortedData);
     };
 
+    const fetchActividades = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'actividades'));
+            const actividadesData = querySnapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    ...data,
+                    id: doc.id,
+                    fecha: data.fecha.toDate().toLocaleDateString()
+                };
+            });
+            setActividades(actividadesData);
+        } catch (error) {
+            console.error("Error al obtener actividades: ", error);
+        }
+
+    };
+
+    const fetchNoticias = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'noticias'));
+            const noticiasData = querySnapshot.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id
+            }));
+            setNoticias(noticiasData);
+        } catch (error) {
+            console.error("Error fetching noticias:", error);
+        }
+    };  // Add missing closing brace here
+
+    const fetchExalumnos = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'exalumnos'));
+            const exalumnosData = querySnapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    ...data
+                };
+            }).sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+            setExalumnos(exalumnosData);
+        } catch (error) {
+            console.error("Error al obtener exalumnos: ", error);
+        }
+    };
+
     useEffect(() => {
-        const fetchActividades = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'actividades'));
-                const actividadesData = querySnapshot.docs.map(doc => {
-                    const data = doc.data();
-                    return {
-                        ...data,
-                        id: doc.id,
-                        fecha: data.fecha.toDate().toLocaleDateString()
-                    };
-                });
-                setActividades(actividadesData);
-            } catch (error) {
-                console.error("Error al obtener actividades: ", error);
-            }
-        };
-
-        const fetchNoticias = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'noticias'));
-                const noticiasData = querySnapshot.docs.map(doc => {
-                    const data = doc.data();
-                    return {
-                        ...data,
-                        id: doc.id,
-                        fecha: data.fecha ? data.fecha.toDate().toLocaleDateString() : ''
-                    };
-                });
-                setNoticias(noticiasData);
-            } catch (error) {
-                console.error("Error al obtener noticias: ", error);
-            }
-        };
-
-        const fetchExalumnos = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'exalumnos'));
-                const exalumnosData = querySnapshot.docs.map(doc => {
-                    const data = doc.data();
-                    return {
-                        id: doc.id,
-                        ...data
-                    };
-                }).sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
-                setExalumnos(exalumnosData);
-            } catch (error) {
-                console.error("Error al obtener exalumnos: ", error);
-            }
-        };
-
         fetchActividades();
         fetchNoticias();
         fetchExalumnos();
@@ -474,7 +471,6 @@ const AdminPanel = () => {
             organizador
         };
 
-        // Only include imagen if it exists (new upload) or is being edited
         if (imagen) {
             nuevaActividad.imagen = imagen;
         }
@@ -483,11 +479,12 @@ const AdminPanel = () => {
             if (editId) {
                 const actividadRef = doc(db, 'actividades', editId);
                 await updateDoc(actividadRef, nuevaActividad);
-                setEditId(null);
             } else {
-                await addDoc(collection(db, 'actividades'), nuevaActividad);
+                const newId = await getNextActividadId();
+                await setDoc(doc(db, 'actividades', newId), nuevaActividad);
             }
-            // Clear form
+
+            // Clear form and refresh list
             setTitulo('');
             setFecha('');
             setDescripcion('');
@@ -499,13 +496,7 @@ const AdminPanel = () => {
             setShowAddPopup(false);
 
             // Refresh activities
-            const querySnapshot = await getDocs(collection(db, 'actividades'));
-            const actividadesData = querySnapshot.docs.map(doc => ({
-                ...doc.data(),
-                id: doc.id,
-                fecha: doc.data().fecha.toDate().toLocaleDateString()
-            }));
-            setActividades(actividadesData);
+            fetchActividades();
         } catch (error) {
             console.error("Error al agregar actividad:", error);
         }
@@ -642,6 +633,30 @@ const AdminPanel = () => {
         }
     };
 
+    const getNextActividadId = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'actividades'));
+            const ids = querySnapshot.docs.map(doc => parseInt(doc.id)).filter(id => !isNaN(id));
+            const maxId = Math.max(...ids, 0);
+            return (maxId + 1).toString();
+        } catch (error) {
+            console.error("Error getting next ID:", error);
+            return "1";
+        }
+    };
+
+    const getNextNoticiaId = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'noticias'));
+            const ids = querySnapshot.docs.map(doc => parseInt(doc.id)).filter(id => !isNaN(id));
+            const maxId = Math.max(...ids, 0);
+            return (maxId + 1).toString();
+        } catch (error) {
+            console.error("Error getting next ID:", error);
+            return "1";
+        }
+    };
+
     const renderActividades = () => (
         <div className="section">
             <h2>Actividades</h2>
@@ -649,18 +664,18 @@ const AdminPanel = () => {
                 Añadir Actividad
             </button>
 
-            <div className="actividades-list">
+            <div className="admin-actividades-grid">
                 {actividades.map((actividad, index) => (
-                    <div key={index} className="actividad-item">
-                        <img src={actividad.imagen} alt={actividad.titulo} className="actividad-imagen" />
-                        <div className="actividad-info">
+                    <div key={index} className="admin-actividad-card">
+                        <div
+                            className="admin-actividad-imagen"
+                            style={{ backgroundImage: `url(${actividad.imagen})` }}
+                        ></div>
+                        <div className="admin-actividad-content">
                             <h3>{actividad.titulo}</h3>
-                            <p>{actividad.fecha}</p>
-                            <p>{actividad.horario}</p>
-                            <p>{actividad.lugar}</p>
-                            <div dangerouslySetInnerHTML={{ __html: actividad.descripcion }} />
+                            <span className="admin-actividad-fecha">{actividad.fecha}</span>
                         </div>
-                        <div className="actividad-actions">
+                        <div className="admin-actividad-actions">
                             <button onClick={() => handleEdit(actividad)}>Editar</button>
                             <button onClick={() => handleDelete(actividad.id)}>Eliminar</button>
                         </div>
@@ -789,18 +804,20 @@ const AdminPanel = () => {
                 Añadir Noticia
             </button>
 
-            <div className="noticias-list">
+            <div className="admin-noticias-grid">
                 {noticias.map((noticia, index) => (
-                    <div key={index} className="noticia-item">
-                        <img src={noticia.imagen} alt={noticia.titulo} className="noticia-imagen" />
-                        <div className="noticia-info">
+                    <div key={index} className="admin-noticia-card">
+                        <div
+                            className="admin-noticia-imagen"
+                            style={{ backgroundImage: `url(${noticia.imagen})` }}
+                        ></div>
+                        <div className="admin-noticia-content">
                             <h3>{noticia.titulo}</h3>
-                            <div dangerouslySetInnerHTML={{ __html: noticia.descripcion }} />
-                            <span className={`destacado-badge ${noticia.destacado ? 'active' : ''}`}>
-                                {noticia.destacado ? 'Destacado' : 'No destacado'}
-                            </span>
+                            {noticia.destacado && (
+                                <span className="admin-noticia-destacado">Destacado</span>
+                            )}
                         </div>
-                        <div className="noticia-actions">
+                        <div className="admin-noticia-actions">
                             <button onClick={() => handleEditNoticia(noticia)}>Editar</button>
                             <button onClick={() => handleDeleteNoticia(noticia.id)}>Eliminar</button>
                         </div>
@@ -876,6 +893,15 @@ const AdminPanel = () => {
         </div>
     );
 
+    const clearNoticiaForm = () => {
+        setTitulo('');
+        setDescripcion('');
+        setDestacado(false);
+        setImagen('');
+        setEditId(null);
+        setShowNoticiaPopup(false);
+    };
+
     const handleAddNoticia = async () => {
         const nuevaNoticia = {
             titulo,
@@ -883,35 +909,23 @@ const AdminPanel = () => {
             destacado,
             imagen
         };
-    
+
         try {
             if (editId) {
                 const noticiaRef = doc(db, 'noticias', editId);
                 await updateDoc(noticiaRef, nuevaNoticia);
-                setEditId(null);
             } else {
-                await addDoc(collection(db, 'noticias'), nuevaNoticia);
+                const newId = await getNextNoticiaId();
+                await setDoc(doc(db, 'noticias', newId), nuevaNoticia);
             }
-            
-            // Clear form
-            setTitulo('');
-            setDescripcion('');
-            setDestacado(false);
-            setImagen('');
-            setShowNoticiaPopup(false);
-    
-            // Refresh noticias
-            const querySnapshot = await getDocs(collection(db, 'noticias'));
-            const noticiasData = querySnapshot.docs.map(doc => ({
-                ...doc.data(),
-                id: doc.id
-            }));
-            setNoticias(noticiasData);
+
+            clearNoticiaForm();
+            fetchNoticias();
         } catch (error) {
             console.error("Error al agregar noticia:", error);
         }
     };
-    
+
     const handleEditNoticia = (noticia) => {
         setTitulo(noticia.titulo || '');
         setDescripcion(noticia.descripcion || '');
@@ -922,7 +936,7 @@ const AdminPanel = () => {
         setEditId(noticia.id);
         setShowNoticiaPopup(true);
     };
-    
+
     const handleDeleteNoticia = async (id) => {
         try {
             await deleteDoc(doc(db, 'noticias', id));
@@ -1079,5 +1093,6 @@ const AdminPanel = () => {
         </div>
     );
 };
+
 
 export default AdminPanel;

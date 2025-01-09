@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { Link } from 'react-router-dom';
 import './Home.modules.css';
 import 'leaflet/dist/leaflet.css';
+
 
 
 import Navbar from '../../components/Navbar/Navbar';
@@ -24,15 +26,17 @@ import Benefimg from '../../assets/images/img-grupaal.png';
 import FormularioUbicaciones from '../../components/FormularioMap/formulario';
 import Modal from '../../components/FormularioMap/modal';
 import comillas from '../../assets/images/img-comillas.png'; // Asegúrate de que la ruta sea correcta
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [ubicaciones, setUbicaciones] = useState([]);
+    const [noticias, setNoticias] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [actividades, setActividades] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [fade, setFade] = useState(false); // Estado para la animación de fade
 
-
+    const navigate = useNavigate();
     const banners = [
         {
             title: "Los valores que manejamos",
@@ -103,8 +107,23 @@ const Home = () => {
             setUbicaciones(ubicacionesData);
         };
 
+        const fetchNoticias = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'noticias'));
+                const noticiasData = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id
+                }));
+                // Get only the first 3 noticias
+                setNoticias(noticiasData.slice(0, 3));
+            } catch (error) {
+                console.error("Error fetching noticias:", error);
+            }
+        };
+
         fetchActividades();
         fetchUbicaciones();
+        fetchNoticias();
     }, []);
 
     const agregarUbicacion = (nuevaUbicacion) => {
@@ -154,7 +173,7 @@ const Home = () => {
 
         <div className="home-container">
             <Navbar />
-            <section className="intro">
+            <section className="intro" id='intro'>
                 <div className="intro-box">
                     <div className="intro-content">
                         <h2>Conectando Generaciones,
@@ -165,9 +184,13 @@ const Home = () => {
 
                         </div>
                         <div className='intro-buttons'>
-                            <button className='btn1'>Unirme ahora</button>
+                            <button
+                                className='btn1'
+                                onClick={() => navigate('/inscripciones')}
+                            >
+                                Unirme ahora
+                            </button>
                             <button className='btn2'>Acerca de la GAEP</button>
-
                         </div>
                     </div>
                     <div className="intro-image-container">
@@ -195,7 +218,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <section className="beneficios">
+            <section className="beneficios" id='beneficios'>
                 <div className="beneficios-grid">
                     <div className="beneficio-item">
                         <h3>Estas son algunas razones para que te nos unas...</h3>
@@ -343,7 +366,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <section className="nuestracomunidad">
+            <section className="nuestracomunidad" id='comunidad'>
                 <div className="nuestracomunidad-content">
                     <div className="nuestracomunidad-text">
                         <h2>NUESTRA COMUNIDAD</h2>
@@ -388,7 +411,7 @@ const Home = () => {
             <section className="actividades">
                 <div className='actividades-header'>
                     <h2>Próximas actividades</h2>
-                    <button>Ver todas</button>
+                    <button onClick={() => navigate('/actividades')}>Ver todas</button>
                 </div>
                 <div className='actividades-content'>
                     <div className="tarjetas-actividades">
@@ -396,6 +419,8 @@ const Home = () => {
                             <div
                                 key={index}
                                 className={`tarjeta-actividad ${index === 0 ? 'tarjeta-actividad-principal' : ''}`}
+                                onClick={() => navigate(`/actividades/${actividad.id}`)}
+                                style={{ cursor: 'pointer' }}
                             >
                                 <div
                                     className="imagen-fondo"
@@ -403,8 +428,10 @@ const Home = () => {
                                 ></div>
                                 <div className="contenido-actividad">
                                     <h3>{actividad.titulo}</h3>
-                                    <p className="fecha-actividad"><img src={icon4} alt={"ss"} className="actividad-icon" />{actividad.fecha}</p>
-                                    {/*<p>{actividad.descripcion}</p>*/}
+                                    <p className="fecha-actividad">
+                                        <img src={icon4} alt={"ss"} className="actividad-icon" />
+                                        {actividad.fecha}
+                                    </p>
                                 </div>
                             </div>
                         ))}
@@ -415,28 +442,30 @@ const Home = () => {
             <section className="ultimasnoticias">
                 <div className="ultimasnoticias-header">
                     <h2>Últimas Noticias</h2>
-                    <button className="ver-mas-noticias">Ver más noticias</button>
-                </div>
+                    <button onClick={() => navigate('/noticias')} className="ver-mas-noticias">Ver más noticias</button>                </div>
                 <div className='noticias-content'>
                     <div className="noticias-grid">
-                        <div className="noticia">
-                            <img src={foto1} alt="Noticia 1" className="noticia-img" />
-                            <h3>GAEP realiza obra de caridad</h3>
-                            <p>La asociacion hizo alianza con la municipalidad distrital para llevar a cabo una obra de caridad en el centro de la ciudad.</p>
-                        </div>
-                        <div className="noticia">
-                            <img src={foto2} alt="Noticia 2" className="noticia-img" />
-                            <h3>Título de la Noticia 2</h3>
-                            <p>Descripción breve de la noticia 2.</p>
-                        </div>
-                        <div className="noticia">
-                            <img src={foto3} alt="Noticia 3" className="noticia-img" />
-                            <h3>Título de la Noticia 3</h3>
-                            <p>Descripción breve de la noticia 3.</p>
-                        </div>
+                        {noticias.map((noticia, index) => (
+                            <div
+                                key={index}
+                                className="noticia"
+                                onClick={() => navigate(`/noticias/${noticia.id}`)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                <img
+                                    src={noticia.imagen}
+                                    alt={noticia.titulo}
+                                    className="noticia-img"
+                                />
+                                <h3>{noticia.titulo}</h3>
+                                <p className="noticia-descripcion">
+                                    {noticia.descripcion.replace(/<[^>]+>/g, '').slice(0, 100)}
+                                    {noticia.descripcion.length > 100 ? '...' : ''}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
-
             </section>
             <Footer />
         </div>

@@ -703,40 +703,68 @@ button:hover {
     padding: 5px 0;
 }
 
+.noticias-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.noticias-list::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.noticias-list::-webkit-scrollbar-thumb {
+    background-color: #028641;
+    border-radius: 10px;
+    border: 2px solid #f0f0f0;
+}
+
+.noticias-list::-webkit-scrollbar-thumb:hover {
+    background-color: #026010;
+}
 
 .noticias-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    padding: 20px 0;
+    padding: 20px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
 }
 
 .noticia-item {
     background: white;
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
+    height: 350px;
+    transition: transform 0.2s;
 }
 
 .noticia-imagen {
     width: 100%;
-    height: 200px;
+    height: 140px;
     object-fit: cover;
+    border-radius: 8px 8px 0 0;
 }
 
 .noticia-info {
     padding: 15px;
     flex: 1;
+    overflow-y: auto;
 }
 
-.noticia-actions {
-    padding: 15px;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    border-top: 1px solid #eee;
+.noticia-info h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.noticia-info .quill {
+    max-height: 100px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
 }
 
 .destacado-badge {
@@ -744,13 +772,236 @@ button:hover {
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 0.8rem;
-    margin-top: 10px;
+    margin-top: auto;
     background-color: #f0f0f0;
+    color: #666;
 }
 
 .destacado-badge.active {
     background-color: #028641;
     color: white;
+}
+
+.admin-actividades-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 20px;
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+}
+
+.admin-actividad-card {
+    position: relative;
+    border-radius: 10px 40px;
+    height: 310px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #fff;
+}
+
+.admin-actividad-imagen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px -170px 190px rgba(52, 137, 90, 0.9);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.admin-actividad-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80%;
+    z-index: 2;
+    padding: 10%;
+}
+
+.admin-actividad-content h3 {
+    font-family: 'arboria-black';
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.admin-actividad-fecha {
+    font-size: 0.9rem;
+    padding: 4px 12px;
+    background-color: #fff;
+    color: #028641;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.admin-actividad-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.admin-actividad-card:hover .admin-actividad-actions {
+    opacity: 1;
+}
+
+.admin-actividad-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.admin-actividad-actions button:first-child {
+    background-color: #028641;
+    color: white;
+}
+
+.admin-actividad-actions button:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+
+.admin-noticias-section {
+    margin-top: 20px;
+}
+
+.admin-noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 20px;
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+}
+
+.admin-noticia-card {
+    position: relative;
+    border-radius: 10px 40px;
+    height: 310px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #fff;
+}
+
+.admin-noticia-imagen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px -170px 190px rgba(52, 137, 90, 0.9);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.admin-noticia-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80%;
+    z-index: 2;
+    padding: 10%;
+}
+
+.admin-noticia-content h3 {
+    font-family: 'arboria-black';
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.admin-noticia-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.admin-noticia-card:hover .admin-noticia-actions {
+    opacity: 1;
+}
+
+.admin-noticia-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.admin-noticia-actions button:first-child {
+    background-color: #028641;
+    color: white;
+}
+
+.admin-noticia-actions button:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+.admin-noticia-destacado {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    background-color: #FFD700;
+    color: #333;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.noticia-actions {
+    padding: 10px 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    border-top: 1px solid #eee;
+    background: white;
+    border-radius: 0 0 8px 8px;
+}
+
+.noticia-actions button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.noticia-actions button:first-child {
+    background-color: #028641;
+    color: white;
+}
+
+.noticia-actions button:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+.noticia-actions button:hover {
+    opacity: 0.9;
 }
 
 .checkbox-group {
@@ -854,6 +1105,8 @@ button:hover {
     z-index: 2;
     padding: 10%;
 }
+
+
 
 .tarjeta-actividad-principal {
     grid-column: span 2;
