@@ -7,21 +7,31 @@
     background-color: #e2f7e6;
 }
 
-.breadcrumb {
-    padding-top: 20px;
-    margin: 0px 0px ;
+.guion {
+    position: sticky;
+    top: 80px;
+    width: 100%;
+    margin: 0 40px;
     margin-bottom: 30px;
+    font-size: 0.8rem;
+    font-family: 'arboria-bold', sans-serif;
     color: #666;
-    background-color: #fff;
+    padding: 15px 0;
+    background-color: #e2f7e6;
+    z-index: 100;
 }
 
-.breadcrumb a {
+.guion a {
     color: #026010;
     text-decoration: none;
 }
 
-.breadcrumb span {
+.guion span {
     margin: 0 10px;
+}
+
+.guion a:hover {
+    text-decoration: underline;
 }
 
 .actividad-header {
@@ -73,7 +83,7 @@
 }
 
 .actividad-content {
-    
+
     margin: 0 40px;
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -132,7 +142,7 @@
 
 
 .detalles-container {
-    
+
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -180,4 +190,126 @@
     .actividad-detalle-imagen {
         height: 300px;
     }
+}
+
+@media (max-width: 468px) {
+
+    .actividad-header,
+    .actividad-content {
+        grid-template-columns: 1fr;
+    }
+
+    .actividad-header{
+        margin: 0px 20px;
+    }
+
+    .actividad-title-section {
+        padding-right: 0;
+        order: 2;
+    }
+
+    .actividad-image-section {
+        order: 1;
+    }
+
+    .actividad-detalle-imagen {
+        height: 300px;
+    }
+
+    .actividad-detalle-page {
+        padding: 0px;
+    }
+
+    .guion {
+        padding: 10px 0px;
+        margin-top: 100px;
+        position: sticky;
+        top: 100px;
+        width: 100%;
+        margin: 0px 20px;
+        margin-bottom: 30px;
+        font-size: 0.7rem;
+        font-family: 'arboria-bold', sans-serif;
+        color: #666;
+        background-color: #e2f7e6;
+        z-index: 100;
+    }
+
+    .guion a {
+        color: #026010;
+        text-decoration: none;
+    }
+
+    .guion span {
+        margin: 0 4px;
+    }
+
+    .guion a:hover {
+        text-decoration: underline;
+    }
+
+    .detalle-seccion h3 {
+        color: #eee;
+        margin: 0 0 10px 0;
+        font-size: 1.4rem;
+        font-family: 'arboria-bold';
+    }
+
+    .detalle-seccion p {
+        margin: 5px 0;
+        color: #fce6e6;
+        font-size: 0.7rem;
+    }
+
+    .actividad-title-section h1 {
+        font-family: 'arboria-bold';
+        font-size: 2.2rem;
+        color: #026010;
+        margin: 0;
+        line-height: 2.2rem;
+    }
+    .actividad-content {
+        margin: 0 20px;
+        gap: 40px;
+        margin-top: 10px;
+    }
+    
+    .actividad-descripcion {
+        line-height: 1.4rem;
+        color: #333;
+        font-size: 1.1rem;
+        text-align: justify;
+    }
+
+    .actividad-descripcion h1 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5em;
+        color: #026010;
+    }
+    
+    .actividad-descripcion h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #026010;
+    }
+    
+    .actividad-descripcion h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5em;
+        color: #026010;
+    }
+    
+    .actividad-descripcion p {
+        margin-bottom: 1em;
+    }
+
+    .detalles-container {
+
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background: #026010;
+    }
+
 }

@@ -32,7 +32,7 @@ const NoticiaDetalle = () => {
         <>
             <Navbar />
             <div className="noticia-detalle-page">
-                <div className="breadcrumb">
+                <div className="guion">
                     <Link to="/">Inicio</Link>
                     <span>/</span>
                     <Link to="/noticias">Noticias</Link>

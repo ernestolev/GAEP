@@ -9,31 +9,39 @@
     align-items: center;
 }
 
-.breadcrumb {
+.gui-noticias {
+    padding: 10px 0px;
+    margin-top: 100px;
     position: sticky;
-    top: 80px;
+    top: 100px;
     width: 100%;
-    margin: 0 40px;
+    margin: 0px 20px;
     margin-bottom: 30px;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-family: 'arboria-bold', sans-serif;
     color: #666;
-    padding: 15px 0;
-    background-color: #e2f7e6;
     z-index: 100;
 }
 
-.breadcrumb a {
+.gui-noticias a {
     color: #026010;
     text-decoration: none;
 }
 
-.breadcrumb a:hover {
+.gui-noticias span {
+    margin: 0 4px;
+}
+
+.gui-noticias a:hover {
     text-decoration: underline;
 }
 
-.breadcrumb span {
-    margin: 0 10px;
+.noticiasheader-sticky {
+    position: sticky;
+    top: 80px;
+    background-color: white;
+    padding: 10px 0;
+    z-index: 100;
 }
 
 .noticia-header {
@@ -108,5 +116,166 @@
 
     .noticia-detalle-imagen {
         height: 300px;
+    }
+    .noticias-list {
+        margin-top: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .noticia-item {
+        position: relative;
+        border-radius:  40px !important;
+        height: 410px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .noticia-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 80%;
+        z-index: 2;
+        padding: 8%;
+    }
+    
+    .noticia-info h3 {
+        font-family: 'arboria-black';
+        font-size: 2.4rem;
+        line-height: 2.4rem;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 469px) {
+
+    .gui-noticias {
+        padding: 10px 0px;
+        margin-top: 0px;
+        position: sticky;
+        top: 100px;
+        width: 100%;
+        margin: 0px 0px;
+        margin-bottom: 0px;
+        font-size: 0.7rem;
+        font-family: 'arboria-bold', sans-serif;
+        color: #666;
+        z-index: 100;
+    }
+
+    .gui-noticias a {
+        color: #026010;
+        text-decoration: none;
+    }
+
+    .gui-noticias span {
+        margin: 0 4px;
+    }
+
+    .gui-noticias a:hover {
+        text-decoration: underline;
+    }
+    .noticias-page{
+        padding: 0px 20px;
+    }
+    .noticia-header {
+        grid-template-columns: 1fr;
+    }
+
+    .noticia-title-section {
+        padding-right: 0;
+        order: 2;
+    }
+
+    .noticia-image-section {
+        order: 1;
+    }
+
+    .noticia-detalle-imagen {
+        height: 300px;
+    }
+    .noticias-list {
+        margin-top: 0px;
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .noticia-item {
+        position: relative;
+        border-radius:  40px !important;
+        height: 410px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .noticia-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 80%;
+        z-index: 2;
+        padding: 8%;
+    }
+    
+    .noticia-info h3 {
+        font-family: 'arboria-black';
+        font-size: 2.4rem;
+        line-height: 2.4rem;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    .noticia-detalle-page{
+        padding: 0px 20px;
+    }
+
+    .noticia-header{
+        margin: 0px 0px;
+    }
+
+    .noticia-title-section h1{
+        font-size: 2rem;
+        line-height: 2rem;
+    }
+    .noticia-descripcion{
+        margin: 0px ;
+        padding: 0px;
+        text-align: left;
+        margin-bottom: 40px;
+    }
+
+    .noticia-descripcion h1 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5em;
+        color: #026010;
+    }
+    
+    .noticia-descripcion h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #026010;
+    }
+    
+    .noticia-descripcion h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5em;
+        color: #026010;
+    }
+    
+    .noticia-descripcion p {
+        margin-bottom: 1em;
     }
 }

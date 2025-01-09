@@ -17,6 +17,8 @@ import emailjs from '@emailjs/browser';
 import { db, auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import './AdminPanel.css';
+import { LoadingScreen, LoadingDots } from '../../components/LoadingScreen/LoadingScreen';
+
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -32,6 +34,10 @@ const AdminPanel = () => {
     const EMAIL_TEMPLATE_ID_ACCEPTED = 'template_g8kbzrs'; // Create this template in EmailJS
     const EMAIL_PUBLIC_KEY = 'ROpbgdF-nRAD3zQuR';
 
+    const [img1, setImg1] = useState('');
+    const [img2, setImg2] = useState('');
+    const [showImageModal, setShowImageModal] = useState(false);
+    const [currentImages, setCurrentImages] = useState({ img1: '', img2: '' });
 
     const [titulo, setTitulo] = useState('');
     const [fecha, setFecha] = useState('');
@@ -64,6 +70,8 @@ const AdminPanel = () => {
     const [destacado, setDestacado] = useState(false);
     const [showNoticiaPopup, setShowNoticiaPopup] = useState(false);
     const [solicitudes, setSolicitudes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [actionLoading, setActionLoading] = useState(false);
 
 
     const navigate = useNavigate();
@@ -108,23 +116,19 @@ const AdminPanel = () => {
         setShowJuntaPopup(true);
     };
 
+    const handleViewImages = (miembro) => {
+        setCurrentImages({
+            img1: miembro.img1,
+            img2: miembro.img2
+        });
+        setShowImageModal(true);
+    };
+
+
     const handleAddJuntaDirectiva = async () => {
         try {
-            // Validations
             if (!nombre || !apellidos || !cargo || !dni || !email || !telf) {
                 alert('Todos los campos son obligatorios');
-                return;
-            }
-            if (dni.length !== 8) {
-                alert('El DNI debe tener 8 dígitos');
-                return;
-            }
-            if (telf.length !== 9) {
-                alert('El teléfono debe tener 9 dígitos');
-                return;
-            }
-            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                alert('Email inválido');
                 return;
             }
 
@@ -134,7 +138,9 @@ const AdminPanel = () => {
                 cargo: cargo.toUpperCase(),
                 dni,
                 email: email.toLowerCase(),
-                telf
+                telf,
+                img1,
+                img2
             };
 
             if (editId) {
@@ -150,6 +156,7 @@ const AdminPanel = () => {
             console.error("Error al modificar miembro:", error);
         }
     };
+
 
     const getNextJuntaId = async () => {
         try {
@@ -170,6 +177,8 @@ const AdminPanel = () => {
         setDni('');
         setEmail('');
         setTelf('');
+        setImg1('');
+        setImg2('');
         setEditId(null);
         setShowJuntaPopup(false);
     };
@@ -255,8 +264,13 @@ const AdminPanel = () => {
                                 <td>{miembro.email}</td>
                                 <td>{miembro.telf}</td>
                                 <td>
+                                    <button onClick={() => handleViewImages(miembro)}>
+                                        <i className="fas fa-eye"></i>
+                                    </button>
                                     <button onClick={() => handleEditJunta(miembro)}>Editar</button>
-                                    <button onClick={() => { setShowConfirm(true); setDeleteId(miembro.id); }}>Eliminar</button>
+                                    <button onClick={() => { setShowConfirm(true); setDeleteId(miembro.id); }}>
+                                        Eliminar
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -267,6 +281,19 @@ const AdminPanel = () => {
             <button className='btn-añadir' onClick={handleAddJuntaClick}>
                 Añadir Miembro
             </button>
+
+            {showConfirm && (
+                <div className="overlay" onClick={() => setShowConfirm(false)}>
+                    <div className="confirm-popup" onClick={e => e.stopPropagation()}>
+                        <button className="popup-close" onClick={() => setShowConfirm(false)}>×</button>
+                        <p>¿Estás seguro de que deseas eliminar este miembro?</p>
+                        <div className="popup-buttons">
+                            <button onClick={() => handleDeleteJunta(deleteId)}>Sí</button>
+                            <button onClick={() => setShowConfirm(false)}>No</button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {showJuntaPopup && (
                 <div className="overlay" onClick={() => setShowJuntaPopup(false)}>
@@ -336,11 +363,47 @@ const AdminPanel = () => {
                                     <span className="input-error">El teléfono debe tener 9 dígitos</span>
                                 )}
                             </div>
+                            <div className="form-group">
+                                <label>Imagen 1</label>
+                                <input
+                                    type="file"
+                                    onChange={(e) => handleImageUpload(e, setImg1)}
+                                    accept="image/*"
+                                />
+                                {img1 && <img src={img1} alt="Preview 1" className="imagen-preview" />}
+                            </div>
+                            <div className="form-group">
+                                <label>Imagen 2</label>
+                                <input
+                                    type="file"
+                                    onChange={(e) => handleImageUpload(e, setImg2)}
+                                    accept="image/*"
+                                />
+                                {img2 && <img src={img2} alt="Preview 2" className="imagen-preview" />}
+                            </div>
                             <div className="popup-buttons">
                                 <button onClick={handleAddJuntaDirectiva}>
                                     {editId ? 'Actualizar' : 'Añadir'}
                                 </button>
                                 <button onClick={() => setShowJuntaPopup(false)}>Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showImageModal && (
+                <div className="overlay" onClick={() => setShowImageModal(false)}>
+                    <div className="image-preview-modal" onClick={e => e.stopPropagation()}>
+                        <button className="modal-close" onClick={() => setShowImageModal(false)}>×</button>
+                        <div className="images-container">
+                            <div className="image-preview-item">
+                                <h4>Imagen 1</h4>
+                                <img src={currentImages.img1} alt="Imagen 1" />
+                            </div>
+                            <div className="image-preview-item">
+                                <h4>Imagen 2</h4>
+                                <img src={currentImages.img2} alt="Imagen 2" />
                             </div>
                         </div>
                     </div>
@@ -473,11 +536,20 @@ const AdminPanel = () => {
     };
 
     useEffect(() => {
-        fetchActividades();
-        fetchSolicitudes();
-        fetchNoticias();
-        fetchExalumnos();
-        fetchJuntaDirectiva();
+        const init = async () => {
+            try {
+                await fetchExalumnos();
+                await fetchActividades();
+                await fetchNoticias();
+                await fetchJuntaDirectiva();
+                await fetchSolicitudes();
+            } finally {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 800);
+            }
+        };
+        init();
     }, []);
 
     const handleViewSolicitud = (solicitud) => {
@@ -619,21 +691,41 @@ const AdminPanel = () => {
         }
     };
 
+    const clearForm = () => {
+        setTitulo('');
+        setFecha('');
+        setDescripcion('');
+        setImagen('');
+        setHorarioInicio('');
+        setHorarioFin('');
+        setLugar('');
+        setOrganizador('');
+        setEditId(null);
+    };
+
     const handleAdd = async () => {
-        const nuevaActividad = {
-            titulo,
-            fecha: new Date(fecha),
-            descripcion,
-            horario: `${horarioInicio} - ${horarioFin}`,
-            lugar,
-            organizador
-        };
-
-        if (imagen) {
-            nuevaActividad.imagen = imagen;
-        }
-
         try {
+            setActionLoading(true);
+            let nuevaActividad = {
+                titulo,
+                descripcion,
+                horario: `${horarioInicio} - ${horarioFin}`,
+                lugar,
+                organizador
+            };
+
+            // Fix date timezone issue
+            if (fecha) {
+                const fechaObj = new Date(fecha);
+                fechaObj.setMinutes(fechaObj.getMinutes() + fechaObj.getTimezoneOffset());
+                nuevaActividad.fecha = fechaObj;
+            }
+
+            // Handle image update
+            if (imagen && (!editId || imagen !== actividades.find(a => a.id === editId)?.imagen)) {
+                nuevaActividad.imagen = imagen;
+            }
+
             if (editId) {
                 const actividadRef = doc(db, 'actividades', editId);
                 await updateDoc(actividadRef, nuevaActividad);
@@ -642,21 +734,13 @@ const AdminPanel = () => {
                 await setDoc(doc(db, 'actividades', newId), nuevaActividad);
             }
 
-            // Clear form and refresh list
-            setTitulo('');
-            setFecha('');
-            setDescripcion('');
-            setImagen('');
-            setHorarioInicio('');
-            setHorarioFin('');
-            setLugar('');
-            setOrganizador('');
+            clearForm();
             setShowAddPopup(false);
-
-            // Refresh activities
-            fetchActividades();
+            await fetchActividades();
         } catch (error) {
-            console.error("Error al agregar actividad:", error);
+            console.error("Error al agregar/actualizar actividad:", error);
+        } finally {
+            setActionLoading(false);
         }
     };
 
@@ -768,13 +852,13 @@ const AdminPanel = () => {
         setShowAddPopup(true);
     };
 
-    const handleImageUpload = (e) => {
+    const handleImageUpload = (e, setImageFunc = setImagen) => {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setImagen(reader.result);
-        };
         if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageFunc(reader.result);
+            };
             reader.readAsDataURL(file);
         }
     };
@@ -818,7 +902,7 @@ const AdminPanel = () => {
     const renderActividades = () => (
         <div className="section">
             <h2>Actividades</h2>
-            <button className='btn-añadir' onClick={() => setShowAddPopup(true)}>
+            <button className='btn-añadir' onClick={handleAddClick}>
                 Añadir Actividad
             </button>
 
@@ -953,12 +1037,13 @@ const AdminPanel = () => {
         setFecha('');
         setEditId(null);
         setShowAddPopup(true);
+        clearForm();
     };
 
     const renderNoticias = () => (
         <div className="section">
             <h2>Noticias</h2>
-            <button className='btn-añadir' onClick={() => setShowNoticiaPopup(true)}>
+            <button className='btn-añadir' onClick={handleAddNoticiaClick}>
                 Añadir Noticia
             </button>
 
@@ -1060,15 +1145,26 @@ const AdminPanel = () => {
         setShowNoticiaPopup(false);
     };
 
-    const handleAddNoticia = async () => {
-        const nuevaNoticia = {
-            titulo,
-            descripcion,
-            destacado,
-            imagen
-        };
+    const handleAddNoticiaClick = () => {
+        clearNoticiaForm();
+        setShowNoticiaPopup(true);
+    };
 
+
+    const handleAddNoticia = async () => {
         try {
+            setActionLoading(true);
+            let nuevaNoticia = {
+                titulo,
+                descripcion,
+                destacado
+            };
+
+            // Handle image update
+            if (imagen && (!editId || imagen !== noticias.find(n => n.id === editId)?.imagen)) {
+                nuevaNoticia.imagen = imagen;
+            }
+
             if (editId) {
                 const noticiaRef = doc(db, 'noticias', editId);
                 await updateDoc(noticiaRef, nuevaNoticia);
@@ -1078,9 +1174,11 @@ const AdminPanel = () => {
             }
 
             clearNoticiaForm();
-            fetchNoticias();
+            await fetchNoticias();
         } catch (error) {
-            console.error("Error al agregar noticia:", error);
+            console.error("Error al agregar/actualizar noticia:", error);
+        } finally {
+            setActionLoading(false);
         }
     };
 
@@ -1183,18 +1281,7 @@ const AdminPanel = () => {
 
             <button className='btn-añadiralumn' onClick={handleAddClick}>Añadir Exalumno</button>
 
-            {showConfirm && (
-                <div className="overlay" onClick={() => setShowConfirm(false)}>
-                    <div className="confirm-popup" onClick={e => e.stopPropagation()}>
-                        <button className="popup-close" onClick={() => setShowConfirm(false)}>×</button>
-                        <p>¿Estás seguro de que deseas eliminar este miembro?</p>
-                        <div className="popup-buttons">
-                            <button onClick={() => handleDeleteJunta(deleteId)}>Sí</button>
-                            <button onClick={() => setShowConfirm(false)}>No</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            
 
             {showConfirm && (
                 <div className="overlay" onClick={() => setShowConfirm(false)}>
@@ -1257,24 +1344,30 @@ const AdminPanel = () => {
     );
 
     return (
-        <div className="admin-panel">
-            <div className="sidebar">
-                <img src={banner} alt="GAEP Banner" className="sidebar-banner" />
-                <button onClick={() => setActiveSection('actividades')}>Actividades</button>
-                <button onClick={() => setActiveSection('noticias')}>Noticias</button>
-                <button onClick={() => setActiveSection('consejoDirectivo')}>Consejo Directivo</button>
-                <button onClick={() => setActiveSection('exalumnosInscritos')}>Exalumnos inscritos</button>
-                <button onClick={() => setActiveSection('solicitudesMiembros')}>Solicitudes Miembros</button>
-                <button onClick={handleLogout}>Cerrar sesión</button>
-            </div>
-            <div className="content">
-                {activeSection === 'actividades' && renderActividades()}
-                {activeSection === 'noticias' && renderNoticias()}
-                {activeSection === 'consejoDirectivo' && renderConsejoDirectivo()}
-                {activeSection === 'exalumnosInscritos' && renderExalumnos()}
-                {activeSection === 'solicitudesMiembros' && renderSolicitudesMiembros()} // Añade esta línea
-            </div>
-        </div>
+        <>
+            {isLoading ? (
+                <LoadingScreen />
+            ) : (
+                <div className="admin-panel">
+                    <div className="sidebar">
+                        <img src={banner} alt="GAEP Banner" className="sidebar-banner" />
+                        <button onClick={() => setActiveSection('actividades')}>Actividades</button>
+                        <button onClick={() => setActiveSection('noticias')}>Noticias</button>
+                        <button onClick={() => setActiveSection('consejoDirectivo')}>Consejo Directivo</button>
+                        <button onClick={() => setActiveSection('exalumnosInscritos')}>Exalumnos inscritos</button>
+                        <button onClick={() => setActiveSection('solicitudesMiembros')}>Solicitudes Miembros</button>
+                        <button onClick={handleLogout}>Cerrar sesión</button>
+                    </div>
+                    <div className="content">
+                        {activeSection === 'actividades' && renderActividades()}
+                        {activeSection === 'noticias' && renderNoticias()}
+                        {activeSection === 'consejoDirectivo' && renderConsejoDirectivo()}
+                        {activeSection === 'exalumnosInscritos' && renderExalumnos()}
+                        {activeSection === 'solicitudesMiembros' && renderSolicitudesMiembros()} // Añade esta línea
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

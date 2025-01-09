@@ -33,8 +33,8 @@ const Noticias = () => {
         <>
             <Navbar />
             <div className="noticias-page">
-                <div className="header-sticky">
-                    <div className=" breadcrumb-noticias">
+                <div className="noticiasheader-sticky">
+                    <div className="gui-noticias">
                         <Link to="/">Inicio</Link>
                         <span>/</span>
                         <span>Noticias</span>

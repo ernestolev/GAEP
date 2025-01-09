@@ -43,8 +43,8 @@ const Actividades = () => {
     return (
         <>
             <Navbar />
-            <div className="actividades-page">
-                <div className="header-sticky">
+            <div className="act-page1">
+                <div className="header-sticky1">
                     <div className="breadcrumb-actividades">
                         <Link to="/">Inicio</Link>
                         <span>/</span>
@@ -52,19 +52,19 @@ const Actividades = () => {
                     </div>
                     <h1>Próximas Actividades</h1>
                 </div>
-                <div className="actividades-list">
+                <div className="act-list">
                     {actividades.map((actividad) => (
                         <div
                             key={actividad.id}
-                            className="actividad-item"
+                            className="act-item"
                             onClick={() => navigate(`/actividades/${actividad.id}`)}
                         >                            <div
-                            className="actividad-imagen"
+                            className="act-imagen"
                             style={{ backgroundImage: `url(${actividad.imagen})` }}
                         ></div>
-                            <div className="actividad-info">
+                            <div className="act-info">
                                 <h3>{actividad.titulo}</h3>
-                                <p className="fecha"><img className='actividad-icon' src={calendar} alt="" /> {actividad.fecha}</p>
+                                <p className="fecha1"><img className='actividad-icon' src={calendar} alt="" /> {actividad.fecha}</p>
                             </div>
                         </div>
                     ))}

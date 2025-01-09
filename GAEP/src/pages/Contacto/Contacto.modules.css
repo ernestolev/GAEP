@@ -1,0 +1,143 @@
+.contacto-container {
+    margin-top: 80px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 80px auto 0;
+    font-family: 'arboria-regular';
+}
+
+.contacto-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-top: 40px;
+}
+
+.contacto-header h1 {
+    color: #026010;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-family: 'arboria-bold';
+}
+
+.contacto-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.info-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.contact-card {
+    background: #f8f8f8;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+}
+
+.contact-icon {
+    font-size: 2rem;
+    color: #026010;
+    margin-bottom: 15px;
+}
+
+.form-section {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+    color: #026010;
+    margin-bottom: 30px;
+    font-family: 'arboria-bold';
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+button {
+    background: #026010;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #028641;
+    transform: translateY(-2px);
+}
+
+.map-section {
+    margin: 60px 0;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.junta-section {
+    text-align: center;
+    padding: 60px 0;
+    background: #f8f8f8;
+    border-radius: 15px;
+    margin-bottom: 60px;
+}
+
+.junta-section h2 {
+    color: #026010;
+    margin-bottom: 15px;
+    font-family: 'arboria-bold';
+}
+
+.junta-section p {
+    margin-bottom: 30px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .contacto-content {
+        grid-template-columns: 1fr;
+    }
+
+    .contacto-container {
+        padding: 20px;
+    }
+
+    .form-section {
+        padding: 20px;
+    }
+}
