@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     collection,
     addDoc,
+    getDoc,
     getDocs,
     deleteDoc,
     doc,
@@ -12,6 +13,7 @@ import {
     limit,
     setDoc
 } from 'firebase/firestore';
+import emailjs from '@emailjs/browser';
 import { db, auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import './AdminPanel.css';
@@ -23,6 +25,14 @@ import 'react-quill/dist/quill.snow.css';
 import banner from '../../assets/images/img-gaepbanner2.png';
 
 const AdminPanel = () => {
+    const [showComprobanteModal, setShowComprobanteModal] = useState(false);
+    const [currentComprobante, setCurrentComprobante] = useState(null);
+
+    const EMAIL_SERVICE_ID = 'service_73kk9jg';
+    const EMAIL_TEMPLATE_ID_ACCEPTED = 'template_g8kbzrs'; // Create this template in EmailJS
+    const EMAIL_PUBLIC_KEY = 'ROpbgdF-nRAD3zQuR';
+
+
     const [titulo, setTitulo] = useState('');
     const [fecha, setFecha] = useState('');
     const [descripcion, setDescripcion] = useState('');
@@ -53,7 +63,7 @@ const AdminPanel = () => {
     const [organizador, setOrganizador] = useState('');
     const [destacado, setDestacado] = useState(false);
     const [showNoticiaPopup, setShowNoticiaPopup] = useState(false);
-
+    const [solicitudes, setSolicitudes] = useState([]);
 
 
     const navigate = useNavigate();
@@ -62,6 +72,23 @@ const AdminPanel = () => {
         await signOut(auth);
         navigate('/');
     };
+
+
+    const fetchSolicitudes = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'inscripciones'));
+            const solicitudesData = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                fechaRegistro: doc.data().fechaRegistro?.toDate().toLocaleDateString() || '',
+                fechaAceptacion: doc.data().fechaAceptacion?.toDate().toLocaleDateString() || '-'
+            }));
+            setSolicitudes(solicitudesData);
+        } catch (error) {
+            console.error("Error fetching solicitudes:", error);
+        }
+    };
+
 
     const fetchJuntaDirectiva = async () => {
         try {
@@ -328,21 +355,21 @@ const AdminPanel = () => {
         setSortConfig({ field, direction });
 
         const sortedData = [...exalumnos].sort((a, b) => {
+            if (field === 'fechaInscripcion') {
+                const dateA = a.fechaInscripcion?.toDate() || new Date(0);
+                const dateB = b.fechaInscripcion?.toDate() || new Date(0);
+                return direction === 'asc' ? dateA - dateB : dateB - dateA;
+            }
+
             if (field === 'id') {
                 return direction === 'asc' ?
                     parseInt(a.id) - parseInt(b.id) :
                     parseInt(b.id) - parseInt(a.id);
             }
-            // Convert DNI to string for comparison
-            if (field === 'dni') {
-                return direction === 'asc' ?
-                    String(a[field]).localeCompare(String(b[field])) :
-                    String(b[field]).localeCompare(String(a[field]));
-            }
-            // For NOMBRE field
+
             return direction === 'asc' ?
-                a[field].localeCompare(b[field]) :
-                b[field].localeCompare(a[field]);
+                String(a[field]).localeCompare(String(b[field])) :
+                String(b[field]).localeCompare(String(a[field]));
         });
 
         setExalumnos(sortedData);
@@ -430,13 +457,16 @@ const AdminPanel = () => {
         try {
             const querySnapshot = await getDocs(collection(db, 'exalumnos'));
             const exalumnosData = querySnapshot.docs.map(doc => {
-                const data = doc.data();
                 return {
                     id: doc.id,
-                    ...data
+                    ...doc.data()
                 };
-            }).sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
-            setExalumnos(exalumnosData);
+            });
+            // Sort by ID numerically
+            const sortedExalumnos = exalumnosData.sort((a, b) =>
+                parseInt(a.id) - parseInt(b.id)
+            );
+            setExalumnos(sortedExalumnos);
         } catch (error) {
             console.error("Error al obtener exalumnos: ", error);
         }
@@ -444,10 +474,138 @@ const AdminPanel = () => {
 
     useEffect(() => {
         fetchActividades();
+        fetchSolicitudes();
         fetchNoticias();
         fetchExalumnos();
         fetchJuntaDirectiva();
     }, []);
+
+    const handleViewSolicitud = (solicitud) => {
+        setCurrentComprobante(solicitud.comprobante);
+        setShowComprobanteModal(true);
+    };
+
+    const handleAcceptSolicitud = async (id) => {
+        try {
+            const solicitudRef = doc(db, 'inscripciones', id);
+            const solicitudDoc = await getDoc(solicitudRef);
+            const solicitudData = solicitudDoc.data();
+            const fechaAceptacion = new Date();
+
+            // Update inscripcion status
+            await updateDoc(solicitudRef, {
+                estado: 'aceptado',
+                fechaAceptacion: fechaAceptacion
+            });
+
+            // Add to exalumnos collection
+            const nextExalumnoId = await getNextId();
+            await setDoc(doc(db, 'exalumnos', nextExalumnoId), {
+                nombre: `${solicitudData.nombre} ${solicitudData.apellidos}`.toUpperCase(),
+                dni: solicitudData.dni,
+                email: solicitudData.email,
+                telefono: solicitudData.telefono,
+                promocion: solicitudData.promocion,
+                fechaInscripcion: fechaAceptacion
+            });
+
+            // Send acceptance email
+            const emailParams = {
+                to_email: solicitudData.email,
+                to_name: `${solicitudData.nombre} ${solicitudData.apellidos}`,
+                dni: solicitudData.dni,
+                fecha_aprobacion: fechaAceptacion.toLocaleDateString()
+            };
+
+            await emailjs.send(
+                EMAIL_SERVICE_ID,
+                EMAIL_TEMPLATE_ID_ACCEPTED,
+                emailParams,
+                EMAIL_PUBLIC_KEY
+            );
+
+            // Refresh both collections
+            await fetchSolicitudes();
+            await fetchExalumnos();
+
+        } catch (error) {
+            console.error("Error updating solicitud:", error);
+        }
+    };
+
+    const renderSolicitudesMiembros = () => (
+        <div className="section">
+            <h2>Solicitudes de Miembros</h2>
+            <div className="ex-table-content">
+                <table className="solicitudes-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>DNI</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Promoción</th>
+                            <th>Fecha Registro</th>
+                            <th>Fecha Aceptación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {solicitudes.map((solicitud) => (
+                            <tr key={solicitud.id}>
+                                <td>{solicitud.id}</td>
+                                <td>{solicitud.nombre}</td>
+                                <td>{solicitud.apellidos}</td>
+                                <td>{solicitud.dni}</td>
+                                <td>{solicitud.email}</td>
+                                <td>{solicitud.telefono}</td>
+                                <td>{solicitud.promocion}</td>
+                                <td>{solicitud.fechaRegistro}</td>
+                                <td>{solicitud.fechaAceptacion}</td>
+                                <td>
+                                    <span className={`status-badge ${solicitud.estado}`}>
+                                        {solicitud.estado}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div className="action-buttons">
+                                        <button
+                                            className="btn-view"
+                                            onClick={() => handleViewSolicitud(solicitud)}
+                                        >
+                                            <i className="fas fa-eye"></i>
+                                        </button>
+                                        {solicitud.estado === 'pendiente' && (
+                                            <button
+                                                className="btn-accept"
+                                                onClick={() => handleAcceptSolicitud(solicitud.id)}
+                                            >
+                                                <i className="fas fa-check"></i>
+                                            </button>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            {showComprobanteModal && (
+                <div className="overlay" onClick={() => setShowComprobanteModal(false)}>
+                    <div className="comprobante-modal" onClick={e => e.stopPropagation()}>
+                        <button className="modal-close" onClick={() => setShowComprobanteModal(false)}>×</button>
+                        <h3>Comprobante de Pago</h3>
+                        <div className="comprobante-container">
+                            <img src={currentComprobante} alt="Comprobante de pago" />
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 
     const getNextId = async () => {
         try {
@@ -629,7 +787,7 @@ const AdminPanel = () => {
             setShowConfirm(false);
             setDeleteId(null);
         } catch (error) {
-            console.error("Error al eliminar exalumno: ", error);
+            console.error("Error al eliminar exalumno:", error);
         }
     };
 
@@ -979,6 +1137,9 @@ const AdminPanel = () => {
                             <div className="filter-option" onClick={() => sortExalumnos('dni')}>
                                 DNI {sortConfig.field === 'dni' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                             </div>
+                            <div className="filter-option" onClick={() => sortExalumnos('fechaInscripcion')}>
+                                Fecha Inscripción {sortConfig.field === 'fechaInscripcion' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -993,6 +1154,10 @@ const AdminPanel = () => {
                             <th>ID</th>
                             <th>Nombres</th>
                             <th>DNI</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Promoción</th>
+                            <th>Fecha Inscripción</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -1002,6 +1167,10 @@ const AdminPanel = () => {
                                 <td>{exalumno.id}</td>
                                 <td>{exalumno.nombre}</td>
                                 <td>{exalumno.dni}</td>
+                                <td>{exalumno.email}</td>
+                                <td>{exalumno.telefono}</td>
+                                <td>{exalumno.promocion}</td>
+                                <td>{exalumno.fechaInscripcion?.toDate().toLocaleDateString() || '-'}</td>
                                 <td>
                                     <button onClick={() => handleEditExalumno(exalumno)}>Editar</button>
                                     <button onClick={() => { setShowConfirm(true); setDeleteId(exalumno.id); }}>Eliminar</button>
@@ -1021,6 +1190,19 @@ const AdminPanel = () => {
                         <p>¿Estás seguro de que deseas eliminar este miembro?</p>
                         <div className="popup-buttons">
                             <button onClick={() => handleDeleteJunta(deleteId)}>Sí</button>
+                            <button onClick={() => setShowConfirm(false)}>No</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showConfirm && (
+                <div className="overlay" onClick={() => setShowConfirm(false)}>
+                    <div className="confirm-popup" onClick={e => e.stopPropagation()}>
+                        <button className="popup-close" onClick={() => setShowConfirm(false)}>×</button>
+                        <p>¿Estás seguro de que deseas eliminar este exalumno?</p>
+                        <div className="popup-buttons">
+                            <button onClick={() => handleDeleteExalumno(deleteId)}>Sí</button>
                             <button onClick={() => setShowConfirm(false)}>No</button>
                         </div>
                     </div>
@@ -1082,6 +1264,7 @@ const AdminPanel = () => {
                 <button onClick={() => setActiveSection('noticias')}>Noticias</button>
                 <button onClick={() => setActiveSection('consejoDirectivo')}>Consejo Directivo</button>
                 <button onClick={() => setActiveSection('exalumnosInscritos')}>Exalumnos inscritos</button>
+                <button onClick={() => setActiveSection('solicitudesMiembros')}>Solicitudes Miembros</button>
                 <button onClick={handleLogout}>Cerrar sesión</button>
             </div>
             <div className="content">
@@ -1089,6 +1272,7 @@ const AdminPanel = () => {
                 {activeSection === 'noticias' && renderNoticias()}
                 {activeSection === 'consejoDirectivo' && renderConsejoDirectivo()}
                 {activeSection === 'exalumnosInscritos' && renderExalumnos()}
+                {activeSection === 'solicitudesMiembros' && renderSolicitudesMiembros()} // Añade esta línea
             </div>
         </div>
     );

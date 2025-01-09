@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Navbar2 from '../../components/Navbar/Navbar2';
 import Footer from '../../components/Footer/Footer';
 import './Inscripciones.modules.css';
+import InscripcionModal from './InscripcionModal';
+
 
 const Inscripciones = () => {
     const [showModal, setShowModal] = useState(false);
@@ -20,12 +22,12 @@ const Inscripciones = () => {
                     <p className="inscripciones-intro">
                         Seguir el proceso es fácil y rápido. A continuación, te detallamos los pasos para convertirte en socio de nuestra asociación de exalumnos:
                     </p>
-                    
+
                     <div className="steps-container">
                         <div className="step">
                             <div className="step-number">1</div>
-                            <h3>Verificación de exalumno</h3>
-                            <p>Valida en línea que seas egresado del colegio José Pardo y Barreda.</p>
+                            <h3>Registro inicial</h3>
+                            <p>Ingresa tu DNI, número de celular y año de promoción.</p>
                         </div>
                         <div className="step">
                             <div className="step-number">2</div>
@@ -35,7 +37,7 @@ const Inscripciones = () => {
                         <div className="step">
                             <div className="step-number">3</div>
                             <h3>Formulario de inscripción</h3>
-                            <p>Completa el formulario y adjunta tu comprobante de pago.</p>
+                            <p>Completa tus datos personales y adjunta tu comprobante de pago.</p>
                         </div>
                         <div className="step">
                             <div className="step-number">4</div>
@@ -43,12 +45,12 @@ const Inscripciones = () => {
                             <p>Espera la revisión y confirmación por parte del comité de evaluación.</p>
                         </div>
                     </div>
-
                     <div className="inscripciones-cta">
                         <p>¡Una vez aprobado, formarás parte de nuestra comunidad de socios y podrás disfrutar de todos los beneficios exclusivos!</p>
                         <button onClick={() => setShowModal(true)} className="start-button">
                             Comenzar inscripción
                         </button>
+                        <InscripcionModal isOpen={showModal} onClose={() => setShowModal(false)} />
                     </div>
                 </div>
             </div>
