@@ -960,7 +960,7 @@ section {
 .noticias-grid {
     display: flex;
     gap: 20px;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .noticia {

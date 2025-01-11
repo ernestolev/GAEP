@@ -1,4 +1,5 @@
 .modal-overlay {
+    font-family: 'arboria-bold';
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +12,8 @@
     z-index: 1000;
 }
 .modal-overlay h3{
-    margin: 10px 0;
+    margin: 15px 0;
+    font-size: 1.8rem;
     display: flex;
     justify-content: center;
 }
@@ -22,13 +24,24 @@
     border-radius: 20px;
     position: relative;
     width: 90%;
-    max-width: 400px;
+    max-width: 600px;
     box-shadow: 0 4px 8px rgba(190, 190, 190, 0.2);
     animation: fadeIn 0.3s ease-in-out;
 }
 
+.modal-content img{
+    object-fit:contain;
+    width: 300px;
+    border-radius: 20px;
+}
+
 .modal-content form {
    padding: 0 5px;
+}
+
+.modal-body{
+    display: flex;
+    justify-content: space-around;
 }
 
 .modal-close {
@@ -64,12 +77,13 @@ form label {
 
 form input,
 form select {
+    font-family: 'arboria-regular';
     color: #026b34;
     padding: 8px;
     border: 1px solid #ccc;
-    background-color: #c0c0c0;
+    background-color: #efefef;
     border-radius: 10px;
-    font-size: 0.9rem;
+    font-size: 1rem;
     width: 100%;
 }
 

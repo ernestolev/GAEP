@@ -198,7 +198,9 @@ const Home = () => {
                                     >
                                         Unirme ahora
                                     </button>
-                                    <button className='btn2'>Acerca de la GAEP</button>
+                                    <button className='btn2' onClick={() => navigate('/acerca-de')}>
+                                        Acerca de la GAEP
+                                    </button>
                                 </div>
                             </div>
                             <div className="intro-image-container">

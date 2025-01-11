@@ -15,6 +15,10 @@
   z-index: 1000;
 }
 
+.navbar button{
+  background-color: white;
+}
+
 .navbar.shrink {
   height: 80px; /* Altura reducida */
   padding: 5px 0px; /* Padding reducido */
@@ -101,6 +105,8 @@
   font-size: 2rem;
   cursor: pointer;
 }
+
+
 
 
 

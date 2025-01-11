@@ -12,6 +12,7 @@ import ActividadDetalle from './pages/Actividades/ActividadDetalle';
 import NoticiaDetalle from './pages/Noticias/NoticiaDetalle';
 import Inscripciones from './pages/Inscripciones/Inscripciones';
 import JuntaDirectiva from './pages/Junta-Directiva/JuntaDirectiva';
+import AcercaDe from './pages/AcercaDe/AcercaDe';
 
 
 import { useNavigate } from 'react-router-dom';
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/noticias/:id" element={<NoticiaDetalle />} /> 
         <Route path="/inscripciones" element={<Inscripciones />} />
         <Route path="/junta-directiva" element={<JuntaDirectiva />} />
+        <Route path="/acerca-de" element={<AcercaDe />} />
                 {/*
                 <Route path="/admin" element={<Admin />} />
                 */}
