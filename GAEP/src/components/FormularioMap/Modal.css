@@ -119,3 +119,17 @@ form button:hover {
         transform: scale(1);
     }
 }
+
+@media (max-width: 468px) {
+    .modal-body{
+        flex-direction: column;
+        align-items: center;
+    }
+    .modal-content img{
+        width: 180px;
+    }
+
+    .modal-content{
+        padding: 10px !important;
+    }
+}

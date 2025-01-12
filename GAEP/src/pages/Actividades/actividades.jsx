@@ -6,9 +6,11 @@ import '../Actividades/actividades.modules.css';
 import Navbar from '../../components/Navbar/Navbar2';
 import Footer from '../../components/Footer/Footer';
 import calendar from '../../assets/icons/icon-calendar.png';
+import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
+
 
 const Actividades = () => {
-    const [actividades, setActividades] = useState([]);
+    const [actividades, setActividades] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,6 +41,9 @@ const Actividades = () => {
 
         fetchActividades();
     }, []);
+    
+    if (!actividades) return <LoadingScreen />;
+    
 
     return (
         <>

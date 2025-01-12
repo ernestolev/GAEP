@@ -8,6 +8,8 @@ import escudo from '../../assets/images/img-gaepbanner.png';
 const Navbar2 = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const Navbar2 = () => {
 
   return (
     <nav className={styles.navbar}>
-      <a href="">
+      <a href="/">
         <img className={styles.logo} src={escudo} alt="Escudo de la GAEP" />
       </a>
       <div className={styles.hamburger} onClick={toggleMenu}>
@@ -40,7 +42,29 @@ const Navbar2 = () => {
         <button className={styles.closeButton} onClick={toggleMenu}>X</button>
         <ul className={styles.menu}>
           <li><Link className={styles.link} to="/" onClick={toggleMenu}>Inicio</Link></li>
-          <li><Link className={styles.link} to="/" onClick={toggleMenu}>Comunidad</Link></li>
+          <li className={styles.dropdown}>
+            <Link
+              className={styles.link}
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsDropdownOpen(!isDropdownOpen);
+              }}
+            >
+              Comunidad
+              <div className={`${styles.dropdownContent} ${isDropdownOpen ? styles.show : ''}`}>
+                <Link to="/junta-directiva" onClick={toggleMenu}>
+                  Miembros de Junta Directiva
+                </Link>
+                <Link to="/miembros-gaep" onClick={toggleMenu}>
+                  Miembros GAEP
+                </Link>
+                <Link to="/acerca-de" onClick={toggleMenu}>
+                  Acerca de GAEP
+                </Link>
+              </div>
+            </Link>
+          </li>
           <li><Link className={styles.link} to="/" onClick={toggleMenu}>Beneficios y Servicios</Link></li>
           <li><Link className={styles.link} to="/actividades" onClick={toggleMenu}>Actividades</Link></li>
           <li><Link className={styles.link} to="/noticias" onClick={toggleMenu}>Noticias</Link></li>

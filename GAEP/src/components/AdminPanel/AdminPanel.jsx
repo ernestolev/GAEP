@@ -18,13 +18,14 @@ import { db, auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import './AdminPanel.css';
 import { LoadingScreen, LoadingDots } from '../../components/LoadingScreen/LoadingScreen';
+import { FaCalendarAlt, FaNewspaper, FaUsers, FaUserGraduate, FaUserPlus } from 'react-icons/fa';
 
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 
-import banner from '../../assets/images/img-gaepbanner2.png';
+import banner from '../../assets/images/img-gaepbanner.png';
 
 const AdminPanel = () => {
     const [showComprobanteModal, setShowComprobanteModal] = useState(false);
@@ -38,6 +39,11 @@ const AdminPanel = () => {
     const [img2, setImg2] = useState('');
     const [showImageModal, setShowImageModal] = useState(false);
     const [currentImages, setCurrentImages] = useState({ img1: '', img2: '' });
+    const [user, setUser] = useState(null);
+    const [userName, setUserName] = useState('');
+    const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
+
 
     const [titulo, setTitulo] = useState('');
     const [fecha, setFecha] = useState('');
@@ -72,6 +78,7 @@ const AdminPanel = () => {
     const [solicitudes, setSolicitudes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 
     const navigate = useNavigate();
@@ -239,43 +246,45 @@ const AdminPanel = () => {
             <div className="counter-display">
                 Mostrando {juntaDirectiva.length} miembros
             </div>
-            <div className='ex-table-content'>
-                <table className="junta-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Cargo</th>
-                            <th>DNI</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredJuntaDirectiva.map((miembro) => (
-                            <tr key={miembro.id}>
-                                <td>{miembro.id}</td>
-                                <td>{miembro.nombre}</td>
-                                <td>{miembro.apellidos}</td>
-                                <td>{miembro.cargo}</td>
-                                <td>{miembro.dni}</td>
-                                <td>{miembro.email}</td>
-                                <td>{miembro.telf}</td>
-                                <td>
-                                    <button onClick={() => handleViewImages(miembro)}>
-                                        <i className="fas fa-eye"></i>
-                                    </button>
-                                    <button onClick={() => handleEditJunta(miembro)}>Editar</button>
-                                    <button onClick={() => { setShowConfirm(true); setDeleteId(miembro.id); }}>
-                                        Eliminar
-                                    </button>
-                                </td>
+            <div className='tablabarra'>
+                <div className='ex-table-content'>
+                    <table className="junta-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Cargo</th>
+                                <th>DNI</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredJuntaDirectiva.map((miembro) => (
+                                <tr key={miembro.id}>
+                                    <td>{miembro.id}</td>
+                                    <td>{miembro.nombre}</td>
+                                    <td>{miembro.apellidos}</td>
+                                    <td>{miembro.cargo}</td>
+                                    <td>{miembro.dni}</td>
+                                    <td>{miembro.email}</td>
+                                    <td>{miembro.telf}</td>
+                                    <td>
+                                        <button onClick={() => handleViewImages(miembro)}>
+                                            <i className="fas fa-eye"></i>
+                                        </button>
+                                        <button onClick={() => handleEditJunta(miembro)}>Editar</button>
+                                        <button onClick={() => { setShowConfirm(true); setDeleteId(miembro.id); }}>
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <button className='btn-añadir' onClick={handleAddJuntaClick}>
@@ -536,6 +545,7 @@ const AdminPanel = () => {
     };
 
     useEffect(() => {
+
         const init = async () => {
             try {
                 await fetchExalumnos();
@@ -549,6 +559,19 @@ const AdminPanel = () => {
                 }, 800);
             }
         };
+        const fetchUser = async () => {
+            const user = auth.currentUser;
+            setUser(user);
+
+            if (user) {
+                const querySnapshot = await getDocs(collection(db, 'junta-directiva'));
+                const userData = querySnapshot.docs.find(doc => doc.data().email === user.email);
+                if (userData) {
+                    setUserName(userData.data().nombreCompleto);
+                }
+            }
+        };
+        fetchUser();
         init();
     }, []);
 
@@ -746,41 +769,40 @@ const AdminPanel = () => {
 
     const handleAddExalumno = async () => {
         try {
+            if (!titulo || !fecha || !email || !telf || !promocion) {
+                alert('Todos los campos son obligatorios');
+                return;
+            }
 
             if (fecha.length !== 8) {
                 alert('El DNI debe tener 8 dígitos');
                 return;
             }
 
+            if (telf.length !== 9) {
+                alert('El teléfono debe tener 9 dígitos');
+                return;
+            }
+
             const nuevoExalumno = {
                 nombre: titulo.toUpperCase(),
-                dni: fecha
+                dni: fecha,
+                email: email.toLowerCase(),
+                telefono: telf,
+                promocion: promocion,
+                fechaInscripcion: new Date()
             };
 
             if (editId) {
-                // Update existing document
                 await updateDoc(doc(db, 'exalumnos', editId), nuevoExalumno);
             } else {
-                // Add new document
                 const newId = await getNextId();
                 await setDoc(doc(db, 'exalumnos', newId), nuevoExalumno);
             }
 
-            setTitulo('');
-            setFecha('');
-            setEditId(null);
+            clearForm();
             setShowAddPopup(false);
-
-            // Refresh the list
-            const querySnapshot = await getDocs(collection(db, 'exalumnos'));
-            const exalumnosData = querySnapshot.docs
-                .map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }))
-                .sort((a, b) => parseInt(a.id) - parseInt(b.id));
-
-            setExalumnos(exalumnosData);
+            await fetchExalumnos();
         } catch (error) {
             console.error("Error al modificar exalumno:", error);
         }
@@ -848,6 +870,9 @@ const AdminPanel = () => {
     const handleEditExalumno = (exalumno) => {
         setTitulo(exalumno.nombre);
         setFecha(exalumno.dni);
+        setEmail(exalumno.email || '');
+        setTelf(exalumno.telefono || '');
+        setPromocion(exalumno.promocion || '');
         setEditId(exalumno.id);
         setShowAddPopup(true);
     };
@@ -1281,7 +1306,7 @@ const AdminPanel = () => {
 
             <button className='btn-añadiralumn' onClick={handleAddClick}>Añadir Exalumno</button>
 
-            
+
 
             {showConfirm && (
                 <div className="overlay" onClick={() => setShowConfirm(false)}>
@@ -1349,22 +1374,78 @@ const AdminPanel = () => {
                 <LoadingScreen />
             ) : (
                 <div className="admin-panel">
-                    <div className="sidebar">
+                    <div className="mobile-nav">
+                        <button
+                            className="sidebar-toggle"
+                            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                        >
+                            <i className={`fas ${isSidebarOpen ? 'fa-times' : 'fa-bars'}`}></i>
+                        </button>
+                        <span className="user-info" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
+                            {userName || user?.email}
+                        </span>
+                        {isUserDropdownOpen && (
+                            <div className="user-dropdown">
+                                <button onClick={handleLogout}>Cerrar sesión</button>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
                         <img src={banner} alt="GAEP Banner" className="sidebar-banner" />
-                        <button onClick={() => setActiveSection('actividades')}>Actividades</button>
-                        <button onClick={() => setActiveSection('noticias')}>Noticias</button>
-                        <button onClick={() => setActiveSection('consejoDirectivo')}>Consejo Directivo</button>
-                        <button onClick={() => setActiveSection('exalumnosInscritos')}>Exalumnos inscritos</button>
-                        <button onClick={() => setActiveSection('solicitudesMiembros')}>Solicitudes Miembros</button>
-                        <button onClick={handleLogout}>Cerrar sesión</button>
+                        <button onClick={() => {
+                            setActiveSection('actividades');
+                            setIsSidebarOpen(false);
+                        }}>
+                            <FaCalendarAlt className="sidebar-icon" /> Actividades
+                        </button>
+                        <button onClick={() => {
+                            setActiveSection('noticias');
+                            setIsSidebarOpen(false);
+                        }}>
+                            <FaNewspaper className="sidebar-icon" /> Noticias
+                        </button>
+                        <button onClick={() => {
+                            setActiveSection('consejoDirectivo');
+                            setIsSidebarOpen(false);
+                        }}>
+                            <FaUsers className="sidebar-icon" /> Consejo Directivo
+                        </button>
+                        <button onClick={() => {
+                            setActiveSection('exalumnosInscritos');
+                            setIsSidebarOpen(false);
+                        }}>
+                            <FaUserGraduate className="sidebar-icon" /> Exalumnos inscritos
+                        </button>
+                        <button onClick={() => {
+                            setActiveSection('solicitudesMiembros');
+                            setIsSidebarOpen(false);
+                        }}>
+                            <FaUserPlus className="sidebar-icon" /> Solicitudes Miembros
+                        </button>
                     </div>
-                    <div className="content">
-                        {activeSection === 'actividades' && renderActividades()}
-                        {activeSection === 'noticias' && renderNoticias()}
-                        {activeSection === 'consejoDirectivo' && renderConsejoDirectivo()}
-                        {activeSection === 'exalumnosInscritos' && renderExalumnos()}
-                        {activeSection === 'solicitudesMiembros' && renderSolicitudesMiembros()} // Añade esta línea
+                    <div className='generalcontent'>
+                        <div className="user-info-section">
+                            <span className="user-name" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
+                                {userName || user?.email}
+                            </span>
+                            <img src="/images/default-user.png" alt="User" className="user-image" />
+
+                            {isUserDropdownOpen && (
+                                <div className="user-dropdown">
+                                    <button onClick={handleLogout}>Cerrar sesión</button>
+                                </div>
+                            )}
+                        </div>
+                        <div className="content">
+                            {activeSection === 'actividades' && renderActividades()}
+                            {activeSection === 'noticias' && renderNoticias()}
+                            {activeSection === 'consejoDirectivo' && renderConsejoDirectivo()}
+                            {activeSection === 'exalumnosInscritos' && renderExalumnos()}
+                            {activeSection === 'solicitudesMiembros' && renderSolicitudesMiembros()}
+                        </div>
                     </div>
+
                 </div>
             )}
         </>

@@ -8,7 +8,9 @@ import escudo from '../../assets/images/img-gaepbanner.png';
 const Navbar = () => {
   const [isShrunk, setIsShrunk] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [user, setUser] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -74,24 +76,28 @@ const Navbar = () => {
             >
               Inicio
             </Link>
-          </li>          <li>
+          </li>
+          <li className={styles.dropdown}>
             <Link
               className={styles.link}
               to="/"
               onClick={(e) => {
                 e.preventDefault();
-                if (window.location.pathname === '/') {
-                  const element = document.getElementById('comunidad');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                  }
-                } else {
-                  window.location.href = '/#comunidad';
-                }
-                toggleMenu();
+                setIsDropdownOpen(!isDropdownOpen);
               }}
             >
               Comunidad
+              <div className={`${styles.dropdownContent} ${isDropdownOpen ? styles.show : ''}`}>
+                <Link to="/junta-directiva" onClick={toggleMenu}>
+                  Miembros de Junta Directiva
+                </Link>
+                <Link to="/miembros-gaep" onClick={toggleMenu}>
+                  Miembros GAEP
+                </Link>
+                <Link to="/acerca-de" onClick={toggleMenu}>
+                  Acerca de GAEP
+                </Link>
+              </div>
             </Link>
           </li>
           <li>

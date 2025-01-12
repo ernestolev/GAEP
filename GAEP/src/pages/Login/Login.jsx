@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
+import imglog from '../../assets/images/img-login.png';
 import './Login.modules.css';
 
 const Login = () => {
@@ -24,6 +25,7 @@ const Login = () => {
     return (
         <div className="login-container">
             <h2>Login</h2>
+            <img src={imglog} alt="" />
             <form onSubmit={handleLogin}>
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>
@@ -47,6 +49,8 @@ const Login = () => {
                 </div>
                 {error && <p className="error">{error}</p>}
                 <button type="submit">Login</button>
+                <p>Volver a <a href="/">inicio</a></p>
+
             </form>
         </div>
     );

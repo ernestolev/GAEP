@@ -33,27 +33,27 @@ const JuntaDirectiva = () => {
     return (
         <>
             <Navbar2 />
-            <div className="actividades-page">
+            <div className="jd-page">
                 <div className="header-sticky">
-                    <div className="breadcrumb-actividades">
+                    <div className="jdbreadcrumb">
                         <Link to="/">Inicio</Link>
                         <span>/</span>
                         <span>Junta Directiva</span>
                     </div>
                     <h1>Junta Directiva</h1>
                 </div>
-                <div className="actividades-list">
+                <div className="jd-list">
                     {miembros.map((miembro) => (
                         <div
                             key={miembro.id}
-                            className="actividad-item"
+                            className="jd-item"
                             onClick={() => navigate(`/junta-directiva/${miembro.id}`)}
                         >
                             <div
-                                className="actividad-imagen"
+                                className="jd-imagen"
                                 style={{ backgroundImage: `url(${miembro.img1})` }}
                             ></div>
-                            <div className="actividad-info">
+                            <div className="jd-info">
                                 <h3>{miembro.nombre} {miembro.apellidos}</h3>
                                 <p className="cargo">{miembro.cargo}</p>
                             </div>

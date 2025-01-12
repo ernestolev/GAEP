@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
+
 import './ActividadDetalle.modules.css';
 import Navbar from '../../components/Navbar/Navbar2';
 import Footer from '../../components/Footer/Footer';
@@ -9,6 +11,7 @@ import calendar from '../../assets/icons/icon-calendar.png';
 
 const ActividadDetalle = () => {
     const { id } = useParams();
+    const [isLoading, setIsLoading] = useState(true);
     const [actividad, setActividad] = useState(null);
 
     useEffect(() => {
@@ -31,7 +34,7 @@ const ActividadDetalle = () => {
         fetchActividad();
     }, [id]);
 
-    if (!actividad) return <div>Cargando...</div>;
+    if (!actividad) return <LoadingScreen />;
 
     return (
         <>

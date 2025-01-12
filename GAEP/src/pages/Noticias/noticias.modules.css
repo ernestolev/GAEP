@@ -1,5 +1,5 @@
 .noticias-page {
-    font-family: 'arboria-regular', sans-serif;
+    font-family: 'arboria-regular';
     padding: 40px;
     max-width: 1200px;
     margin: 0 auto;
@@ -7,9 +7,10 @@
     height: 100%;
 }
 
-.header-sticky {
+.noticiasheader-sticky {
     position: sticky;
-    top: 80px;
+    top: 70px;
+    transform: translateY(-40px);
     background-color: white;
     z-index: 100;
 }
@@ -136,6 +137,7 @@
 
 .destacado-badge {
     background-color: #FFD700;
+    font-family: 'arboria-regular';
     color: #333;
     padding: 4px 12px;
     border-radius: 12px;
@@ -154,5 +156,10 @@
         line-height: 1.9rem !important;
         color: #fff;
         margin-bottom: 0px;
+    }
+    .guion{
+        
+        top: 0px;
+        transform: translateY(-20px);
     }
 }

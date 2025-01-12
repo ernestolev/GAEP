@@ -5,6 +5,9 @@ import { db } from '../../firebase';
 import './NoticiaDetalle.modules.css';
 import Navbar from '../../components/Navbar/Navbar2';
 import Footer from '../../components/Footer/Footer';
+import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
+
+
 
 const NoticiaDetalle = () => {
     const { id } = useParams();
@@ -26,7 +29,7 @@ const NoticiaDetalle = () => {
         fetchNoticia();
     }, [id]);
 
-    if (!noticia) return <div>Cargando...</div>;
+    if (!noticia) return <LoadingScreen />;
 
     return (
         <>

@@ -13,6 +13,7 @@ import NoticiaDetalle from './pages/Noticias/NoticiaDetalle';
 import Inscripciones from './pages/Inscripciones/Inscripciones';
 import JuntaDirectiva from './pages/Junta-Directiva/JuntaDirectiva';
 import AcercaDe from './pages/AcercaDe/AcercaDe';
+import MiembrosGAEP from './pages/MiembrosGAEP/MiembrosGAEP';
 
 
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/inscripciones" element={<Inscripciones />} />
         <Route path="/junta-directiva" element={<JuntaDirectiva />} />
         <Route path="/acerca-de" element={<AcercaDe />} />
+        <Route path="/miembros-gaep" element={<MiembrosGAEP />} />
                 {/*
                 <Route path="/admin" element={<Admin />} />
                 */}

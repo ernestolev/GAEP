@@ -197,9 +197,14 @@
 
 @media (max-width: 468px) {
 
-    .actividad-header,
-    .actividad-content {
+    .actividad-header {
         grid-template-columns: 1fr;
+    }
+
+    
+    .actividad-content{
+        display: flex;
+        flex-direction: column;
     }
 
     .actividad-header{
@@ -221,13 +226,13 @@
 
     .actividad-detalle-page {
         padding: 0px;
+        margin-top: 30px;
     }
 
     .guion {
         padding: 10px 0px;
         margin-top: 100px;
         position: sticky;
-        top: 100px;
         width: 100%;
         margin: 0px 20px;
         margin-bottom: 30px;
@@ -282,6 +287,7 @@
         color: #333;
         font-size: 1.1rem;
         text-align: justify;
+        margin-right: 0px;
     }
 
     .actividad-descripcion h1 {
@@ -309,10 +315,21 @@
     .detalles-container {
 
         border-radius: 20px;
-        padding: 30px;
+        padding: 20px;
         margin-bottom: 30px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         background: #026010;
     }
+    .detalles-container h3{
+        font-size: 1.3rem;
+    }
+    .detalles-container p{
+        font-size: 0.8rem;
+    }
+
+    .detalle-seccion {
+        padding: 10px 0;
+    }
+
 
 }

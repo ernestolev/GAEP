@@ -3,12 +3,14 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
+
 import '../Noticias/noticias.modules.css';
 import Navbar from '../../components/Navbar/Navbar2';
 import Footer from '../../components/Footer/Footer';
 
 const Noticias = () => {
-    const [noticias, setNoticias] = useState([]);
+    const [noticias, setNoticias] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,6 +30,8 @@ const Noticias = () => {
 
         fetchNoticias();
     }, []);
+
+    if (!noticias) return <LoadingScreen />;
 
     return (
         <>

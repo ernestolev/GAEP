@@ -380,7 +380,7 @@ const Home = () => {
                         <div className="nuestracomunidad-content">
                             <div className="nuestracomunidad-text">
                                 <h2>NUESTRA COMUNIDAD</h2>
-                                <p>Ésta es una invitación para unirte a una extensa comunidad que crece saludablemente hace más de 60 años. Nuestros colegas, de todas las promociones, desarrollan las más diversas actividades, muchos de ellos con singular éxito en el Perú y en decenas de países alrededor del mundo. Colaborando mutuamente, cultivando la multiculturalidad y honrando nuestro legado.</p>
+                                <p className='textocomp'>Ésta es una invitación para unirte a una extensa comunidad que crece saludablemente hace más de 60 años. Nuestros colegas, de todas las promociones, desarrollan las más diversas actividades, muchos de ellos con singular éxito en el Perú y en decenas de países alrededor del mundo. Colaborando mutuamente, cultivando la multiculturalidad y honrando nuestro legado.</p>
                                 <div className='comunidad-button'>
                                     <button>Unirme ahora</button>
                                 </div>

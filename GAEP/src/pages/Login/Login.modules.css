@@ -8,15 +8,38 @@
     background-color: #f9f9f9;
 }
 
+.login-container img{
+    width: 280px;
+    margin-bottom: 20px;
+}
+
 h2 {
     font-size: 2rem;
-    margin-bottom: 20px;
+    font-family: 'arboria-bold';
+    margin-bottom: 50px;
 }
 
 form {
     display: flex;
     flex-direction: column;
     width: 300px;
+}
+
+p{
+    font-size: 0.8rem;
+    margin: 0px;
+    margin-top: 10px;
+}
+
+a{
+    color: #026010;
+    font-family: 'arboria-bold';
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+    color: gold;
 }
 
 .form-group {
@@ -37,6 +60,7 @@ input {
 
 button {
     padding: 10px !important;
+    margin-top: 0px !important;
     font-size: 1rem;
     background-color: #026010;
     color: #fff;
