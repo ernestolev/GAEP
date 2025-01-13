@@ -337,7 +337,7 @@ button:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     width: 400px;
     max-width: 90%;
-    z-index: 1000;
+    z-index: 999;
     text-align: center;
 }
 
@@ -820,7 +820,7 @@ button:hover {
     padding: 20px;
     max-height: calc(100vh - 250px);
     overflow-y: auto;
-    z-index: 1;
+    z-index: 0;
 }
 
 .admin-actividad-card {
@@ -918,7 +918,7 @@ button:hover {
     padding: 20px;
     max-height: calc(100vh - 250px);
     overflow-y: auto;
-    z-index: 1;
+    z-index: 0;
 }
 
 .admin-noticia-card {
@@ -1619,6 +1619,18 @@ button:hover {
 
     .mobile-nav {
         display: flex;
+        background-color: white;
+    }
+    .user-info{
+        color: #026010;
+    }
+
+    .sidebar-toggle{
+        color: #026010;
+    }
+
+    .sidebar-toggle:hover{
+        color: white;
     }
 
     .admin-panel {
@@ -1633,6 +1645,11 @@ button:hover {
         width: 250px;
         transition: left 0.3s ease;
         z-index: 999;
+    }
+
+    .sidebar button{
+        font-size: 1.1rem;
+        width: 90%;
     }
 
     .sidebar.open {
@@ -1837,11 +1854,24 @@ button:hover {
     .popup {
         padding: 20px;
         margin: 5px;
-        height: 70vh;
+        height: 72vh;
     }
 
     .popup-lg {
-        max-height: 70vh;
+        max-height: 72vh;
+    }
+
+    .popup-lg .popup-content{
+        padding: 10px
+    }
+
+    .popup-buttons{
+        flex-direction: column;
+    }
+
+    .form-group input{
+        font-size: 0.7rem;
+        width: 100%;
     }
 
     .solicitudes-table {
@@ -1849,5 +1879,8 @@ button:hover {
     }
     .user-info-section{
         display: none;
+    }
+    .form-row{
+        flex-direction: column;
     }
 }

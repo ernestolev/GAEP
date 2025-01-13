@@ -14,6 +14,8 @@ import Inscripciones from './pages/Inscripciones/Inscripciones';
 import JuntaDirectiva from './pages/Junta-Directiva/JuntaDirectiva';
 import AcercaDe from './pages/AcercaDe/AcercaDe';
 import MiembrosGAEP from './pages/MiembrosGAEP/MiembrosGAEP';
+import ProtectedRoute from './pages/ProtectedRoute/ProtectedRoute';
+
 
 
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +29,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contacto" element={<Contacto />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route 
+                    path="/admin" 
+                    element={
+                        <ProtectedRoute>
+                            <AdminPage />
+                        </ProtectedRoute>
+                    } 
+                />
         <Route path="/login" element={<Login />} />
         <Route path="/actividades" element={<Actividades />} />
         <Route path="/noticias" element={<Noticias />} />

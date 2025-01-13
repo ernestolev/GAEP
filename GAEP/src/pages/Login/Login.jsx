@@ -15,10 +15,10 @@ const Login = () => {
         e.preventDefault();
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate('/admin'); // Redirigir a la página Admin
+            navigate('/admin');
         } catch (error) {
-            setError(error.message);
-            error.message === 'Firebase: Error (auth/user-not-found).' ? setError('Usuario no encontrado') : setError('Credenciales incorrectas');
+            console.error("Error signing in:", error);
+            setError('Credenciales inválidas');
         }
     };
 

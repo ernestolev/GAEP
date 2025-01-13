@@ -79,7 +79,20 @@ const AdminPanel = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+    const [confirmAction, setConfirmAction] = useState({
+        show: false,
+        type: '',
+        id: null,
+        title: ''
+    });
+    const handleConfirmDelete = (type, id, title) => {
+        setConfirmAction({
+            show: true,
+            type,
+            id,
+            title
+        });
+    };
 
     const navigate = useNavigate();
 
@@ -189,6 +202,53 @@ const AdminPanel = () => {
         setEditId(null);
         setShowJuntaPopup(false);
     };
+    const executeDelete = async () => {
+        try {
+            const { type, id } = confirmAction;
+
+            switch (type) {
+                case 'actividad':
+                    await deleteDoc(doc(db, 'actividades', id));
+                    setActividades(actividades.filter(item => item.id !== id));
+                    break;
+
+                case 'noticia':
+                    await deleteDoc(doc(db, 'noticias', id));
+                    setNoticias(noticias.filter(item => item.id !== id));
+                    break;
+
+                case 'exalumno':
+                    await deleteDoc(doc(db, 'exalumnos', id));
+                    setExalumnos(exalumnos.filter(item => item.id !== id));
+                    break;
+
+                case 'juntaDirectiva':
+                    await deleteDoc(doc(db, 'junta-directiva', id));
+                    setJuntaDirectiva(juntaDirectiva.filter(item => item.id !== id));
+                    break;
+            }
+
+            // Refresh data after deletion
+            switch (type) {
+                case 'actividad':
+                    await fetchActividades();
+                    break;
+                case 'noticia':
+                    await fetchNoticias();
+                    break;
+                case 'exalumno':
+                    await fetchExalumnos();
+                    break;
+                case 'juntaDirectiva':
+                    await fetchJuntaDirectiva();
+                    break;
+            }
+        } catch (error) {
+            console.error(`Error deleting ${confirmAction.type}:`, error);
+        } finally {
+            setConfirmAction({ show: false, type: '', id: null, title: '' });
+        }
+    };
 
     const handleEditJunta = (miembro) => {
         setNombre(miembro.nombre);
@@ -276,9 +336,8 @@ const AdminPanel = () => {
                                             <i className="fas fa-eye"></i>
                                         </button>
                                         <button onClick={() => handleEditJunta(miembro)}>Editar</button>
-                                        <button onClick={() => { setShowConfirm(true); setDeleteId(miembro.id); }}>
-                                            Eliminar
-                                        </button>
+                                        <button onClick={() => handleConfirmDelete('juntaDirectiva', miembro.id, miembro.nombre)}>Eliminar</button>
+
                                     </td>
                                 </tr>
                             ))}
@@ -291,14 +350,22 @@ const AdminPanel = () => {
                 Añadir Miembro
             </button>
 
-            {showConfirm && (
-                <div className="overlay" onClick={() => setShowConfirm(false)}>
+            {confirmAction.show && (
+                <div className="overlay" onClick={() => setConfirmAction({ show: false, type: '', id: null, title: '' })}>
                     <div className="confirm-popup" onClick={e => e.stopPropagation()}>
-                        <button className="popup-close" onClick={() => setShowConfirm(false)}>×</button>
-                        <p>¿Estás seguro de que deseas eliminar este miembro?</p>
+                        <button
+                            className="popup-close"
+                            onClick={() => setConfirmAction({ show: false, type: '', id: null, title: '' })}
+                        >×</button>
+                        <p>¿Estás seguro de que deseas eliminar {confirmAction.type === 'actividad' ? 'la actividad' :
+                            confirmAction.type === 'noticia' ? 'la noticia' :
+                                confirmAction.type === 'exalumno' ? 'al exalumno' :
+                                    'al miembro'}: <strong>{confirmAction.title}</strong>?</p>
                         <div className="popup-buttons">
-                            <button onClick={() => handleDeleteJunta(deleteId)}>Sí</button>
-                            <button onClick={() => setShowConfirm(false)}>No</button>
+                            <button onClick={executeDelete}>Sí, eliminar</button>
+                            <button onClick={() => setConfirmAction({ show: false, type: '', id: null, title: '' })}>
+                                Cancelar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -564,10 +631,22 @@ const AdminPanel = () => {
             setUser(user);
 
             if (user) {
-                const querySnapshot = await getDocs(collection(db, 'junta-directiva'));
-                const userData = querySnapshot.docs.find(doc => doc.data().email === user.email);
-                if (userData) {
-                    setUserName(userData.data().nombreCompleto);
+                try {
+                    const querySnapshot = await getDocs(collection(db, 'junta-directiva'));
+                    const miembro = querySnapshot.docs.find(doc => doc.data().email === user.email);
+                    if (miembro) {
+                        // Extract first name from nombre field
+                        const nombreCompleto = miembro.data().nombre;
+                        const apellidoCompleto = miembro.data().apellidos;
+                        const primerApellido = apellidoCompleto.split(' ')[0];
+                        const primerNombre = nombreCompleto.split(' ')[0];
+                        setUserName(primerNombre + ' ' + primerApellido);
+                    } else {
+                        setUserName(user.email);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    setUserName(user.email);
                 }
             }
         };
@@ -944,7 +1023,7 @@ const AdminPanel = () => {
                         </div>
                         <div className="admin-actividad-actions">
                             <button onClick={() => handleEdit(actividad)}>Editar</button>
-                            <button onClick={() => handleDelete(actividad.id)}>Eliminar</button>
+                            <button onClick={() => handleConfirmDelete('actividad', actividad.id, actividad.titulo)}>Eliminar</button>
                         </div>
                     </div>
                 ))}
@@ -1087,7 +1166,7 @@ const AdminPanel = () => {
                         </div>
                         <div className="admin-noticia-actions">
                             <button onClick={() => handleEditNoticia(noticia)}>Editar</button>
-                            <button onClick={() => handleDeleteNoticia(noticia.id)}>Eliminar</button>
+                            <button onClick={() => handleConfirmDelete('noticia', noticia.id, noticia.titulo)}>Eliminar</button>
                         </div>
                     </div>
                 ))}
@@ -1296,8 +1375,9 @@ const AdminPanel = () => {
                                 <td>{exalumno.fechaInscripcion?.toDate().toLocaleDateString() || '-'}</td>
                                 <td>
                                     <button onClick={() => handleEditExalumno(exalumno)}>Editar</button>
-                                    <button onClick={() => { setShowConfirm(true); setDeleteId(exalumno.id); }}>Eliminar</button>
-                                </td>
+                                    <button onClick={() => handleConfirmDelete('exalumno', exalumno.id, exalumno.nombre)}>
+                                        Eliminar
+                                    </button>                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -1374,6 +1454,28 @@ const AdminPanel = () => {
                 <LoadingScreen />
             ) : (
                 <div className="admin-panel">
+                    {confirmAction.show && (
+                        <div className="overlay" onClick={() => setConfirmAction({ show: false, type: '', id: null, title: '' })}>
+                            <div className="confirm-popup" onClick={e => e.stopPropagation()}>
+                                <button
+                                    className="popup-close"
+                                    onClick={() => setConfirmAction({ show: false, type: '', id: null, title: '' })}
+                                >×</button>
+                                <p>¿Estás seguro de que deseas eliminar {
+                                    confirmAction.type === 'actividad' ? 'la actividad' :
+                                        confirmAction.type === 'noticia' ? 'la noticia' :
+                                            confirmAction.type === 'exalumno' ? 'al exalumno' :
+                                                'al miembro'
+                                }: <strong>{confirmAction.title}</strong>?</p>
+                                <div className="popup-buttons">
+                                    <button onClick={executeDelete}>Sí, eliminar</button>
+                                    <button onClick={() => setConfirmAction({ show: false, type: '', id: null, title: '' })}>
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <div className="mobile-nav">
                         <button
                             className="sidebar-toggle"
