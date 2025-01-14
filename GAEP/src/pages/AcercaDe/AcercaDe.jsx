@@ -21,7 +21,7 @@ const AcercaDe = () => {
             <Navbar2 />
             <div className="hero-section">
                 <h1>HISTORIA DE LA GAEP</h1>
-                <div className="overlay"></div>
+                <div className="acercaoverlay"></div>
             </div>
 
             <div className="acerca-container">

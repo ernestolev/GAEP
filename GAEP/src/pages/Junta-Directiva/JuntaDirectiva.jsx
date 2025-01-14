@@ -5,9 +5,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import './JuntaDirectiva.modules.css';
 import Navbar2 from '../../components/Navbar/Navbar2';
 import Footer from '../../components/Footer/Footer';
+import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
+
 
 const JuntaDirectiva = () => {
-    const [miembros, setMiembros] = useState([]);
+    const [miembros, setMiembros] = useState(null);
+    const [selectedMiembro, setSelectedMiembro] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -30,6 +35,8 @@ const JuntaDirectiva = () => {
         fetchMiembros();
     }, []);
 
+    if (!miembros) return <LoadingScreen />;
+
     return (
         <>
             <Navbar2 />
@@ -47,7 +54,10 @@ const JuntaDirectiva = () => {
                         <div
                             key={miembro.id}
                             className="jd-item"
-                            onClick={() => navigate(`/junta-directiva/${miembro.id}`)}
+                            onClick={() => {
+                                setSelectedMiembro(miembro);
+                                setShowModal(true);
+                            }}
                         >
                             <div
                                 className="jd-imagen"
@@ -60,6 +70,33 @@ const JuntaDirectiva = () => {
                         </div>
                     ))}
                 </div>
+                {showModal && selectedMiembro && (
+                    <div className="popjd" onClick={() => setShowModal(false)}>
+                        <div className="jdmodal" onClick={e => e.stopPropagation()}>
+                            <button className="closebtn" onClick={() => setShowModal(false)}>×</button>
+                            <div className="jdmbody">
+                                <div className="modal-foto">
+                                    <div className="foto-container" style={{ backgroundImage: `url(${selectedMiembro.img1})` }}></div>
+                                </div>
+                                <div className="jdminfo">
+                                    <h2>{selectedMiembro.nombre} {selectedMiembro.apellidos}</h2>
+                                    <p className="cargo">{selectedMiembro.cargo}</p>
+                                    <div className="info-details">
+                                        <p><strong>Promoción:</strong> {selectedMiembro.prom}</p>
+                                        <p><strong>Email:</strong> {selectedMiembro.email}</p>
+                                        <div className="biografia">
+                                            <h3>Biografía</h3>
+                                            <div
+                                                className="bio-content"
+                                                dangerouslySetInnerHTML={{ __html: selectedMiembro.bio }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
             <Footer />
         </>

@@ -26,6 +26,8 @@ import 'react-quill/dist/quill.snow.css';
 
 
 import banner from '../../assets/images/img-gaepbanner.png';
+import banner2 from '../../assets/images/img-gaepbanner2.png';
+import userfoto from '../../assets/icons/icon-userdefault.png';
 
 const AdminPanel = () => {
     const [showComprobanteModal, setShowComprobanteModal] = useState(false);
@@ -34,6 +36,9 @@ const AdminPanel = () => {
     const EMAIL_SERVICE_ID = 'service_73kk9jg';
     const EMAIL_TEMPLATE_ID_ACCEPTED = 'template_g8kbzrs'; // Create this template in EmailJS
     const EMAIL_PUBLIC_KEY = 'ROpbgdF-nRAD3zQuR';
+    const [bio, setBio] = useState('');
+    const [prom, setProm] = useState('');
+
 
     const [img1, setImg1] = useState('');
     const [img2, setImg2] = useState('');
@@ -42,8 +47,11 @@ const AdminPanel = () => {
     const [user, setUser] = useState(null);
     const [userName, setUserName] = useState('');
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+    const [darkTheme, setDarkTheme] = useState(localStorage.getItem('theme') === 'dark');
 
-
+    const [config, setConfig] = useState({
+        theme: localStorage.getItem('theme') || 'light'
+    });
 
     const [titulo, setTitulo] = useState('');
     const [fecha, setFecha] = useState('');
@@ -101,7 +109,28 @@ const AdminPanel = () => {
         navigate('/');
     };
 
+    const toggleTheme = async () => {
+        const newTheme = !darkTheme;
+        setDarkTheme(newTheme);
 
+        try {
+            const userDoc = await getDocs(collection(db, 'junta-directiva'));
+            const userData = userDoc.docs.find(doc => doc.data().email === user?.email);
+
+            if (userData) {
+                await updateDoc(doc(db, 'junta-directiva', userData.id), {
+                    config: {
+                        theme: newTheme ? 'dark' : 'light'
+                    }
+                });
+            }
+
+            localStorage.setItem('theme', newTheme ? 'light' : 'dark');
+            document.body.classList.toggle('dark-theme');
+        } catch (error) {
+            console.error("Error updating theme:", error);
+        }
+    };
     const fetchSolicitudes = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, 'inscripciones'));
@@ -116,6 +145,7 @@ const AdminPanel = () => {
             console.error("Error fetching solicitudes:", error);
         }
     };
+
 
 
     const fetchJuntaDirectiva = async () => {
@@ -147,7 +177,7 @@ const AdminPanel = () => {
 
     const handleAddJuntaDirectiva = async () => {
         try {
-            if (!nombre || !apellidos || !cargo || !dni || !email || !telf) {
+            if (!nombre || !apellidos || !cargo || !dni || !email || !telf || !prom) {
                 alert('Todos los campos son obligatorios');
                 return;
             }
@@ -159,6 +189,8 @@ const AdminPanel = () => {
                 dni,
                 email: email.toLowerCase(),
                 telf,
+                bio,
+                prom, // Add promotion field
                 img1,
                 img2
             };
@@ -199,6 +231,8 @@ const AdminPanel = () => {
         setTelf('');
         setImg1('');
         setImg2('');
+        setBio('');
+        setProm(''); // Add this line
         setEditId(null);
         setShowJuntaPopup(false);
     };
@@ -250,6 +284,8 @@ const AdminPanel = () => {
         }
     };
 
+
+
     const handleEditJunta = (miembro) => {
         setNombre(miembro.nombre);
         setApellidos(miembro.apellidos);
@@ -257,6 +293,10 @@ const AdminPanel = () => {
         setDni(miembro.dni);
         setEmail(miembro.email);
         setTelf(miembro.telf);
+        setBio(miembro.bio || '');
+        setProm(miembro.prom || ''); // Add this line
+        setImg1(miembro.img1 || '');
+        setImg2(miembro.img2 || '');
         setEditId(miembro.id);
         setShowJuntaPopup(true);
     };
@@ -440,6 +480,39 @@ const AdminPanel = () => {
                                 )}
                             </div>
                             <div className="form-group">
+                                <label>Promoción</label>
+                                <input
+                                    type="text"
+                                    value={prom}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        if (value.length <= 4) setProm(value);
+                                    }}
+                                    maxLength="4"
+                                />
+                                {prom && prom.length !== 4 && (
+                                    <span className="input-error">La promoción debe tener 4 dígitos</span>
+                                )}
+                            </div>
+                            <div className="form-group">
+                                <label>Biografía</label>
+                                <ReactQuill
+                                    theme="snow"
+                                    value={bio}
+                                    onChange={setBio}
+                                    modules={{
+                                        toolbar: [
+                                            [{ 'header': [1, 2, 3, false] }],
+                                            ['bold', 'italic', 'underline', 'strike'],
+                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                            [{ 'color': [] }, { 'background': [] }],
+                                            ['link'],
+                                            ['clean']
+                                        ]
+                                    }}
+                                />
+                            </div>
+                            <div className="form-group">
                                 <label>Imagen 1</label>
                                 <input
                                     type="file"
@@ -457,6 +530,7 @@ const AdminPanel = () => {
                                 />
                                 {img2 && <img src={img2} alt="Preview 2" className="imagen-preview" />}
                             </div>
+
                             <div className="popup-buttons">
                                 <button onClick={handleAddJuntaDirectiva}>
                                     {editId ? 'Actualizar' : 'Añadir'}
@@ -650,6 +724,29 @@ const AdminPanel = () => {
                 }
             }
         };
+
+        const fetchUserConfig = async () => {
+            if (user) {
+                try {
+                    const querySnapshot = await getDocs(collection(db, 'junta-directiva'));
+                    const userData = querySnapshot.docs.find(doc => doc.data().email === user.email);
+
+                    if (userData) {
+                        const userConfig = userData.data().config;
+                        if (userConfig?.theme) {
+                            setDarkTheme(userConfig.theme === 'dark');
+                            localStorage.setItem('theme', userConfig.theme);
+                            if (userConfig.theme === 'dark') {
+                                document.body.classList.add('dark-theme');
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error fetching user config:", error);
+                }
+            }
+        };
+        fetchUserConfig();
         fetchUser();
         init();
     }, []);
@@ -1477,15 +1574,19 @@ const AdminPanel = () => {
                         </div>
                     )}
                     <div className="mobile-nav">
+
                         <button
                             className="sidebar-toggle"
                             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                         >
                             <i className={`fas ${isSidebarOpen ? 'fa-times' : 'fa-bars'}`}></i>
                         </button>
+
                         <span className="user-info" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
+
                             {userName || user?.email}
                         </span>
+
                         {isUserDropdownOpen && (
                             <div className="user-dropdown">
                                 <button onClick={handleLogout}>Cerrar sesión</button>
@@ -1494,7 +1595,11 @@ const AdminPanel = () => {
                     </div>
 
                     <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-                        <img src={banner} alt="GAEP Banner" className="sidebar-banner" />
+                        <img
+                            src={darkTheme ? banner : banner2}
+                            alt="GAEP Banner"
+                            className="sidebar-banner"
+                        />
                         <button onClick={() => {
                             setActiveSection('actividades');
                             setIsSidebarOpen(false);
@@ -1525,14 +1630,24 @@ const AdminPanel = () => {
                         }}>
                             <FaUserPlus className="sidebar-icon" /> Solicitudes Miembros
                         </button>
+                        <button className="theme-toggle" onClick={toggleTheme}>
+                            {darkTheme ? (
+                                <i className="fas fa-sun"></i>
+                            ) : (
+                                <i className="fas fa-moon"></i>
+                            )}
+                            <p className='modotext'>Modo</p>
+                        </button>
                     </div>
                     <div className='generalcontent'>
                         <div className="user-info-section">
-                            <span className="user-name" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
-                                {userName || user?.email}
-                            </span>
-                            <img src="/images/default-user.png" alt="User" className="user-image" />
+                            <div className="user-controls">
+                                <span className="user-name" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
+                                    {userName || user?.email}
+                                </span>
 
+                            </div>
+                            <img src={userfoto} alt="User" className="user-image" />
                             {isUserDropdownOpen && (
                                 <div className="user-dropdown">
                                     <button onClick={handleLogout}>Cerrar sesión</button>

@@ -11,9 +11,9 @@
     z-index: 1000;
 }
 
-.modal-content {
+.contentmodal {
     background: white;
-    padding: 40px;
+    padding: 30px 10px;
     border-radius: 20px;
     width: 90%;
     max-width: 600px;

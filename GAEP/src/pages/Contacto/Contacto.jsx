@@ -59,13 +59,13 @@ const Contacto = () => {
             <div className="contact-card">
               <FaMapMarkerAlt className="contact-icon" />
               <h3>Dirección</h3>
-              <p>Av. Santa Rosa 348</p>
-              <p>San Vicente de Cañete</p>
+              <p>Av. Pardo</p>
+              <p>Chincha Alta</p>
             </div>
             <div className="contact-card">
               <FaPhone className="contact-icon" />
               <h3>Teléfono</h3>
-              <p>+51 981 213 145</p>
+              <p>+51 987 654 321</p>
             </div>
             <div className="contact-card">
               <FaEnvelope className="contact-icon" />

@@ -211,11 +211,11 @@ const Home = () => {
                         </div>
                         <div className="intro-stats">
                             <div className='stat'>
-                                <h3>500+</h3>
+                                <h3>200+</h3>
                                 <p>Miembros</p>
                             </div>
                             <div className='stat'>
-                                <h3>1965</h3>
+                                <h3>1950</h3>
                                 <p>Año de Fundación</p>
                             </div>
                             <div className='stat'>

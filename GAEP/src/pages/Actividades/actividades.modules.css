@@ -36,6 +36,10 @@
     margin: 0 5px;
 }
 
+.act-page1{
+    margin-top: 0px;
+}
+
 .act-page1 h1 {
     font-family: 'arboria-bold', sans-serif;
     color: #026010;
@@ -166,7 +170,7 @@
     }
     .act-list {
         padding: 0px;
-        margin-top: 0px;
+        margin-top: 60px;
         display: flex;
         flex-direction: column;
         align-items: stretch;

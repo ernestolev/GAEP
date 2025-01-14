@@ -40,7 +40,7 @@ const ActividadDetalle = () => {
         <>
             <Navbar />
             <div className="actividad-detalle-page">
-                <div className="guion">
+                <div className="detalleguion">
                     <Link to="/">Inicio</Link>
                     <span>/</span>
                     <Link to="/actividades">Actividades</Link>

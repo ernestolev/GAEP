@@ -342,7 +342,7 @@ const InscripcionModal = ({ isOpen, onClose }) => {
 
     return (
         <div className="modal-overlay">
-            <div className="modal-content">
+            <div className="contentmodal">
                 <button className="modal-close" onClick={onClose}>×</button>
                 <div className="modal-progress">
                     {[1, 2, 3, 4].map(num => (

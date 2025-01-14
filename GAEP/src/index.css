@@ -25,9 +25,24 @@ body {
   justify-content: center;
   min-width: 0px;
   min-height: 0vh;
+  touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
   
   color: #028641;
   background-color: #FFFFFF;
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+    font-size: 16px; /* Previene el zoom en iOS */
+    touch-action: manipulation;
 }
 
 a {

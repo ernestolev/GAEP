@@ -183,7 +183,13 @@
         text-decoration: underline;
     }
     .noticias-page{
+        margin-top: 45px;
         padding: 0px 20px;
+    }
+
+    .noticias-page h1{
+        font-size: 1.8rem;
+        margin-top: 10px;
     }
     .noticia-header {
         grid-template-columns: 1fr;

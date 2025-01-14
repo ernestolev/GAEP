@@ -1,13 +1,13 @@
 .miembros-page {
     padding: 10px 40px;
     max-width: 1200px;
-    margin: 10px auto 0;
+    margin: 70px auto 0;
     font-family: 'arboria-regular';
 }
 
 .header-sticky {
     position: sticky;
-    top: 70px;
+    top: 130px;
     transform: translateY(-40px);
     background-color: white;
     z-index: 100;
@@ -113,6 +113,7 @@
 
 @media (max-width: 768px) {
     .miembros-page {
+        margin-top: 20px;
         padding: 10px;
     }
 
@@ -130,5 +131,8 @@
 
     .miembros-table-container{
         font-size: 0.8  rem;
+    }
+    .header-sticky{
+        top: 80px;
     }
 }

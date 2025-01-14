@@ -127,7 +127,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.overlay {
+.acercaoverlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -283,6 +283,10 @@
 
 @media (max-width: 468px) {
 
+    .hero-section{
+        margin-top: 40px;
+    }
+
     .section-content{
         gap: 20px;
     }
@@ -325,6 +329,10 @@
 
     .parallax-divider {
         height: 50px;
+    }
+
+    .acerca-guion span {
+        margin: 0 4px;
     }
 
 }

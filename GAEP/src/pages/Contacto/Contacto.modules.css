@@ -1,8 +1,7 @@
 .contacto-container {
-    margin-top: 80px;
     padding: 40px 20px;
     max-width: 1200px;
-    margin: 80px auto 0;
+    margin: 80px 0px  ;
     font-family: 'arboria-regular';
 }
 
@@ -134,10 +133,18 @@ button:hover {
     }
 
     .contacto-container {
-        padding: 20px;
+        padding: 10px;
+    }
+
+    .contact-icon{
+        margin-bottom: 0px;
     }
 
     .form-section {
         padding: 20px;
+    }
+
+    .info-section{
+    gap: 0px;
     }
 }

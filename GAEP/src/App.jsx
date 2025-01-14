@@ -17,7 +17,6 @@ import MiembrosGAEP from './pages/MiembrosGAEP/MiembrosGAEP';
 import ProtectedRoute from './pages/ProtectedRoute/ProtectedRoute';
 
 
-
 import { useNavigate } from 'react-router-dom';
 
 
