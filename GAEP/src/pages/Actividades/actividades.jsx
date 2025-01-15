@@ -41,9 +41,9 @@ const Actividades = () => {
 
         fetchActividades();
     }, []);
-    
+
     if (!actividades) return <LoadingScreen />;
-    
+
 
     return (
         <>
@@ -63,10 +63,16 @@ const Actividades = () => {
                             key={actividad.id}
                             className="act-item"
                             onClick={() => navigate(`/actividades/${actividad.id}`)}
-                        >                            <div
-                            className="act-imagen"
-                            style={{ backgroundImage: `url(${actividad.imagen})` }}
-                        ></div>
+                        >
+                            <div
+                                className="act-imagen"
+                                style={{
+                                    backgroundImage: `url(${actividad.imagenes && actividad.imagenes.length > 0
+                                            ? actividad.imagenes[0]
+                                            : actividad.imagen || ''
+                                        })`
+                                }}
+                            ></div>
                             <div className="act-info">
                                 <h3>{actividad.titulo}</h3>
                                 <p className="fecha1"><img className='actividad-icon' src={calendar} alt="" /> {actividad.fecha}</p>

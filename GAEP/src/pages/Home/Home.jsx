@@ -10,6 +10,7 @@ import 'leaflet/dist/leaflet.css';
 
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
+import Sponsors from '../../components/Sponsors/Sponsors';
 
 
 import foto1 from '../../assets/images/img-flyer.png';
@@ -228,6 +229,7 @@ const Home = () => {
                             </div>
                         </div>
                     </section>
+                    <Sponsors />
                     <section className="beneficios" id='beneficios'>
                         <div className="beneficios-grid">
                             <div className="beneficio-item">
@@ -434,7 +436,12 @@ const Home = () => {
                                     >
                                         <div
                                             className="imagen-fondo"
-                                            style={{ backgroundImage: `url(${actividad.imagen})` }}
+                                            style={{
+                                                backgroundImage: `url(${actividad.imagenes && actividad.imagenes.length > 0
+                                                        ? actividad.imagenes[0]
+                                                        : actividad.imagen || ''
+                                                    })`
+                                            }}
                                         ></div>
                                         <div className="contenido-actividad">
                                             <h3>{actividad.titulo}</h3>

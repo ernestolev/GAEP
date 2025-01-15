@@ -51,10 +51,16 @@ const Noticias = () => {
                             key={noticia.id}
                             className="noticia-item"
                             onClick={() => navigate(`/noticias/${noticia.id}`)}
-                        >                            <div
-                            className="noticia-imagen"
-                            style={{ backgroundImage: `url(${noticia.imagen})` }}
-                        ></div>
+                        >
+                            <div
+                                className="noticia-imagen"
+                                style={{
+                                    backgroundImage: `url(${noticia.imagenes && noticia.imagenes.length > 0
+                                            ? noticia.imagenes[0]
+                                            : noticia.imagen || ''
+                                        })`
+                                }}
+                            ></div>
                             <div className="noticia-info">
                                 <h3>{noticia.titulo}</h3>
                                 {noticia.destacado && (

@@ -15,6 +15,7 @@ import JuntaDirectiva from './pages/Junta-Directiva/JuntaDirectiva';
 import AcercaDe from './pages/AcercaDe/AcercaDe';
 import MiembrosGAEP from './pages/MiembrosGAEP/MiembrosGAEP';
 import ProtectedRoute from './pages/ProtectedRoute/ProtectedRoute';
+import SponsorsLista from './pages/SponsorsLista/SponsorsLista';
 
 
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/junta-directiva" element={<JuntaDirectiva />} />
         <Route path="/acerca-de" element={<AcercaDe />} />
         <Route path="/miembros-gaep" element={<MiembrosGAEP />} />
+        <Route path="/sponsors-lista" element={<SponsorsLista />} />
                 {/*
                 <Route path="/admin" element={<Admin />} />
                 */}

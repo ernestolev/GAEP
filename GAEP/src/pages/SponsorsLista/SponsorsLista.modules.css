@@ -1,0 +1,161 @@
+.sponsors-lista-container {
+    padding: 80px 20px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'arboria-regular', sans-serif;
+}
+
+.sponsors-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 0px;
+}
+
+.sponsors-header h1 {
+    color: #026010;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    font-family: 'arboria-bold', sans-serif;
+}
+
+.sponsors-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.sponsors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.sponsor-card {
+    background: white;
+    border-radius: 10px 40px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.sponsor-card:hover {
+    transform: translateY(0px);
+}
+
+.sponsor-logo {
+    height: 100px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+}
+
+.sponsor-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.sponsor-info {
+    padding: 10px;
+    text-align: center;
+    font-size: 'arboria-bold', sans-serif;
+}
+
+.sponsor-info h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin: 0;
+    font-family: 'arboria-bold', sans-serif;
+}
+
+.header-sticky {
+    position: sticky;
+    top: 120px;
+    background-color: white;
+    padding: 10px 0;
+    z-index: 100;
+}
+
+.gui-sponsors{
+    margin-top: 10px;
+    font-size: 1rem;
+    font-family: 'arboria-bold', sans-serif;
+    margin-bottom: 10px;
+    color: #666;
+    background-color: #fff;
+}
+
+.gui-sponsors a {
+    color: #026010;
+    text-decoration: none;
+}
+
+.gui-sponsors a:hover {
+    text-decoration: underline;
+}
+
+.gui-sponsors span {
+    margin: 0 5px;
+}
+
+@media (max-width: 468px) {
+    .sponsors-lista-container {
+        padding: 35px 15px 40px;
+    }
+
+    .sponsors-header h1 {
+        font-size: 2rem;
+    }
+
+    .sponsors-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .sponsor-logo {
+        height: 120px;
+    }
+
+    .header-sticky {
+        position: sticky;
+        top: 90px;
+        background-color: white;
+        padding: 10px 0;
+        z-index: 100;
+    }
+    
+    .gui-sponsors{
+        margin-top: 10px;
+        font-size: 1rem;
+        font-family: 'arboria-bold', sans-serif;
+        margin-bottom: 10px;
+        color: #666;
+        background-color: #fff;
+    }
+    
+    .gui-sponsors a {
+        color: #026010;
+        text-decoration: none;
+    }
+    
+    .gui-sponsors a:hover {
+        text-decoration: underline;
+    }
+    
+    .gui-sponsors span {
+        margin: 0 5px;
+    }
+
+    .gui-sponsors h1{
+        font-size: 2.1rem;
+        margin-top: 5px;
+    }
+}

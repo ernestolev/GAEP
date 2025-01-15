@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import ImageGallery from '../../components/ImageGallery/ImageGallery';
+
 import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
 
 import './ActividadDetalle.modules.css';
@@ -56,7 +58,7 @@ const ActividadDetalle = () => {
                         <h1>{actividad.titulo}</h1>
                     </div>
                     <div className="actividad-image-section">
-                        <img src={actividad.imagen} alt={actividad.titulo} className="actividad-detalle-imagen" />
+                        <ImageGallery images={actividad.imagenes || [actividad.imagen]} />
                     </div>
                 </div>
                 <div className="actividad-content">

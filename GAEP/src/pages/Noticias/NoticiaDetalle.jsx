@@ -6,12 +6,14 @@ import './NoticiaDetalle.modules.css';
 import Navbar from '../../components/Navbar/Navbar2';
 import Footer from '../../components/Footer/Footer';
 import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
+import ImageGallery from '../../components/ImageGallery/ImageGallery';
 
 
 
 const NoticiaDetalle = () => {
     const { id } = useParams();
     const [noticia, setNoticia] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchNoticia = async () => {
@@ -19,23 +21,38 @@ const NoticiaDetalle = () => {
                 const docRef = doc(db, 'noticias', id);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    setNoticia(docSnap.data());
+                    setNoticia({
+                        id: docSnap.id,
+                        ...docSnap.data()
+                    });
                 }
             } catch (error) {
                 console.error("Error fetching noticia:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchNoticia();
     }, [id]);
 
-    if (!noticia) return <LoadingScreen />;
+    const getImagesToShow = () => {
+        if (!noticia) return [];
+        if (noticia.imagenes && noticia.imagenes.length > 0) {
+            return noticia.imagenes;
+        }
+        return noticia.imagen ? [noticia.imagen] : [];
+    };
+
+    if (loading) return <LoadingScreen />;
+    if (!noticia) return <div>Noticia no encontrada</div>;
+
 
     return (
         <>
             <Navbar />
             <div className="noticia-detalle-page">
-                <div className="guion">
+                <div className="gui-noticias">
                     <Link to="/">Inicio</Link>
                     <span>/</span>
                     <Link to="/noticias">Noticias</Link>
@@ -50,7 +67,7 @@ const NoticiaDetalle = () => {
                         )}
                     </div>
                     <div className="noticia-image-section">
-                        <img src={noticia.imagen} alt={noticia.titulo} className="noticia-detalle-imagen" />
+                        <ImageGallery images={getImagesToShow()} />
                     </div>
                 </div>
                 <div className="noticia-descripcion">

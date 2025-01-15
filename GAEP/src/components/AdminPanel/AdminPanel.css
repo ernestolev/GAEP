@@ -27,7 +27,7 @@
 }
 
 .sidebar button {
-    
+
     justify-content: flex-start;
     font-family: 'arboria-regular';
     text-align: left;
@@ -86,12 +86,24 @@
     margin-top: 0px;
 }
 
-.tablabarra{
+.tablabarra {
     overflow-y: auto;
 }
 
 .form-group {
     margin-bottom: 15px;
+    position: relative;
+}
+
+.loading-message {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #026010;
+    font-size: 0.9rem;
+    margin-top: 5px;
 }
 
 .form-group label {
@@ -1576,6 +1588,7 @@ button:hover {
     border-radius: 50%;
     margin-left: 1px;
 }
+
 .user-name {
     font-size: 1rem;
     font-weight: bold;
@@ -1628,7 +1641,7 @@ button:hover {
     --border-color: #303030;
 }
 
-.user-controls {        
+.user-controls {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -1678,7 +1691,7 @@ button:hover {
     transition: color 0.3s ease;
 }
 
-.modotext{
+.modotext {
     margin: 0px;
     margin-left: 14px;
 }
@@ -1740,7 +1753,7 @@ button:hover {
     color: var(--text-primary);
 }
 
-.dark-theme .section{
+.dark-theme .section {
     background-color: var(--bg-secondary);
     color: var(--text-primary);
 }
@@ -1807,23 +1820,212 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
 }
 
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.galeria-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.galeria-card:hover {
+    transform: translateY(-5px);
+}
+
+.galeria-card h3 {
+    padding: 15px;
+    margin: 0;
+    background: #026010;
+    color: white;
+}
+
+.galeria-preview {
+    position: relative;
+    aspect-ratio: 16/9;
+}
+
+.galeria-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.imagen-count {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+.galeria-actions {
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.galeria-actions button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.galeria-actions button:first-child {
+    background: #026010;
+    color: white;
+}
+
+.galeria-actions button:last-child {
+    background: #ff4444;
+    color: white;
+}
+
+.galeria-grid-popup {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.galeria-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.galeria-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.galeria-item:hover img {
+    transform: scale(1.05);
+}
+
+.popup.popup-lg {
+    max-width: 90vw;
+    width: 1200px;
+    max-height: 90vh;
+}
+
+/* Add to AdminPanel.css */
+.sponsors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.sponsor-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.sponsor-card:hover {
+    transform: translateY(-5px);
+}
+
+.sponsoroverf{
+    overflow-y: auto;
+}
+
+.sponsor-logo {
+    width: 100%;
+    height: 200px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+}
+
+.sponsor-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.sponsor-content {
+    padding: 15px;
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+}
+
+.sponsor-actions {
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.sponsor-actions button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logo-preview {
+    margin-top: 10px;
+    max-width: 200px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.logo-preview img {
+    width: 100%;
+    height: auto;
+}
+
+/* Dark theme support */
+.dark-theme .sponsor-card {
+    background: var(--bg-secondary);
+}
+
+.dark-theme .sponsor-logo {
+    background: var(--bg-primary);
+}
+
 /* Add more dark theme styles as needed */
 
 @media (max-width: 768px) {
 
     .mobile-nav {
+        z-index: 1;
         display: flex;
         background-color: white;
     }
-    .user-info{
+
+    .user-info {
         color: #026010;
     }
 
-    .sidebar-toggle{
+    .sidebar-toggle {
         color: #026010;
     }
 
-    .sidebar-toggle:hover{
+    .sidebar-toggle:hover {
         color: white;
     }
 
@@ -1841,7 +2043,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
         z-index: 999;
     }
 
-    .sidebar button{
+    .sidebar button {
         font-size: 1.1rem;
         width: 90%;
     }
@@ -1940,9 +2142,10 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 @media (max-width: 480px) {
 
-    .generalcontent{
+    .generalcontent {
         height: auto;
     }
+
     .section {
         height: 100%;
     }
@@ -2053,22 +2256,22 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     .popup {
         padding: 20px;
         margin: 5px;
-        height: 72vh;
+        max-height: 70vh;
     }
 
     .popup-lg {
-        max-height: 63vh;
+        height: 70vh;
     }
 
-    .popup-lg .popup-content{
+    .popup-lg .popup-content {
         padding: 10px
     }
 
-    .popup-buttons{
+    .popup-buttons {
         flex-direction: column;
     }
 
-    .form-group input{
+    .form-group input {
         height: 15px;
         font-size: 0.7rem !important;
         width: 92% !important;
@@ -2077,15 +2280,22 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     .solicitudes-table {
         font-size: 0.8rem;
     }
-    .user-info-section{
+
+    .user-info-section {
         display: none;
     }
-    .form-row{
+
+    .form-row {
         flex-direction: column;
     }
 
-    .admin-actividad-card, .admin-noticia-card{
+    .admin-actividad-card,
+    .admin-noticia-card {
         min-height: 310px;
+    }
+
+    .galeria-grid-popup {
+        padding: 0px;
     }
 
 }

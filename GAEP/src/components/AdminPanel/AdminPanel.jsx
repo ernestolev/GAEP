@@ -18,7 +18,17 @@ import { db, auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import './AdminPanel.css';
 import { LoadingScreen, LoadingDots } from '../../components/LoadingScreen/LoadingScreen';
-import { FaCalendarAlt, FaNewspaper, FaUsers, FaUserGraduate, FaUserPlus } from 'react-icons/fa';
+import {
+    FaCalendarAlt,
+    FaNewspaper,
+    FaUsers,
+    FaUserGraduate,
+    FaUserPlus,
+    FaHandshake
+} from 'react-icons/fa';
+import { FaImages } from 'react-icons/fa';
+import imageCompression from 'browser-image-compression';
+
 
 
 import ReactQuill from 'react-quill';
@@ -32,12 +42,29 @@ import userfoto from '../../assets/icons/icon-userdefault.png';
 const AdminPanel = () => {
     const [showComprobanteModal, setShowComprobanteModal] = useState(false);
     const [currentComprobante, setCurrentComprobante] = useState(null);
+    const [selectedGrupo, setSelectedGrupo] = useState(null);
+
+    const [fechaInscripcion, setFechaInscripcion] = useState('');
+    const [galeriaFotos, setGaleriaFotos] = useState([]);
+    const [showGaleriaPopup, setShowGaleriaPopup] = useState(false);
+    const [galeriaImagenes, setGaleriaImagenes] = useState([]);
+    const [numeroPromocion, setNumeroPromocion] = useState('');
+    const [searchGaleria, setSearchGaleria] = useState('');
+
+
+    const [sponsors, setSponsors] = useState([]);
+    const [showSponsorPopup, setShowSponsorPopup] = useState(false);
+    const [razonSocial, setRazonSocial] = useState('');
+    const [logo, setLogo] = useState('');
 
     const EMAIL_SERVICE_ID = 'service_73kk9jg';
     const EMAIL_TEMPLATE_ID_ACCEPTED = 'template_g8kbzrs'; // Create this template in EmailJS
     const EMAIL_PUBLIC_KEY = 'ROpbgdF-nRAD3zQuR';
     const [bio, setBio] = useState('');
+    const [promocion, setPromocion] = useState('');
     const [prom, setProm] = useState('');
+    const [imagenes, setImagenes] = useState([]);
+
 
 
     const [img1, setImg1] = useState('');
@@ -101,6 +128,24 @@ const AdminPanel = () => {
             title
         });
     };
+    const [noticiasImagenes, setNoticiasImagenes] = useState([]);
+    const compressImage = async (file) => {
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+            initialQuality: 0.8,
+        };
+
+        try {
+            const compressedFile = await imageCompression(file, options);
+            return compressedFile;
+        } catch (error) {
+            console.error("Error compressing image:", error);
+            throw error;
+        }
+    };
+
 
     const navigate = useNavigate();
 
@@ -131,6 +176,19 @@ const AdminPanel = () => {
             console.error("Error updating theme:", error);
         }
     };
+
+    const fetchSponsors = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'sponsor'));
+            const sponsorsData = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setSponsors(sponsorsData);
+        } catch (error) {
+            console.error("Error fetching sponsors:", error);
+        }
+    };
     const fetchSolicitudes = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, 'inscripciones'));
@@ -143,6 +201,20 @@ const AdminPanel = () => {
             setSolicitudes(solicitudesData);
         } catch (error) {
             console.error("Error fetching solicitudes:", error);
+        }
+    };
+
+    const fetchGaleriaFotos = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'galeria-fotos-promociones'));
+            const galeriaData = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            console.log("Fetched gallery data:", galeriaData); // Debug log
+            setGaleriaFotos(galeriaData);
+        } catch (error) {
+            console.error("Error fetching galería:", error);
         }
     };
 
@@ -260,6 +332,10 @@ const AdminPanel = () => {
                     await deleteDoc(doc(db, 'junta-directiva', id));
                     setJuntaDirectiva(juntaDirectiva.filter(item => item.id !== id));
                     break;
+                case 'sponsor':
+                    await deleteDoc(doc(db, 'sponsor', id));
+                    setSponsors(sponsors.filter(item => item.id !== id));
+                    break;
             }
 
             // Refresh data after deletion
@@ -275,6 +351,9 @@ const AdminPanel = () => {
                     break;
                 case 'juntaDirectiva':
                     await fetchJuntaDirectiva();
+                    break;
+                case 'sponsor':
+                    await fetchSponsors();
                     break;
             }
         } catch (error) {
@@ -300,6 +379,227 @@ const AdminPanel = () => {
         setEditId(miembro.id);
         setShowJuntaPopup(true);
     };
+
+    const handleViewGrupo = (grupo) => {
+        setSelectedGrupo(grupo);
+    };
+
+
+    const handleDeleteImage = async (promocion, imagen) => {
+        try {
+            // Find all documents for this promocion
+            const docs = galeriaFotos.filter(g => g['numero-promocion'] === promocion);
+
+            // Find which document contains this image
+            for (let doc of docs) {
+                if (doc.imagenes.includes(imagen)) {
+                    const updatedImagenes = doc.imagenes.filter(img => img !== imagen);
+                    if (updatedImagenes.length === 0) {
+                        // If no images left, delete the document
+                        await deleteDoc(doc(db, 'galeria-fotos-promociones', doc.id));
+                    } else {
+                        // Update document with remaining images
+                        await updateDoc(doc(db, 'galeria-fotos-promociones', doc.id), {
+                            imagenes: updatedImagenes
+                        });
+                    }
+                    break;
+                }
+            }
+
+            // Refresh data
+            await fetchGaleriaFotos();
+
+            // Update selected grupo
+            setSelectedGrupo(prev => ({
+                ...prev,
+                imagenes: prev.imagenes.filter(img => img !== imagen)
+            }));
+        } catch (error) {
+            console.error("Error deleting image:", error);
+        }
+    };
+    // Update renderGaleriaFotos
+    const renderGaleriaFotos = () => {
+        // Group photos by promoción
+        const groupedPhotos = galeriaFotos.reduce((acc, galeria) => {
+            const promocion = galeria['numero-promocion'];
+            if (!acc[promocion]) {
+                acc[promocion] = {
+                    promocion,
+                    imagenes: [...galeria.imagenes],
+                    ids: [galeria.id]
+                };
+            } else {
+                acc[promocion].imagenes.push(...galeria.imagenes);
+                acc[promocion].ids.push(galeria.id);
+            }
+            return acc;
+        }, {});
+
+        // Convert to array and sort
+        const sortedGroups = Object.values(groupedPhotos).sort((a, b) =>
+            b.promocion - a.promocion
+        );
+
+        return (
+            <div className="section">
+                <h2>Galería de Fotos por Promoción</h2>
+                <div className="search-filter-container">
+                    <div className="search-box">
+                        <input
+                            type="text"
+                            placeholder="Buscar promoción..."
+                            value={searchGaleria}
+                            onChange={(e) => setSearchGaleria(e.target.value)}
+                        />
+                        <i className="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <button className='btn-añadir' onClick={() => {
+                    setGaleriaImagenes([]);
+                    setNumeroPromocion('');
+                    setShowGaleriaPopup(true);
+                }}>
+                    Añadir Fotos
+                </button>
+
+                <div className="galeria-grid">
+                    {sortedGroups
+                        .filter(grupo => grupo.promocion.toString().includes(searchGaleria))
+                        .map((grupo) => (
+                            <div key={grupo.promocion} className="galeria-card">
+                                <h3>Promoción {grupo.promocion}</h3>
+                                <div className="galeria-preview">
+                                    <img src={grupo.imagenes[0]} alt={`Promoción ${grupo.promocion}`} />
+                                    <span className="imagen-count">{grupo.imagenes.length} fotos</span>
+                                </div>
+                                <div className="galeria-actions">
+                                    <button onClick={() => handleViewGrupo(grupo)}>Ver fotos</button>
+                                    <button onClick={() => handleConfirmDelete('galeria', grupo.ids, grupo.promocion)}>
+                                        Eliminar Promoción
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                </div>
+
+                {/* Popup para ver fotos del grupo */}
+                {selectedGrupo && (
+                    <div className="overlay" onClick={() => setSelectedGrupo(null)}>
+                        <div className="popup popup-lg" onClick={e => e.stopPropagation()}>
+                            <button className="popup-close" onClick={() => setSelectedGrupo(null)}>×</button>
+                            <div className="popup-content">
+                                <h3>Fotos Promoción {selectedGrupo.promocion}</h3>
+                                <div className="galeria-grid-popup">
+                                    {selectedGrupo.imagenes.map((imagen, index) => (
+                                        <div key={index} className="galeria-item">
+                                            <img src={imagen} alt={`Foto ${index + 1}`} />
+                                            <button
+                                                className="remove-image"
+                                                onClick={() => handleDeleteImage(selectedGrupo.promocion, imagen)}
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {showGaleriaPopup && (
+                    <div className="overlay" onClick={() => setShowGaleriaPopup(false)}>
+                        <div className="popup" onClick={e => e.stopPropagation()}>
+                            <button className="popup-close" onClick={() => setShowGaleriaPopup(false)}>×</button>
+                            <div className="popup-content">
+                                <h3>Añadir Fotos de Promoción</h3>
+                                <div className="form-group">
+                                    <label>Número de Promoción</label>
+                                    <input
+                                        type="text"
+                                        value={numeroPromocion}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/\D/g, '');
+                                            if (value.length <= 4) setNumeroPromocion(value);
+                                        }}
+                                        maxLength="4"
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Imágenes (1-8 fotos)</label>
+                                    <input
+                                        type="file"
+                                        onChange={(e) => {
+                                            if (galeriaImagenes.length < 8) {
+                                                handleImageUpload(e, (newImage) => {
+                                                    setGaleriaImagenes([...galeriaImagenes, newImage]);
+                                                });
+                                            }
+                                        }}
+                                        accept="image/*"
+                                        className="form-control"
+                                        disabled={galeriaImagenes.length >= 8}
+                                    />
+                                    <div className="images-preview">
+                                        {galeriaImagenes.map((img, index) => (
+                                            <div key={index} className="image-preview-container">
+                                                <img src={img} alt={`Preview ${index + 1}`} />
+                                                <button
+                                                    onClick={() => {
+                                                        const newImages = galeriaImagenes.filter((_, i) => i !== index);
+                                                        setGaleriaImagenes(newImages);
+                                                    }}
+                                                    className="remove-image"
+                                                >×</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="popup-buttons">
+                                    <button
+                                        onClick={handleAddGaleria}
+                                        disabled={!numeroPromocion || galeriaImagenes.length === 0}
+                                    >
+                                        Añadir
+                                    </button>
+                                    <button onClick={() => setShowGaleriaPopup(false)}>Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+            </div>
+        );
+    };
+
+    const handleAddGaleria = async () => {
+        try {
+            if (!numeroPromocion || galeriaImagenes.length === 0) {
+                alert('Por favor complete todos los campos y añada al menos una imagen');
+                return;
+            }
+
+            const nuevaGaleria = {
+                'numero-promocion': numeroPromocion,
+                imagenes: galeriaImagenes
+            };
+
+            await addDoc(collection(db, 'galeria-fotos-promociones'), nuevaGaleria);
+
+            setShowGaleriaPopup(false);
+            setGaleriaImagenes([]);
+            setNumeroPromocion('');
+            await fetchGaleriaFotos();
+        } catch (error) {
+            console.error("Error adding galería:", error);
+        }
+    };
+
 
     const renderConsejoDirectivo = () => (
         <div className="section">
@@ -448,11 +748,13 @@ const AdminPanel = () => {
                                     value={dni}
                                     onChange={(e) => {
                                         const value = e.target.value.replace(/\D/g, '');
-                                        if (value.length <= 8) setDni(value);
+                                        if (value.length <= 8) setFecha(value);
                                     }}
                                     maxLength="8"
+                                    placeholder="Ingrese DNI"
+                                    required
                                 />
-                                {dni && dni.length !== 8 && (
+                                {fecha && fecha.length !== 8 && !editId && (
                                     <span className="input-error">El DNI debe tener 8 dígitos</span>
                                 )}
                             </div>
@@ -694,6 +996,8 @@ const AdminPanel = () => {
                 await fetchNoticias();
                 await fetchJuntaDirectiva();
                 await fetchSolicitudes();
+                await fetchGaleriaFotos();
+                await fetchSponsors();
             } finally {
                 setTimeout(() => {
                     setIsLoading(false);
@@ -899,8 +1203,123 @@ const AdminPanel = () => {
         setHorarioFin('');
         setLugar('');
         setOrganizador('');
+        setImagenes([]); // Add this line
         setEditId(null);
     };
+
+    const handleAddSponsorClick = () => {
+        setRazonSocial('');
+        setLogo('');
+        setEditId(null);
+        setShowSponsorPopup(true);
+    };
+
+    const handleEditSponsor = (sponsor) => {
+        setRazonSocial(sponsor['razon-social']);
+        setLogo(sponsor.logo);
+        setEditId(sponsor.id);
+        setShowSponsorPopup(true);
+    };
+
+    const handleAddSponsor = async () => {
+        try {
+            if (!razonSocial || !logo) {
+                alert('Todos los campos son obligatorios');
+                return;
+            }
+
+            const nuevoSponsor = {
+                'razon-social': razonSocial,
+                logo: logo
+            };
+
+            if (editId) {
+                await updateDoc(doc(db, 'sponsor', editId), nuevoSponsor);
+            } else {
+                await addDoc(collection(db, 'sponsor'), nuevoSponsor);
+            }
+
+            setShowSponsorPopup(false);
+            setRazonSocial('');
+            setLogo('');
+            setEditId(null);
+            await fetchSponsors();
+        } catch (error) {
+            console.error("Error al modificar sponsor:", error);
+        }
+    };
+
+    const renderSponsors = () => (
+        <div className="section">
+            <h2>Sponsors</h2>
+            <button className='btn-añadir' onClick={handleAddSponsorClick}>
+                Añadir Sponsor
+            </button>
+            <div className='sponsoroverf'>
+                <div className="sponsors-grid">
+                    {sponsors.map((sponsor) => (
+                        <div key={sponsor.id} className="sponsor-card">
+                            <div className="sponsor-logo">
+                                <img src={sponsor.logo} alt={sponsor['razon-social']} />
+                            </div>
+                            <div className="sponsor-content">
+                                <h3>{sponsor['razon-social']}</h3>
+                            </div>
+                            <div className="sponsor-actions">
+                                <button onClick={() => handleEditSponsor(sponsor)}>
+                                    Editar
+                                </button>
+                                <button onClick={() => handleConfirmDelete('sponsor', sponsor.id, sponsor['razon-social'])}>
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {showSponsorPopup && (
+                <div className="overlay" onClick={() => setShowSponsorPopup(false)}>
+                    <div className="popup" onClick={e => e.stopPropagation()}>
+                        <button className="popup-close" onClick={() => setShowSponsorPopup(false)}>×</button>
+                        <div className="popup-content">
+                            <h3>{editId ? 'Actualizar Sponsor' : 'Añadir Sponsor'}</h3>
+                            <div className="form-group">
+                                <label>Razón Social</label>
+                                <input
+                                    type="text"
+                                    value={razonSocial}
+                                    onChange={(e) => setRazonSocial(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Logo</label>
+                                <input
+                                    type="file"
+                                    onChange={(e) => handleImageUpload(e, setLogo)}
+                                    accept="image/*"
+                                />
+                                {logo && (
+                                    <div className="logo-preview">
+                                        <img src={logo} alt="Logo preview" />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="popup-buttons">
+                                <button onClick={handleAddSponsor}>
+                                    {editId ? 'Actualizar' : 'Añadir'}
+                                </button>
+                                <button onClick={() => setShowSponsorPopup(false)}>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 
     const handleAdd = async () => {
         try {
@@ -910,8 +1329,14 @@ const AdminPanel = () => {
                 descripcion,
                 horario: `${horarioInicio} - ${horarioFin}`,
                 lugar,
-                organizador
+                organizador,
+                imagenes: [], // Array for multiple images
             };
+
+            // Handle multiple images
+            if (imagenes.length > 0) {
+                nuevaActividad.imagenes = imagenes;
+            }
 
             // Fix date timezone issue
             if (fecha) {
@@ -950,28 +1375,28 @@ const AdminPanel = () => {
                 return;
             }
 
-            if (fecha.length !== 8) {
-                alert('El DNI debe tener 8 dígitos');
-                return;
-            }
-
-            if (telf.length !== 9) {
-                alert('El teléfono debe tener 9 dígitos');
-                return;
-            }
-
             const nuevoExalumno = {
                 nombre: titulo.toUpperCase(),
                 dni: fecha,
                 email: email.toLowerCase(),
                 telefono: telf,
                 promocion: promocion,
-                fechaInscripcion: new Date()
             };
 
             if (editId) {
+                // Fix for timezone offset when editing
+                if (fechaInscripcion) {
+                    const [year, month, day] = fechaInscripcion.split('-');
+                    const fechaAjustada = new Date(year, month - 1, parseInt(day));
+                    fechaAjustada.setUTCHours(12); // Set to noon UTC to avoid timezone issues
+                    nuevoExalumno.fechaInscripcion = fechaAjustada;
+                }
                 await updateDoc(doc(db, 'exalumnos', editId), nuevoExalumno);
             } else {
+                // For new records, use current date
+                const now = new Date();
+                now.setUTCHours(12); // Set to noon UTC to avoid timezone issues
+                nuevoExalumno.fechaInscripcion = now;
                 const newId = await getNextId();
                 await setDoc(doc(db, 'exalumnos', newId), nuevoExalumno);
             }
@@ -1023,10 +1448,8 @@ const AdminPanel = () => {
         }
 
         setDescripcion(actividad.descripcion || '');
-        // Preserve existing image
-        if (actividad.imagen) {
-            setImagen(actividad.imagen);
-        }
+        setImagen(actividad.imagen || '');
+        setImagenes(actividad.imagenes || []); // Add this line
         setEditId(actividad.id);
 
         if (actividad.horario) {
@@ -1044,23 +1467,47 @@ const AdminPanel = () => {
     };
 
     const handleEditExalumno = (exalumno) => {
-        setTitulo(exalumno.nombre);
-        setFecha(exalumno.dni);
+        setTitulo(exalumno.nombre || '');
+        setFecha(exalumno.dni || '');
         setEmail(exalumno.email || '');
         setTelf(exalumno.telefono || '');
         setPromocion(exalumno.promocion || '');
+        // Format date from Firestore timestamp
+        const fechaInsc = exalumno.fechaInscripcion?.toDate();
+        if (fechaInsc) {
+            setFechaInscripcion(fechaInsc.toISOString().split('T')[0]);
+        }
         setEditId(exalumno.id);
         setShowAddPopup(true);
     };
 
-    const handleImageUpload = (e, setImageFunc = setImagen) => {
+    const handleImageUpload = async (e, setImageFunc = setImagen) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImageFunc(reader.result);
-            };
-            reader.readAsDataURL(file);
+            try {
+                setActionLoading(true);
+                // Show loading message
+                const loadingMessage = document.createElement('div');
+                loadingMessage.className = 'loading-message';
+                loadingMessage.textContent = 'Procesando imagen...';
+                e.target.parentNode.appendChild(loadingMessage);
+
+                const compressedFile = await compressImage(file);
+                const reader = new FileReader();
+
+                reader.onloadend = () => {
+                    setImageFunc(reader.result);
+                    // Remove loading message
+                    loadingMessage.remove();
+                    setActionLoading(false);
+                };
+
+                reader.readAsDataURL(compressedFile);
+            } catch (error) {
+                console.error("Error processing image:", error);
+                setActionLoading(false);
+                alert('Error al procesar la imagen. Por favor, intente con otra imagen.');
+            }
         }
     };
 
@@ -1112,7 +1559,12 @@ const AdminPanel = () => {
                     <div key={index} className="admin-actividad-card">
                         <div
                             className="admin-actividad-imagen"
-                            style={{ backgroundImage: `url(${actividad.imagen})` }}
+                            style={{
+                                backgroundImage: `url(${actividad.imagenes && actividad.imagenes.length > 0
+                                    ? actividad.imagenes[0]
+                                    : actividad.imagen || ''
+                                    })`
+                            }}
                         ></div>
                         <div className="admin-actividad-content">
                             <h3>{actividad.titulo}</h3>
@@ -1208,14 +1660,36 @@ const AdminPanel = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>Imagen</label>
+                                    <label>Imágenes (máximo 4)</label>
                                     <input
                                         type="file"
-                                        onChange={handleImageUpload}
+                                        onChange={(e) => {
+                                            if (imagenes.length < 4) {
+                                                handleImageUpload(e, (newImage) => {
+                                                    setImagenes([...imagenes, newImage]);
+                                                });
+                                            }
+                                        }}
                                         accept="image/*"
                                         className="form-control"
+                                        disabled={imagenes.length >= 4}
                                     />
-                                    {imagen && <img src={imagen} alt="Preview" className="imagen-preview" />}
+                                    <div className="images-preview">
+                                        {imagenes.map((img, index) => (
+                                            <div key={index} className="image-preview-container">
+                                                <img src={img} alt={`Preview ${index + 1}`} />
+                                                <button
+                                                    onClick={() => {
+                                                        const newImages = imagenes.filter((_, i) => i !== index);
+                                                        setImagenes(newImages);
+                                                    }}
+                                                    className="remove-image"
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                                 <div className="popup-buttons">
                                     <button onClick={handleAdd} className="btn-submit">
@@ -1234,11 +1708,8 @@ const AdminPanel = () => {
 
 
     const handleAddClick = () => {
-        setTitulo('');
-        setFecha('');
-        setEditId(null);
-        setShowAddPopup(true);
         clearForm();
+        setShowAddPopup(true);
     };
 
     const renderNoticias = () => (
@@ -1253,7 +1724,12 @@ const AdminPanel = () => {
                     <div key={index} className="admin-noticia-card">
                         <div
                             className="admin-noticia-imagen"
-                            style={{ backgroundImage: `url(${noticia.imagen})` }}
+                            style={{
+                                backgroundImage: `url(${noticia.imagenes && noticia.imagenes.length > 0
+                                    ? noticia.imagenes[0]
+                                    : noticia.imagen || ''
+                                    })`
+                            }}
                         ></div>
                         <div className="admin-noticia-content">
                             <h3>{noticia.titulo}</h3>
@@ -1314,14 +1790,36 @@ const AdminPanel = () => {
                                     </label>
                                 </div>
                                 <div className="form-group">
-                                    <label>Imagen</label>
+                                    <label>Imágenes (máximo 4)</label>
                                     <input
                                         type="file"
-                                        onChange={handleImageUpload}
+                                        onChange={(e) => {
+                                            if (noticiasImagenes.length < 4) {
+                                                handleImageUpload(e, (newImage) => {
+                                                    setNoticiasImagenes([...noticiasImagenes, newImage]);
+                                                });
+                                            }
+                                        }}
                                         accept="image/*"
                                         className="form-control"
+                                        disabled={noticiasImagenes.length >= 4}
                                     />
-                                    {imagen && <img src={imagen} alt="Preview" className="imagen-preview" />}
+                                    <div className="images-preview">
+                                        {noticiasImagenes.map((img, index) => (
+                                            <div key={index} className="image-preview-container">
+                                                <img src={img} alt={`Preview ${index + 1}`} />
+                                                <button
+                                                    onClick={() => {
+                                                        const newImages = noticiasImagenes.filter((_, i) => i !== index);
+                                                        setNoticiasImagenes(newImages);
+                                                    }}
+                                                    className="remove-image"
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                                 <div className="popup-buttons">
                                     <button onClick={handleAddNoticia} className="btn-submit">
@@ -1342,6 +1840,7 @@ const AdminPanel = () => {
         setDescripcion('');
         setDestacado(false);
         setImagen('');
+        setNoticiasImagenes([]); // Add this line
         setEditId(null);
         setShowNoticiaPopup(false);
     };
@@ -1351,6 +1850,16 @@ const AdminPanel = () => {
         setShowNoticiaPopup(true);
     };
 
+    const handleAddExalumnoClick = () => {
+        setTitulo('');
+        setFecha('');
+        setEmail('');
+        setTelf('');
+        setPromocion('');
+        setEditId(null);
+        setShowAddPopup(true);
+    };
+
 
     const handleAddNoticia = async () => {
         try {
@@ -1358,11 +1867,11 @@ const AdminPanel = () => {
             let nuevaNoticia = {
                 titulo,
                 descripcion,
-                destacado
+                destacado,
+                imagenes: noticiasImagenes // Add this line
             };
 
-            // Handle image update
-            if (imagen && (!editId || imagen !== noticias.find(n => n.id === editId)?.imagen)) {
+            if (imagen) {
                 nuevaNoticia.imagen = imagen;
             }
 
@@ -1387,9 +1896,8 @@ const AdminPanel = () => {
         setTitulo(noticia.titulo || '');
         setDescripcion(noticia.descripcion || '');
         setDestacado(noticia.destacado || false);
-        if (noticia.imagen) {
-            setImagen(noticia.imagen);
-        }
+        setImagen(noticia.imagen || '');
+        setNoticiasImagenes(noticia.imagenes || []); // Add this line
         setEditId(noticia.id);
         setShowNoticiaPopup(true);
     };
@@ -1481,8 +1989,9 @@ const AdminPanel = () => {
                 </table>
             </div>
 
-            <button className='btn-añadiralumn' onClick={handleAddClick}>Añadir Exalumno</button>
-
+            <button className='btn-añadiralumn' onClick={handleAddExalumnoClick}>
+                Añadir Exalumno
+            </button>
 
 
             {showConfirm && (
@@ -1510,6 +2019,8 @@ const AdminPanel = () => {
                                     type="text"
                                     value={titulo}
                                     onChange={(e) => setTitulo(e.target.value.toUpperCase())}
+                                    placeholder="Ingrese nombres completos"
+                                    required
                                 />
                             </div>
                             <div className="form-group">
@@ -1518,19 +2029,70 @@ const AdminPanel = () => {
                                     type="text"
                                     value={fecha}
                                     onChange={(e) => {
-                                        const value = e.target.value.replace(/\D/g, ''); // Only numbers
-                                        if (value.length <= 8) {
-                                            setFecha(value);
-                                        }
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        if (value.length <= 8) setFecha(value);
                                     }}
-                                    pattern="[0-9]{8}"
                                     maxLength="8"
-                                    minLength="8"
-                                    title="DNI debe tener 8 dígitos"
+                                    placeholder="Ingrese DNI"
+                                    required
                                 />
-                                {fecha && fecha.length !== 8 && (
+                                {fecha && fecha.length !== 8 && !editId && (
                                     <span className="input-error">El DNI debe tener 8 dígitos</span>
                                 )}
+                            </div>
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Ingrese email"
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Teléfono</label>
+                                <input
+                                    type="text"
+                                    value={telf}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        if (value.length <= 9) setTelf(value);
+                                    }}
+                                    maxLength="9"
+                                    placeholder="Ingrese teléfono"
+                                    required
+                                />
+                                {telf && telf.length !== 9 && (
+                                    <span className="input-error">El teléfono debe tener 9 dígitos</span>
+                                )}
+                            </div>
+                            <div className="form-group">
+                                <label>Promoción</label>
+                                <input
+                                    type="text"
+                                    value={promocion}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        if (value.length <= 4) setPromocion(value);
+                                    }}
+                                    maxLength="4"
+                                    placeholder="Ingrese año de promoción"
+                                    required
+                                />
+                                {promocion && promocion.length !== 4 && (
+                                    <span className="input-error">La promoción debe tener 4 dígitos</span>
+                                )}
+                            </div>
+                            <div className="form-group">
+                                <label>Fecha de Inscripción</label>
+                                <input
+                                    type="date"
+                                    value={fechaInscripcion}
+                                    onChange={(e) => setFechaInscripcion(e.target.value)}
+                                    className="form-control"
+                                    required
+                                />
                             </div>
                             <div className="popup-buttons">
                                 <button onClick={handleAddExalumno}>
@@ -1630,6 +2192,20 @@ const AdminPanel = () => {
                         }}>
                             <FaUserPlus className="sidebar-icon" /> Solicitudes Miembros
                         </button>
+
+                        <button onClick={() => {
+                            setActiveSection('sponsors');
+                            setIsSidebarOpen(false);
+                        }}>
+                            <FaHandshake className="sidebar-icon" /> Sponsors
+                        </button>
+                        <button onClick={() => {
+                            setActiveSection('galeriaFotos');
+                            setIsSidebarOpen(false);
+                        }}>
+                            <FaImages className="sidebar-icon" /> Galería de Fotos
+                        </button>
+                        {/* 
                         <button className="theme-toggle" onClick={toggleTheme}>
                             {darkTheme ? (
                                 <i className="fas fa-sun"></i>
@@ -1638,6 +2214,7 @@ const AdminPanel = () => {
                             )}
                             <p className='modotext'>Modo</p>
                         </button>
+                        */}
                     </div>
                     <div className='generalcontent'>
                         <div className="user-info-section">
@@ -1660,6 +2237,8 @@ const AdminPanel = () => {
                             {activeSection === 'consejoDirectivo' && renderConsejoDirectivo()}
                             {activeSection === 'exalumnosInscritos' && renderExalumnos()}
                             {activeSection === 'solicitudesMiembros' && renderSolicitudesMiembros()}
+                            {activeSection === 'galeriaFotos' && renderGaleriaFotos()}
+                            {activeSection === 'sponsors' && renderSponsors()}
                         </div>
                     </div>
 

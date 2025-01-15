@@ -209,6 +209,7 @@
 
     .actividad-header{
         margin: 0px 20px;
+        gap: 5px;
     }
 
     .actividad-title-section {
