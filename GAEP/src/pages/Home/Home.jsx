@@ -5,7 +5,8 @@ import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
 import { Link } from 'react-router-dom';
 import './Home.modules.css';
 import 'leaflet/dist/leaflet.css';
-
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 import Navbar from '../../components/Navbar/Navbar';
@@ -106,6 +107,13 @@ const Home = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+
+            AOS.init({
+                duration: 800,
+                once: true,
+                easing: 'ease-out'
+            });
+
             try {
                 const [actividadesSnapshot, ubicacionesSnapshot, noticiasSnapshot] = await Promise.all([
                     getDocs(collection(db, 'actividades')),
@@ -189,6 +197,7 @@ const Home = () => {
             setFade(false);
         }, 500); // Duración de la animación de fade
     };
+    
 
     return (
         <>
@@ -197,12 +206,12 @@ const Home = () => {
             ) : (
                 <div className="home-container">
                     <Navbar />
-                    <section className="intro" id='intro'>
+                    <section className="intro" id='intro'  >
                         <div className="intro-box">
-                            <div className="intro-content">
+                            <div className="intro-content" data-aos="fade-left" aos-delay="100">
                                 <h2>Conectando Generaciones,
                                     Fortaleciendo Vínculos</h2>
-                                <div className='intro-text'>
+                                <div className='intro-text' >
                                     <p>
                                         Sé parte de la gran comunidad de exalumnos del colegio José Pardo y Barreda. Juntos, seguimos fortaleciendo los lazos que nos unen, celebrando nuestros logros y construyendo un legado que inspira a las nuevas generaciones. ¡Únete y seamos parte de esta historia que sigue creciendo!                            </p>
 
@@ -219,13 +228,13 @@ const Home = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="intro-image-container">
+                            <div className="intro-image-container" data-aos="fade-up">
                                 <div className="intro-image">
                                     <img src={foto1} alt="Foto de la galería" />
                                 </div>
                             </div>
                         </div>
-                        <div className="intro-stats">
+                        <div className="intro-stats" data-aos="fade-up">
                             <div className='stat'>
                                 <h3>200+</h3>
                                 <p>Miembros</p>
@@ -247,11 +256,11 @@ const Home = () => {
                     <Sponsors />
                     <section className="beneficios" id='beneficios'>
                         <div className="beneficios-grid">
-                            <div className="beneficio-item">
+                            <div className="beneficio-item" data-aos="fade-right" data-aos-delay="100">
                                 <h3>Estas son algunas razones para que te nos unas...</h3>
                                 <p>Únete ahora y disfruta de los siguientes beneficios que tenemos para ti por ser miembro.</p>
                             </div>
-                            <div className="beneficio-item1">
+                            <div className="beneficio-item1" data-aos="fade-up" data-aos-delay="200">
                                 <img src={benef01} alt="Beneficio 1" />
                                 <div className="contentbenf">
                                     <div className="beneficio-text">
@@ -260,7 +269,7 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="beneficio-item2">
+                            <div className="beneficio-item2" data-aos="fade-up" data-aos-delay="300">
                                 <img src={benef02} alt="Beneficio 2" />
                                 <div className="beneficio-content">
                                     <div className="beneficio-text">
@@ -269,7 +278,7 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="beneficio-item1">
+                            <div className="beneficio-item1" data-aos="fade-up" data-aos-delay="400">
                                 <img src={benef03} alt="Beneficio 3" />
                                 <div className="beneficio-content">
                                     <div className="beneficio-text">
@@ -278,7 +287,7 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="beneficio-item2">
+                            <div className="beneficio-item2" data-aos="fade-up" data-aos-delay="500">
                                 <img src={benef04} alt="Beneficio 4" />
                                 <div className="beneficio-content">
                                     <div className="beneficio-text">
@@ -287,7 +296,7 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="beneficio-item1">
+                            <div className="beneficio-item1" data-aos="fade-up" data-aos-delay="600">
                                 <img src={benef05} alt="Beneficio 5" />
                                 <div className="beneficio-content">
                                     <div className="beneficio-text">
@@ -298,10 +307,10 @@ const Home = () => {
                             </div>
                         </div>
                     </section>
-                    <section className="testimonio">
+                    <section className="testimonio" >
                         <div className="testimonio-background"></div>
                         <div className="testimonio-content">
-                            <div className="testimonio-cuadro">
+                            <div className="testimonio-cuadro" data-aos="fade-right" data-aos-delay="200">
                                 <p>"La GAEP es más que una asociación; es un puente que conecta generaciones de exalumnos del Colegio José Pardo y Barreda. A través de sus eventos y actividades, he redescubierto amistades, fortalecido vínculos y sentido el orgullo de pertenecer a una comunidad tan unida."</p>
                                 <div className="testimonio-footer">
                                     <img src={persona} alt="Persona" className="testimonio-img" />
@@ -312,7 +321,7 @@ const Home = () => {
                                 </div>
                                 <img src={comillas} alt="Comilla" className="comilla" />
                             </div>
-                            <div className="testimonio-cuadro">
+                            <div className="testimonio-cuadro"  data-aos="fade-left" data-aos-delay="600">
                                 <p>"Ser parte de la GAEP ha sido una experiencia increíble. Gracias a la asociación, he podido participar en eventos exclusivos, conectar con exalumnos de diferentes generaciones y disfrutar de beneficios que fortalecen nuestro vínculo como comunidad. Es gratificante ver cómo nuestra red de egresados del Colegio José Pardo y Barreda sigue creciendo y apoyándonos mutuamente."</p>
                                 <div className="testimonio-footer">
                                     <img src={persona} alt="Persona" className="testimonio-img" />
@@ -325,8 +334,8 @@ const Home = () => {
                             </div>
                         </div>
                     </section>
-                    <section className="eventosmuestra">
-                        <div className="eventosmuestra-content">
+                    <section className="eventosmuestra" >
+                        <div className="eventosmuestra-content" data-aos="fade-up" data-aos-delay="100">
                             <div className="eventosmuestra-text">
                                 <h2>Nuestros eventos siempre son los mejores</h2>
                                 <p>Descubre los eventos más importantes organizados por nuestra comunidad y entérate cuando los realizamos.</p>
@@ -347,7 +356,7 @@ const Home = () => {
                             <div className="eventosmuestra-imagen">
                                 <img src={foto1} alt="Evento destacado" className="evento-img" />
                                 <div className="carrusel-eventos-container" ref={carruselRef}>
-                                    <div className="carrusel-eventos">
+                                    <div className="carrusel-eventos"  data-aos="fade-left" data-aos-delay="800">
                                         <div className="evento">
                                             <img src={em1} alt="Evento 1" className="evento-img2" />
                                             <div className='contenidoevento'>
@@ -387,7 +396,7 @@ const Home = () => {
                     </section>
                     <section className="nuestracomunidad" id='comunidad'>
                         <div className="nuestracomunidad-content">
-                            <div className="nuestracomunidad-text">
+                            <div className="nuestracomunidad-text" data-aos="fade-right" data-aos-delay="500">
                                 <h2>NUESTRA COMUNIDAD</h2>
                                 <p className='textocomp'>Ésta es una invitación para unirte a una extensa comunidad que crece saludablemente hace más de 60 años. Nuestros colegas, de todas las promociones, desarrollan las más diversas actividades, muchos de ellos con singular éxito en el Perú y en decenas de países alrededor del mundo. Colaborando mutuamente, cultivando la multiculturalidad y honrando nuestro legado.</p>
                                 <div className='comunidad-button'>
@@ -399,14 +408,14 @@ const Home = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="nuestracomunidad-imagen">
+                            <div className="nuestracomunidad-imagen" data-aos="fade-up" data-aos-delay="500">
                                 <img src={comubanner} alt="Nuestra Comunidad" className="comunidad-img" />
                             </div>
                         </div>
                     </section>
                     <section className="banners">
                         <div className={`banner-content ${fade ? 'fade' : ''}`} style={{ backgroundImage: `url(${banners[currentIndex].image})` }}>
-                            <div className={`banner-cuadro ${fade ? 'fade' : ''}`}>
+                            <div className={`banner-cuadro ${fade ? 'fade' : ''}`} data-aos="fade-right" data-aos-delay="600">
                                 <h2>{banners[currentIndex].title}</h2>
                                 <p>{banners[currentIndex].text}</p>
                             </div>
@@ -417,14 +426,14 @@ const Home = () => {
                     </section>
                     <section className="mapapardinos">
                         <div className="mapapardinos-content">
-                            <div className="mapapardinos-text">
+                            <div className="mapapardinos-text" translate="no" data-aos="fade-right" data-aos-delay="500">
                                 <h2>Pardinos por el mundo</h2>
                                 <p>Descubre dónde se encuentran nuestros exalumnos alrededor del mundo. Revisa desde que parte del mundo nuestros compañeros nos brindan su apoyo.</p>
                                 <div className='registro-mapa'>
                                     <p>Si deseas estar en el mapa, llena este pequeño <a onClick={openModal}>formulario</a>.</p>
                                 </div>
                             </div>
-                            <div className="mapapardinos-mapa">
+                            <div className="mapapardinos-mapa" data-aos="fade-left" data-aos-delay="500">
                                 <Mapa ubicaciones={ubicaciones} />
                             </div>
                         </div>
@@ -433,11 +442,11 @@ const Home = () => {
                         </Modal>
                     </section>
                     <section className="actividades">
-                        <div className='actividades-header'>
+                        <div className='actividades-header' data-aos="fade-up" data-aos-delay="200">
                             <h2>Próximas actividades</h2>
                             <button onClick={() => navigate('/actividades')}>Ver todas</button>
                         </div>
-                        <div className='actividades-content'>
+                        <div className='actividades-content' data-aos="fade-up" data-aos-delay="500">
                             <div className="tarjetas-actividades">
                                 {actividades.map((actividad, index) => (
                                     <div
@@ -469,11 +478,11 @@ const Home = () => {
 
                     </section>
                     <section className="ultimasnoticias">
-                        <div className="ultimasnoticias-header">
+                        <div className="ultimasnoticias-header" data-aos="fade-up" data-aos-delay="300">
                             <h2>Últimas Noticias</h2>
                             <button onClick={() => navigate('/noticias')} className="ver-mas-noticias">Ver más noticias</button>                </div>
                         <div className='noticias-content'>
-                            <div className="noticias-grid">
+                            <div className="noticias-grid" data-aos="fade-up" data-aos-delay="500">
                                 {noticias.map((noticia, index) => (
                                     <div
                                         key={index}

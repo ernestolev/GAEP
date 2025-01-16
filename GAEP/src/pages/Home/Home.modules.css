@@ -633,7 +633,7 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 100px 63px;
+    padding: 100px 0px;
     background-color: #f9f9f9;
 }
 
@@ -641,12 +641,13 @@ section {
     display: flex;
     width: 100%;
     height: 80vh;
+    justify-content: space-between;
 }
 
 .nuestracomunidad-text {
     width: 30%;
-    margin-right: 60px;
-    padding: 20px;
+    margin-right: 0px;
+    padding: 60px;
     color: #333;
 }
 
@@ -667,7 +668,7 @@ section {
 }
 
 .nuestracomunidad-imagen {
-    width: 70%;
+    width: 60%;
     position: relative;
     transform: translateX(63px);
 }
@@ -1083,6 +1084,23 @@ section {
 
 .actividades h2{
     padding: 0px;
+}
+
+.stat h3 {
+    transition: all 0.1s ease-out;
+}
+
+.intro-stats {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Media Queries for Responsiveness */

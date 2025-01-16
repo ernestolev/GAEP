@@ -137,7 +137,7 @@ const Navbar = () => {
                 setIsJBPDropdownOpen(!isJBPDropdownOpen);
               }}
             >
-              JBP
+              JPB
               <div className={`${styles.dropdownContent} ${isJBPDropdownOpen ? styles.show : ''}`}>
                 <Link to="/historia-colegio" onClick={toggleMenu}>
                   Historia del Colegio

@@ -56,7 +56,14 @@ const AdminPanel = () => {
         type: '' // 'success' or 'error'
     });
 
+
+    const [sponsorTelefono, setSponsorTelefono] = useState('');
+    const [sponsorEnlace, setSponsorEnlace] = useState('');
+    const [sponsorDescripcion, setSponsorDescripcion] = useState('');
+    const [sponsorUbicacion, setSponsorUbicacion] = useState('');
     const [sponsors, setSponsors] = useState([]);
+
+
     const [showSponsorPopup, setShowSponsorPopup] = useState(false);
     const [razonSocial, setRazonSocial] = useState('');
     const [logo, setLogo] = useState('');
@@ -1286,20 +1293,39 @@ const AdminPanel = () => {
     const handleEditSponsor = (sponsor) => {
         setRazonSocial(sponsor['razon-social']);
         setLogo(sponsor.logo);
+        setSponsorTelefono(sponsor.telefono || '');
+        setSponsorEnlace(sponsor.enlace || '');
+        setSponsorDescripcion(sponsor.descripcion || '');
+        setSponsorUbicacion(sponsor.ubicacion || '');
         setEditId(sponsor.id);
         setShowSponsorPopup(true);
     };
 
+    const clearSponsorForm = () => {
+        setRazonSocial('');
+        setLogo('');
+        setSponsorTelefono('');
+        setSponsorEnlace('');
+        setSponsorDescripcion('');
+        setSponsorUbicacion('');
+        setEditId(null);
+    };
+
     const handleAddSponsor = async () => {
         try {
+            setActionLoading(true);
             if (!razonSocial || !logo) {
-                alert('Todos los campos son obligatorios');
+                alert('La razón social y el logo son obligatorios');
                 return;
             }
 
             const nuevoSponsor = {
                 'razon-social': razonSocial,
-                logo: logo
+                logo: logo,
+                telefono: sponsorTelefono,
+                enlace: sponsorEnlace,
+                descripcion: sponsorDescripcion,
+                ubicacion: sponsorUbicacion
             };
 
             if (editId) {
@@ -1309,12 +1335,12 @@ const AdminPanel = () => {
             }
 
             setShowSponsorPopup(false);
-            setRazonSocial('');
-            setLogo('');
-            setEditId(null);
+            clearSponsorForm();
             await fetchSponsors();
         } catch (error) {
             console.error("Error al modificar sponsor:", error);
+        } finally {
+            setActionLoading(false);
         }
     };
 
@@ -1374,6 +1400,56 @@ const AdminPanel = () => {
                                         <img src={logo} alt="Logo preview" />
                                     </div>
                                 )}
+                            </div>
+                            <div className="form-group">
+                                <label>Teléfono de Contacto</label>
+                                <input
+                                    type="text"
+                                    value={sponsorTelefono}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        if (value.length <= 9) setSponsorTelefono(value);
+                                    }}
+                                    maxLength="9"
+                                    placeholder="Ingrese teléfono"
+                                />
+                                {sponsorTelefono && sponsorTelefono.length !== 9 && (
+                                    <span className="input-error">El teléfono debe tener 9 dígitos</span>
+                                )}
+                            </div>
+                            <div className="form-group">
+                                <label>Enlace (URL)</label>
+                                <input
+                                    type="url"
+                                    value={sponsorEnlace}
+                                    onChange={(e) => setSponsorEnlace(e.target.value)}
+                                    placeholder="https://..."
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Ubicación</label>
+                                <input
+                                    type="text"
+                                    value={sponsorUbicacion}
+                                    onChange={(e) => setSponsorUbicacion(e.target.value)}
+                                    placeholder="Dirección del sponsor"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Descripción</label>
+                                <ReactQuill
+                                    theme="snow"
+                                    value={sponsorDescripcion}
+                                    onChange={setSponsorDescripcion}
+                                    modules={{
+                                        toolbar: [
+                                            [{ 'header': [1, 2, 3, false] }],
+                                            ['bold', 'italic', 'underline'],
+                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                            ['clean']
+                                        ]
+                                    }}
+                                />
                             </div>
                             <div className="popup-buttons">
                                 <LoadingButton

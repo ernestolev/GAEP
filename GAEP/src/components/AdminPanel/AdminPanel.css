@@ -1966,7 +1966,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .sponsor-content {
-    padding: 15px;
+    padding: 1px;
     font-size: 0.9rem;
     line-height: 0.9rem;
 }

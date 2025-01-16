@@ -13,10 +13,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 65px ;
+    padding: 0 65px;
 }
 
-.headersponsors button{
+.headersponsors button {
     background-color: #026010;
     color: white;
     border: none;
@@ -27,7 +27,7 @@
     cursor: pointer;
 }
 
-.headersponsors button:hover{
+.headersponsors button:hover {
     background-color: #028641;
     transform: translateY(0px);
 
@@ -43,10 +43,10 @@
 
 
 .sponsors-track {
-    height: 200px;
+    height: 300px;
     align-items: center;
     display: flex;
-    animation: scroll 15s linear infinite;
+    animation: scroll 12s linear infinite;
     width: fit-content;
     will-change: transform;
     transform: translateZ(0);
@@ -61,7 +61,7 @@
 }
 
 .sponsor-item img {
-    height: 80px;
+    height: 130px;
     width: auto;
     object-fit: contain;
     pointer-events: none;
@@ -82,7 +82,7 @@
 
 
 @media (max-width: 469px) {
-    
+
     .headersponsors {
         display: flex;
         flex-direction: row;
@@ -90,8 +90,8 @@
         justify-content: space-between;
         padding: 0 20px;
     }
-    
-    .sponsors-header button{
+
+    .sponsors-header button {
         background-color: #026010;
         color: white;
         border: none;
@@ -101,18 +101,19 @@
         font-size: 0.9rem;
         cursor: pointer;
     }
-    
-    .headersponsors button:hover{
+
+    .headersponsors button:hover {
         background-color: #028641;
         transform: translateY(0px);
-    
+
     }
 
-    .sponsors-container{
+    .sponsors-container {
         touch-action: pan-y pinch-zoom;
 
     }
-    
+
+
     .sponsors-container h3 {
         font-family: 'arboria-bold', sans-serif;
         color: #026010;
@@ -120,25 +121,25 @@
         margin-bottom: 0px;
         margin-top: 5px;
     }
-    
+
     .sponsors-track {
-        height: 200px;
+        height: 220px;
         align-items: center;
         display: flex;
-        animation: scroll 15s linear infinite;
+        animation: scroll 8s linear infinite;
         width: fit-content;
         backface-visibility: hidden;
         perspective: 1000px;
 
     }
-    
+
     .sponsor-item {
         flex: 0 0 auto;
-        padding: 0 10px;
+        padding: 0 18px;
     }
-    
+
     .sponsor-item img {
-        height: 70px;
+        height: 100px;
         object-fit: contain;
     }
 }
