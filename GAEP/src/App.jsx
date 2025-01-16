@@ -16,6 +16,8 @@ import AcercaDe from './pages/AcercaDe/AcercaDe';
 import MiembrosGAEP from './pages/MiembrosGAEP/MiembrosGAEP';
 import ProtectedRoute from './pages/ProtectedRoute/ProtectedRoute';
 import SponsorsLista from './pages/SponsorsLista/SponsorsLista';
+import HistoriaColegio from './pages/JPB/HistoriaColegio';
+import HimnoColegio from './pages/JPB/HimnoColegio';
 
 
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +49,8 @@ const App = () => {
         <Route path="/acerca-de" element={<AcercaDe />} />
         <Route path="/miembros-gaep" element={<MiembrosGAEP />} />
         <Route path="/sponsors-lista" element={<SponsorsLista />} />
+        <Route path="/historia-colegio" element={<HistoriaColegio />} />
+        <Route path="/himno-colegio" element={<HimnoColegio />} />
                 {/*
                 <Route path="/admin" element={<Admin />} />
                 */}

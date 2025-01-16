@@ -9,6 +9,7 @@ const Navbar2 = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isJBPDropdownOpen, setIsJBPDropdownOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -69,6 +70,26 @@ const Navbar2 = () => {
           <li><Link className={styles.link} to="/actividades" onClick={toggleMenu}>Actividades</Link></li>
           <li><Link className={styles.link} to="/noticias" onClick={toggleMenu}>Noticias</Link></li>
           <li><Link className={styles.link} to="/contacto" onClick={toggleMenu}>Contacto</Link></li>
+          <li className={styles.dropdown}>
+            <Link
+              className={styles.link}
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsJBPDropdownOpen(!isJBPDropdownOpen);
+              }}
+            >
+              JBP
+              <div className={`${styles.dropdownContent} ${isJBPDropdownOpen ? styles.show : ''}`}>
+                <Link to="/historia-colegio" onClick={toggleMenu}>
+                  Historia del Colegio
+                </Link>
+                <Link to="/himno-colegio" onClick={toggleMenu}>
+                  Himno del Colegio
+                </Link>
+              </div>
+            </Link>
+          </li>
           <li><Link className={styles.link} to="/inscripciones" onClick={toggleMenu}>Inscripciones</Link></li>
           {user ? (
             <li><button className={styles.link} onClick={handleLogout}>Cerrar sesión</button></li>

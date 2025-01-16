@@ -1,0 +1,104 @@
+.himno-container {
+    padding: 100px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'arboria-regular';
+}
+
+.himno-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.himno-header h1 {
+    color: #026010;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-family: 'arboria-bold';
+}
+
+.himno-content {
+    background: white;
+    padding: 10px 30px;
+    border-radius: 15px;
+}
+
+.himno-letra {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.himno-letra h2 {
+    color: #026010;
+    margin-bottom: 20px;
+}
+
+.himno-letra h3{
+    font-size: 1.7rem;
+    margin: 20px 0px;
+}
+
+.estrofa {
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.estrofa p{
+    font-size: 1.5rem;
+    margin: 0px;
+}
+
+.himno-info {
+    margin-bottom: 40px;
+}
+
+.himno-info h2 {
+    color: #026010;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+.himno-info p{
+    font-size: 1.2rem;
+}
+
+.himno-audio {
+    text-align: center;
+}
+
+.himno-audio h2 {
+    color: #026010;
+    margin-bottom: 20px;
+}
+
+.himno-audio audio {
+    width: 100%;
+    max-width: 500px;
+}
+
+@media (max-width: 468px) {
+    .himno-container {
+        padding: 80px 15px 30px;
+    }
+
+    .himno-header h1 {
+        font-size: 1.8rem;
+    }
+    .himno-content{
+        padding: 10px 0px;
+    }
+    .himno-content h2{
+        font-size: 1.6rem
+    }
+    .himno-content h3{
+        font-size: 1.3rem;
+        margin: 10px 0px;
+    }
+
+    .estrofa p{
+        font-size: 1rem;
+    }
+    .titulohimno{
+        font-size: 2rem;
+    }
+}

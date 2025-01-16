@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
-import './Sponsors.modules.css';
 import { Link } from 'react-router-dom';
+import './Sponsors.modules.css';
 
 const Sponsors = () => {
     const [sponsors, setSponsors] = useState([]);
+    const [isVisible, setIsVisible] = useState(true);
+    const trackRef = useRef(null);
 
     useEffect(() => {
         const fetchSponsors = async () => {
@@ -24,22 +26,43 @@ const Sponsors = () => {
         fetchSponsors();
     }, []);
 
+    useEffect(() => {
+        const checkVisibility = () => {
+            if (trackRef.current) {
+                const rect = trackRef.current.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+                setIsVisible(isVisible);
+            }
+        };
+
+        window.addEventListener('scroll', checkVisibility);
+        checkVisibility();
+
+        return () => window.removeEventListener('scroll', checkVisibility);
+    }, []);
+
     return (
         <div className="sponsors-container">
             <div className="headersponsors">
                 <h3>Sponsors</h3>
                 <Link to="/sponsors-lista" className="sponsors-button">
-                   <button className='sponsors-btn'>Ver todos</button>
+                    <button className='sponsors-btn'>Ver todos</button>
                 </Link>
             </div>
-            <div className="sponsors-track">
-
-                {/* Duplicate logos for seamless loop */}
-                {[...sponsors, ...sponsors].map((sponsor, index) => (
-                    <div key={index} className="sponsor-item">
-                        <img src={sponsor.logo} alt="Sponsor logo" />
-                    </div>
-                ))}
+            <div className="sponsors-track" ref={trackRef}>
+                {isVisible && (
+                    <>
+                        {[...sponsors, ...sponsors].map((sponsor, index) => (
+                            <div key={index} className="sponsor-item">
+                                <img
+                                    src={sponsor.logo}
+                                    alt="Sponsor logo"
+                                    loading="lazy"
+                                />
+                            </div>
+                        ))}
+                    </>
+                )}
             </div>
         </div>
     );

@@ -120,11 +120,12 @@ const AdminPanel = () => {
         id: null,
         title: ''
     });
-    const handleConfirmDelete = (type, id, title) => {
+    const handleConfirmDelete = (type, id, ids, title) => {
         setConfirmAction({
             show: true,
             type,
             id,
+            ids,
             title
         });
     };
@@ -336,6 +337,14 @@ const AdminPanel = () => {
                     await deleteDoc(doc(db, 'sponsor', id));
                     setSponsors(sponsors.filter(item => item.id !== id));
                     break;
+                case 'galeria':
+                    if (Array.isArray(confirmAction.ids)) {
+                        for (let docId of confirmAction.ids) {
+                            await deleteDoc(doc(db, 'galeria-fotos-promociones', docId));
+                        }
+                    }
+                    await fetchGaleriaFotos();
+                    break;
             }
 
             // Refresh data after deletion
@@ -355,11 +364,14 @@ const AdminPanel = () => {
                 case 'sponsor':
                     await fetchSponsors();
                     break;
+                case 'galeria':
+                    await fetchGaleriaFotos();
+                    break;
             }
         } catch (error) {
             console.error(`Error deleting ${confirmAction.type}:`, error);
         } finally {
-            setConfirmAction({ show: false, type: '', id: null, title: '' });
+            setConfirmAction({ show: false, type: '', id: null, ids: null, title: '' });
         }
     };
 
@@ -391,30 +403,36 @@ const AdminPanel = () => {
             const docs = galeriaFotos.filter(g => g['numero-promocion'] === promocion);
 
             // Find which document contains this image
-            for (let doc of docs) {
-                if (doc.imagenes.includes(imagen)) {
-                    const updatedImagenes = doc.imagenes.filter(img => img !== imagen);
+            for (const docData of docs) {
+                if (docData.imagenes.includes(imagen)) {
+                    const updatedImagenes = docData.imagenes.filter(img => img !== imagen);
+
+                    const docRef = doc(db, 'galeria-fotos-promociones', docData.id);
+
                     if (updatedImagenes.length === 0) {
                         // If no images left, delete the document
-                        await deleteDoc(doc(db, 'galeria-fotos-promociones', doc.id));
+                        await deleteDoc(docRef);
                     } else {
                         // Update document with remaining images
-                        await updateDoc(doc(db, 'galeria-fotos-promociones', doc.id), {
+                        await updateDoc(docRef, {
                             imagenes: updatedImagenes
                         });
                     }
+
+                    // Refresh data
+                    await fetchGaleriaFotos();
+
+                    // Update selected grupo if it exists
+                    if (selectedGrupo) {
+                        setSelectedGrupo(prev => ({
+                            ...prev,
+                            imagenes: prev.imagenes.filter(img => img !== imagen)
+                        }));
+                    }
+
                     break;
                 }
             }
-
-            // Refresh data
-            await fetchGaleriaFotos();
-
-            // Update selected grupo
-            setSelectedGrupo(prev => ({
-                ...prev,
-                imagenes: prev.imagenes.filter(img => img !== imagen)
-            }));
         } catch (error) {
             console.error("Error deleting image:", error);
         }
@@ -464,26 +482,29 @@ const AdminPanel = () => {
                 }}>
                     Añadir Fotos
                 </button>
-
-                <div className="galeria-grid">
-                    {sortedGroups
-                        .filter(grupo => grupo.promocion.toString().includes(searchGaleria))
-                        .map((grupo) => (
-                            <div key={grupo.promocion} className="galeria-card">
-                                <h3>Promoción {grupo.promocion}</h3>
-                                <div className="galeria-preview">
-                                    <img src={grupo.imagenes[0]} alt={`Promoción ${grupo.promocion}`} />
-                                    <span className="imagen-count">{grupo.imagenes.length} fotos</span>
+                <div className='galeriaoverf'>
+                    <div className="galeria-grid">
+                        {sortedGroups
+                            .filter(grupo => grupo.promocion.toString().includes(searchGaleria))
+                            .map((grupo) => (
+                                <div key={grupo.promocion} className="galeria-card">
+                                    <h3>Promoción {grupo.promocion}</h3>
+                                    <div className="galeria-preview">
+                                        <img src={grupo.imagenes[0]} alt={`Promoción ${grupo.promocion}`} />
+                                        <span className="imagen-count">{grupo.imagenes.length} fotos</span>
+                                    </div>
+                                    <div className="galeria-actions">
+                                        <button onClick={() => handleViewGrupo(grupo)}>Ver fotos</button>
+                                        <button onClick={() => handleConfirmDelete('galeria', null, grupo.ids, grupo.promocion)}>
+                                            Eliminar Promoción
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="galeria-actions">
-                                    <button onClick={() => handleViewGrupo(grupo)}>Ver fotos</button>
-                                    <button onClick={() => handleConfirmDelete('galeria', grupo.ids, grupo.promocion)}>
-                                        Eliminar Promoción
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                            ))}
+                    </div>
                 </div>
+
+
 
                 {/* Popup para ver fotos del grupo */}
                 {selectedGrupo && (

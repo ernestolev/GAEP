@@ -10,7 +10,7 @@ import 'leaflet/dist/leaflet.css';
 
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
-import Sponsors from '../../components/Sponsors/Sponsors';
+import Sponsors from '../../components/Sponsors/Sponsors.jsx';
 
 
 import foto1 from '../../assets/images/img-flyer.png';

@@ -2007,6 +2007,10 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     background: var(--bg-primary);
 }
 
+.galeriaoverf{
+    overflow-y: auto;
+}
+
 /* Add more dark theme styles as needed */
 
 @media (max-width: 768px) {
