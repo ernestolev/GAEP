@@ -75,6 +75,11 @@
     width: 100%;
     max-width: 500px;
 }
+.titulohimno{
+    text-align: center;
+    color: #026010;
+    font-family: 'arboria-bold';
+}
 
 @media (max-width: 468px) {
     .himno-container {

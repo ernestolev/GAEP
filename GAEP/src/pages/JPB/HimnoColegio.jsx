@@ -16,9 +16,9 @@ const HimnoColegio = () => {
                         <span>/</span>
                         <span>Himno JPB</span>
                     </div>
-                    <h1 className='titulohimno'>Himno al colegio José Pardo y Barreda</h1>
                 </div>
                 <div className="himno-content">
+                <h1 className='titulohimno'>Himno al colegio José Pardo y Barreda</h1>
                     <div className="himno-letra">
                         <h2>Letra</h2>
                         <div className="estrofa">
