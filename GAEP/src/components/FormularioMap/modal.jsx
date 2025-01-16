@@ -7,7 +7,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 
     return (
         <div className="modal-overlay">
-            <div className="modal-content">
+            <div className="mapamodal">
                 <h3>Mi ubicación</h3>
                 <div className='modal-body'>
                     <img src={img1} alt="" />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import './Modal.css';
 
 const FormularioUbicaciones = ({ agregarUbicacion, onClose }) => {
     const [nombre, setNombre] = useState('');
@@ -409,15 +410,27 @@ const FormularioUbicaciones = ({ agregarUbicacion, onClose }) => {
         setDistrito(''); // Restablecer el distrito cuando se cambia la región
     };
 
+    const LoadingButton = ({ onClick, loading, text, disabled, type = "button" }) => (
+        <button
+            type={type}
+            onClick={onClick}
+            disabled={loading || disabled}
+            className={`submit-button ${loading ? 'loading' : ''}`}
+        >
+            {text}
+            {loading && <span className="loading-spinner"></span>}
+        </button>
+    );
+
     return (
         <form onSubmit={handleSubmit}>
             <div>
                 <label>Nombre:</label>
-                <input 
-                    type="text" 
-                    value={nombre} 
-                    onChange={(e) => setNombre(e.target.value)} 
-                    required 
+                <input
+                    type="text"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    required
                 />
             </div>
             <div>
@@ -476,8 +489,12 @@ const FormularioUbicaciones = ({ agregarUbicacion, onClose }) => {
                     ))}
                 </select>
             </div>
-            <button type="submit" disabled={isSubmitting}>Guardar Ubicación</button>
-        </form>
+            <LoadingButton
+                type="submit"
+                loading={isSubmitting}
+                text="Guardar Ubicación"
+                disabled={isSubmitting}
+            />        </form>
     );
 };
 

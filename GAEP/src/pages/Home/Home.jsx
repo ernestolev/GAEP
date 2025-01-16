@@ -304,7 +304,7 @@ const Home = () => {
                                     <img src={persona} alt="Persona" className="testimonio-img" />
                                     <div>
                                         <h4>ORLANDO VILLEGAS</h4>
-                                        <p>Promoción 1989</p>
+                                        <p>Promoción 1986</p>
                                     </div>
                                 </div>
                                 <img src={comillas} alt="Comilla" className="comilla" />
@@ -388,7 +388,12 @@ const Home = () => {
                                 <h2>NUESTRA COMUNIDAD</h2>
                                 <p className='textocomp'>Ésta es una invitación para unirte a una extensa comunidad que crece saludablemente hace más de 60 años. Nuestros colegas, de todas las promociones, desarrollan las más diversas actividades, muchos de ellos con singular éxito en el Perú y en decenas de países alrededor del mundo. Colaborando mutuamente, cultivando la multiculturalidad y honrando nuestro legado.</p>
                                 <div className='comunidad-button'>
-                                    <button>Unirme ahora</button>
+                                    <button
+                                        className='btn1'
+                                        onClick={() => navigate('/inscripciones')}
+                                    >
+                                        Unirme ahora
+                                    </button>
                                 </div>
                             </div>
                             <div className="nuestracomunidad-imagen">
