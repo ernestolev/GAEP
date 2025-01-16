@@ -3,6 +3,9 @@ import './InscripcionModal.modules.css';
 import emailjs from '@emailjs/browser';
 import { db } from '../../firebase';
 import { collection, getDocs, doc, setDoc, query, where } from 'firebase/firestore';
+import imageCompression from 'browser-image-compression';
+
+import yapelogo from '../../assets/icons/icon-yape.png';
 
 const InscripcionModal = ({ isOpen, onClose }) => {
 
@@ -12,6 +15,54 @@ const InscripcionModal = ({ isOpen, onClose }) => {
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+
+    const compressImage = async (file) => {
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+            initialQuality: 0.8,
+        };
+
+        try {
+            return await imageCompression(file, options);
+        } catch (error) {
+            console.error("Error compressing image:", error);
+            throw error;
+        }
+    };
+
+    const [comprobantePreview, setComprobantePreview] = useState(null);
+
+    const handleComprobanteChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            setLoading(true);
+            if (file.type.startsWith('image/')) {
+                const compressedFile = await compressImage(file);
+                setFormData({ ...formData, comprobante: compressedFile });
+
+                // Generate preview
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setComprobantePreview(reader.result);
+                };
+                reader.readAsDataURL(compressedFile);
+            } else {
+                // If PDF, store directly
+                setFormData({ ...formData, comprobante: file });
+                setComprobantePreview(null);
+            }
+        } catch (error) {
+            console.error("Error processing file:", error);
+            setErrors({ ...errors, comprobante: 'Error al procesar el archivo' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     const checkExistingDNI = async (dni) => {
         try {
@@ -273,20 +324,42 @@ const InscripcionModal = ({ isOpen, onClose }) => {
                     <div className="modal-step">
                         <h2>Paso 2: Pago de cuota</h2>
                         <div className="payment-info">
-                            <p>Realiza el pago de S/. 10.00 a la siguiente cuenta:</p>
-                            <div className="bank-info">
-                                <p><strong>Banco:</strong> BCP</p>
-                                <p><strong>Cuenta:</strong> XXX-XXXXXXX-X-XX</p>
-                                <p><strong>Titular:</strong> GAEP</p>
-                            </div>
+                            <img src={yapelogo} alt="" />
+                            <p>Numero: <strong>9503368848</strong> </p>
+                            <p>Titular: <strong>EDGAR H. AVALOS M.</strong> </p>
+                            <p>Cargo: <strong>Tesorero</strong> </p>
                         </div>
                         <div className="form-group">
-                            <label>Comprobante de pago</label>
+                            <label>Adjunta tu comprobante de pago o captura de pantalla</label>
                             <input
                                 type="file"
-                                onChange={(e) => setFormData({ ...formData, comprobante: e.target.files[0] })}
+                                onChange={handleComprobanteChange}
                                 accept="image/*,.pdf"
+                                disabled={loading}
                             />
+                            {loading && <span className="loading-message">Procesando archivo...</span>}
+                            {errors.comprobante && (
+                                <span className="error-message">{errors.comprobante}</span>
+                            )}
+                            {comprobantePreview && (
+                                <div className="comprobante-preview">
+                                    <img src={comprobantePreview} alt="Preview del comprobante" />
+                                    <button
+                                        className="remove-preview"
+                                        onClick={() => {
+                                            setComprobantePreview(null);
+                                            setFormData({ ...formData, comprobante: null });
+                                        }}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            )}
+                            {formData.comprobante?.type === 'application/pdf' && (
+                                <div className="pdf-indicator">
+                                    PDF seleccionado: {formData.comprobante.name}
+                                </div>
+                            )}
                         </div>
                     </div>
                 );

@@ -1,3 +1,4 @@
+
 .admin-panel {
     display: flex;
     height: 100vh;
@@ -84,6 +85,7 @@
 .section h2 {
     margin-bottom: 10px;
     margin-top: 0px;
+    padding: 0px;
 }
 
 .tablabarra {
@@ -1626,10 +1628,31 @@ button:hover {
 .generalcontent {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     flex-wrap: nowrap;
 }
 
+.sort-select {
+    font-family: 'arboria-regular';
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 10px;
+    background-color: rgb(17, 119, 59);
+    cursor: pointer;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #026010;
+}
+
+.search-filter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
 
 /* Add to AdminPanel.css */
 .dark-theme {
@@ -2141,6 +2164,34 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     animation: spin 1s linear infinite;
 }
 
+.imagealumn-preview {
+    position: relative;
+    margin-top: 10px;
+    max-width: 200px;
+}
+
+.imagealumn-preview img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.imagealumn-preview .remove-image {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Add more dark theme styles as needed */
 
 @media (max-width: 768px) {
@@ -2276,8 +2327,18 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 @media (max-width: 480px) {
 
+    .search-box input {
+        width: auto;
+    }
+
+    .search-filter-container{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     .generalcontent {
         height: auto;
+        width: 100%;
     }
 
     .section {

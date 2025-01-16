@@ -13,7 +13,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import Sponsors from '../../components/Sponsors/Sponsors.jsx';
 
-
+import fotointro from '../../assets/images/img-introhome.png';
 import foto1 from '../../assets/images/img-flyer.png';
 import foto2 from '../../assets/images/img-bannerbenef.png'; // Asegúrate de que la ruta sea correcta
 import foto3 from '../../assets/images/img-bannerbenef.png';
@@ -98,7 +98,14 @@ const Home = () => {
             text: (
                 <div>
                     <p>Hazte miembro ahora y disfruta de los proximos eventos que estaremos realizando.</p>
-                    <button className='boton-inscrip'>Inscribirme</button>
+                    <div className='comunidad-button'>
+                                    <button
+                                        className='btn1'
+                                        onClick={() => navigate('/inscripciones')}
+                                    >
+                                        Inscribirme
+                                    </button>
+                                </div>
                 </div>
             ),
             image: imginscrip
@@ -208,7 +215,7 @@ const Home = () => {
                     <Navbar />
                     <section className="intro" id='intro'  >
                         <div className="intro-box">
-                            <div className="intro-content" data-aos="fade-left" aos-delay="100">
+                            <div className="intro-content" data-aos="fade-up" aos-delay="100">
                                 <h2>Conectando Generaciones,
                                     Fortaleciendo Vínculos</h2>
                                 <div className='intro-text' >
@@ -230,7 +237,7 @@ const Home = () => {
                             </div>
                             <div className="intro-image-container" data-aos="fade-up">
                                 <div className="intro-image">
-                                    <img src={foto1} alt="Foto de la galería" />
+                                    <img src={fotointro} alt="Foto de la galería" />
                                 </div>
                             </div>
                         </div>
@@ -244,16 +251,18 @@ const Home = () => {
                                 <p>Año de Fundación</p>
                             </div>
                             <div className='stat'>
-                                <h3>120</h3>
-                                <p>Voluntarios</p>
+                                <h3>20+</h3>
+                                <p>Actividades anuales</p>
                             </div>
                             <div className='stat'>
-                                <h3>50+</h3>
-                                <p>Eventos Anuales</p>
+                                <h3>5+</h3>
+                                <p>Proyectos propuestos</p>
                             </div>
                         </div>
                     </section>
+                    <div data-aos="fade-up">
                     <Sponsors />
+                    </div>
                     <section className="beneficios" id='beneficios'>
                         <div className="beneficios-grid">
                             <div className="beneficio-item" data-aos="fade-right" data-aos-delay="100">
@@ -310,7 +319,7 @@ const Home = () => {
                     <section className="testimonio" >
                         <div className="testimonio-background"></div>
                         <div className="testimonio-content">
-                            <div className="testimonio-cuadro" data-aos="fade-right" data-aos-delay="200">
+                            <div className="testimonio-cuadro" data-aos="fade-up" data-aos-delay="200">
                                 <p>"La GAEP es más que una asociación; es un puente que conecta generaciones de exalumnos del Colegio José Pardo y Barreda. A través de sus eventos y actividades, he redescubierto amistades, fortalecido vínculos y sentido el orgullo de pertenecer a una comunidad tan unida."</p>
                                 <div className="testimonio-footer">
                                     <img src={persona} alt="Persona" className="testimonio-img" />
@@ -321,7 +330,7 @@ const Home = () => {
                                 </div>
                                 <img src={comillas} alt="Comilla" className="comilla" />
                             </div>
-                            <div className="testimonio-cuadro"  data-aos="fade-left" data-aos-delay="600">
+                            <div className="testimonio-cuadro"  data-aos="fade-up" data-aos-delay="600">
                                 <p>"Ser parte de la GAEP ha sido una experiencia increíble. Gracias a la asociación, he podido participar en eventos exclusivos, conectar con exalumnos de diferentes generaciones y disfrutar de beneficios que fortalecen nuestro vínculo como comunidad. Es gratificante ver cómo nuestra red de egresados del Colegio José Pardo y Barreda sigue creciendo y apoyándonos mutuamente."</p>
                                 <div className="testimonio-footer">
                                     <img src={persona} alt="Persona" className="testimonio-img" />
@@ -356,7 +365,7 @@ const Home = () => {
                             <div className="eventosmuestra-imagen">
                                 <img src={foto1} alt="Evento destacado" className="evento-img" />
                                 <div className="carrusel-eventos-container" ref={carruselRef}>
-                                    <div className="carrusel-eventos"  data-aos="fade-left" data-aos-delay="800">
+                                    <div className="carrusel-eventos"  data-aos="fade-up" data-aos-delay="800">
                                         <div className="evento">
                                             <img src={em1} alt="Evento 1" className="evento-img2" />
                                             <div className='contenidoevento'>
@@ -396,7 +405,7 @@ const Home = () => {
                     </section>
                     <section className="nuestracomunidad" id='comunidad'>
                         <div className="nuestracomunidad-content">
-                            <div className="nuestracomunidad-text" data-aos="fade-right" data-aos-delay="500">
+                            <div className="nuestracomunidad-text" data-aos="fade-up" data-aos-delay="500">
                                 <h2>NUESTRA COMUNIDAD</h2>
                                 <p className='textocomp'>Ésta es una invitación para unirte a una extensa comunidad que crece saludablemente hace más de 60 años. Nuestros colegas, de todas las promociones, desarrollan las más diversas actividades, muchos de ellos con singular éxito en el Perú y en decenas de países alrededor del mundo. Colaborando mutuamente, cultivando la multiculturalidad y honrando nuestro legado.</p>
                                 <div className='comunidad-button'>
@@ -415,7 +424,7 @@ const Home = () => {
                     </section>
                     <section className="banners">
                         <div className={`banner-content ${fade ? 'fade' : ''}`} style={{ backgroundImage: `url(${banners[currentIndex].image})` }}>
-                            <div className={`banner-cuadro ${fade ? 'fade' : ''}`} data-aos="fade-right" data-aos-delay="600">
+                            <div className={`banner-cuadro ${fade ? 'fade' : ''}`} data-aos="fade-up" data-aos-delay="200">
                                 <h2>{banners[currentIndex].title}</h2>
                                 <p>{banners[currentIndex].text}</p>
                             </div>
@@ -433,7 +442,7 @@ const Home = () => {
                                     <p>Si deseas estar en el mapa, llena este pequeño <a onClick={openModal}>formulario</a>.</p>
                                 </div>
                             </div>
-                            <div className="mapapardinos-mapa" data-aos="fade-left" data-aos-delay="500">
+                            <div className="mapapardinos-mapa" data-aos="fade-up" data-aos-delay="500">
                                 <Mapa ubicaciones={ubicaciones} />
                             </div>
                         </div>

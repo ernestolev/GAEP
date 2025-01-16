@@ -1129,16 +1129,16 @@ section {
     }
 
     .intro-text p {
-        color: white;
+        color: #026010 !important;
         margin-top: 10px;
         text-align: left;
     }
 
     .intro-content h2 {
-        color: white;
-        font-family: 'arboria-bold';
-        font-size: 3rem !important;
-        line-height: 3rem;
+        color:#026010 !important;
+        font-family: 'arboria-black' !important;
+        font-size: 3.2rem !important;
+        line-height: 3.2rem;
         margin-top: 10px;
     }
 
@@ -1151,6 +1151,7 @@ section {
 
 
     .intro-image-container {
+        display: none;
         background-color: #001c04;
         width: 100%;
         position: absolute;
@@ -1542,16 +1543,6 @@ section {
     }
 
 
-    .intro-image-container {
-        background-color: #001c04;
-        width: auto;
-        position: absolute;
-        border-radius: 0px 0px;
-        /* Aplicar border-radius al contenedor */
-        overflow: hidden;
-        z-index: -1;
-        /* Asegurarse de que la imagen no se desborde */
-    }
 
     .intro-image img {
         opacity: 0.3;

@@ -39,6 +39,30 @@ import banner from '../../assets/images/img-gaepbanner.png';
 import banner2 from '../../assets/images/img-gaepbanner2.png';
 import userfoto from '../../assets/icons/icon-userdefault.png';
 
+const compressLogo = async (file) => {
+    const options = {
+        maxSizeMB: 0.5, // Reduce max size to 500KB
+        maxWidthOrHeight: 800, // Reduce maximum dimensions
+        useWebWorker: true,
+        initialQuality: 0.7, // Lower initial quality
+    };
+
+    try {
+        let compressedFile = await imageCompression(file, options);
+        
+        // If still too large, compress again with lower quality
+        if (compressedFile.size > 1000000) {
+            options.initialQuality = 0.5;
+            compressedFile = await imageCompression(file, options);
+        }
+
+        return compressedFile;
+    } catch (error) {
+        console.error("Error compressing logo:", error);
+        throw error;
+    }
+};
+
 const AdminPanel = () => {
     const [showComprobanteModal, setShowComprobanteModal] = useState(false);
     const [currentComprobante, setCurrentComprobante] = useState(null);
@@ -90,7 +114,7 @@ const AdminPanel = () => {
     const [config, setConfig] = useState({
         theme: localStorage.getItem('theme') || 'light'
     });
-
+    const [sortBy, setSortBy] = useState('nombre');
     const [titulo, setTitulo] = useState('');
     const [fecha, setFecha] = useState('');
     const [descripcion, setDescripcion] = useState('');
@@ -131,6 +155,9 @@ const AdminPanel = () => {
         id: null,
         title: ''
     });
+
+    const [presidenteProm, setPresidenteProm] = useState(false);
+
 
     const Toast = ({ message, type, onClose }) => (
         <div className={`toast-notification ${type}`}>
@@ -967,22 +994,41 @@ const AdminPanel = () => {
     };
 
     const normalizeText = (text) => {
+        if (!text) return '';
         return text
+            .toLowerCase()
             .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLowerCase();
+            .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+            .replace(/[áàäâã]/g, 'a')
+            .replace(/[éèëê]/g, 'e')
+            .replace(/[íìïî]/g, 'i')
+            .replace(/[óòöôõ]/g, 'o')
+            .replace(/[úùüû]/g, 'u')
+            .replace(/ñ/g, 'n');
     };
 
-    const filteredExalumnos = exalumnos.filter(exalumno => {
-        const searchNormalized = normalizeText(searchTerm);
-        const nombreNormalized = exalumno.nombre ? normalizeText(exalumno.nombre) : '';
-        const dniNormalized = exalumno.dni ? normalizeText(exalumno.dni.toString()) : '';
-        const idNormalized = exalumno.id ? normalizeText(exalumno.id.toString()) : '';
-
-        return nombreNormalized.includes(searchNormalized) ||
-            dniNormalized.includes(searchNormalized) ||
-            idNormalized.includes(searchNormalized);
-    });
+    const filteredExalumnos = exalumnos
+        .filter(exalumno => {
+            const searchLower = normalizeText(searchTerm);
+            return (
+                normalizeText(exalumno.nombre || '').includes(searchLower) ||
+                (exalumno.dni?.toString() || '').includes(searchLower) ||
+                (exalumno.id?.toString() || '').includes(searchLower) ||
+                (searchLower === 'presidente' && exalumno.presidenteprom) ||
+                (searchLower === 'no presidente' && !exalumno.presidenteprom) ||
+                normalizeText(exalumno.email || '').includes(searchLower) ||
+                normalizeText(exalumno.promocion?.toString() || '').includes(searchLower)
+            );
+        })
+        .sort((a, b) => {
+            if (sortBy === 'presidente') {
+                return (b.presidenteprom ? 1 : 0) - (a.presidenteprom ? 1 : 0);
+            }
+            if (sortBy === 'promocion') {
+                return (b.promocion || '') - (a.promocion || '');
+            }
+            return normalizeText(a.nombre || '').localeCompare(normalizeText(b.nombre || ''));
+        });
 
     const filteredJuntaDirectiva = juntaDirectiva.filter(miembro => {
         const searchNormalized = normalizeText(searchTerm);
@@ -1516,32 +1562,33 @@ const AdminPanel = () => {
 
     const handleAddExalumno = async () => {
         try {
-            if (!titulo || !fecha || !email || !telf || !promocion) {
-                alert('Todos los campos son obligatorios');
+            setActionLoading(true);
+            if (!titulo || !fecha) {
+                alert('El nombre y DNI son obligatorios');
                 return;
             }
 
             const nuevoExalumno = {
                 nombre: titulo.toUpperCase(),
                 dni: fecha,
-                email: email.toLowerCase(),
+                email: email,
                 telefono: telf,
                 promocion: promocion,
+                presidenteprom: presidenteProm,
+                imagen: imagen // Add image field
             };
 
             if (editId) {
-                // Fix for timezone offset when editing
                 if (fechaInscripcion) {
                     const [year, month, day] = fechaInscripcion.split('-');
                     const fechaAjustada = new Date(year, month - 1, parseInt(day));
-                    fechaAjustada.setUTCHours(12); // Set to noon UTC to avoid timezone issues
+                    fechaAjustada.setUTCHours(12);
                     nuevoExalumno.fechaInscripcion = fechaAjustada;
                 }
                 await updateDoc(doc(db, 'exalumnos', editId), nuevoExalumno);
             } else {
-                // For new records, use current date
                 const now = new Date();
-                now.setUTCHours(12); // Set to noon UTC to avoid timezone issues
+                now.setUTCHours(12);
                 nuevoExalumno.fechaInscripcion = now;
                 const newId = await getNextId();
                 await setDoc(doc(db, 'exalumnos', newId), nuevoExalumno);
@@ -1552,8 +1599,11 @@ const AdminPanel = () => {
             await fetchExalumnos();
         } catch (error) {
             console.error("Error al modificar exalumno:", error);
+        } finally {
+            setActionLoading(false);
         }
     };
+
 
     const handleDeleteJunta = async (id) => {
         try {
@@ -1618,11 +1668,8 @@ const AdminPanel = () => {
         setEmail(exalumno.email || '');
         setTelf(exalumno.telefono || '');
         setPromocion(exalumno.promocion || '');
-        // Format date from Firestore timestamp
-        const fechaInsc = exalumno.fechaInscripcion?.toDate();
-        if (fechaInsc) {
-            setFechaInscripcion(fechaInsc.toISOString().split('T')[0]);
-        }
+        setPresidenteProm(exalumno.presidenteprom || false);
+        setImagen(exalumno.imagen || ''); // Add this line
         setEditId(exalumno.id);
         setShowAddPopup(true);
     };
@@ -1636,28 +1683,25 @@ const AdminPanel = () => {
                 loadingMessage.className = 'loading-message';
                 loadingMessage.textContent = 'Procesando imagen...';
                 e.target.parentNode.appendChild(loadingMessage);
-
-                const options = {
-                    maxSizeMB: 1,
-                    maxWidthOrHeight: 1920,
-                    useWebWorker: true,
-                    initialQuality: 0.8,
-                };
-
-                const compressedFile = await imageCompression(file, options);
+    
+                // Use specific compression for logos
+                const compressedFile = setImageFunc === setLogo ? 
+                    await compressLogo(file) : 
+                    await compressImage(file);
+    
                 const reader = new FileReader();
-
+    
                 reader.onloadend = () => {
                     setImageFunc(reader.result);
                     loadingMessage.remove();
                     setActionLoading(false);
                 };
-
+    
                 reader.readAsDataURL(compressedFile);
             } catch (error) {
                 console.error("Error processing image:", error);
                 setActionLoading(false);
-                alert('Error al procesar la imagen. Por favor, intente con otra imagen.');
+                alert('Error al procesar la imagen. Por favor, intente con otra imagen o reduzca su tamaño.');
             }
         }
     };
@@ -2087,37 +2131,21 @@ const AdminPanel = () => {
                 <div className="search-box">
                     <input
                         type="text"
-                        placeholder="Buscar exalumno..."
+                        placeholder="Buscar por nombre, DNI o ID..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <i className="fas fa-search"></i>
                 </div>
-                <div className="filter-container">
-                    <button
-                        className="filter-button"
-                        onClick={() => setShowFilters(!showFilters)}
-                    >
-                        <i className="fas fa-filter"></i>
-                        Filtrar
-                    </button>
-                    {showFilters && (
-                        <div className="filter-dropdown">
-                            <div className="filter-option" onClick={() => sortExalumnos('id')}>
-                                ID {sortConfig.field === 'id' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                            </div>
-                            <div className="filter-option" onClick={() => sortExalumnos('nombre')}>
-                                Nombre {sortConfig.field === 'nombre' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                            </div>
-                            <div className="filter-option" onClick={() => sortExalumnos('dni')}>
-                                DNI {sortConfig.field === 'dni' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                            </div>
-                            <div className="filter-option" onClick={() => sortExalumnos('fechaInscripcion')}>
-                                Fecha Inscripción {sortConfig.field === 'fechaInscripcion' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                            </div>
-                        </div>
-                    )}
-                </div>
+                <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="sort-select"
+                >
+                    <option value="nombre">Ordenar por Nombre</option>
+                    <option value="presidente">Ordenar por Presidente</option>
+                    <option value="promocion">Ordenar por Promoción</option>
+                </select>
             </div>
             <div className="counter-display">
                 Mostrando {filteredExalumnos.length} de {exalumnos.length} exalumnos
@@ -2132,6 +2160,7 @@ const AdminPanel = () => {
                             <th>Email</th>
                             <th>Teléfono</th>
                             <th>Promoción</th>
+                            <th>Presidente</th>
                             <th>Fecha Inscripción</th>
                             <th>Acciones</th>
                         </tr>
@@ -2142,15 +2171,17 @@ const AdminPanel = () => {
                                 <td>{exalumno.id}</td>
                                 <td>{exalumno.nombre}</td>
                                 <td>{exalumno.dni}</td>
-                                <td>{exalumno.email}</td>
-                                <td>{exalumno.telefono}</td>
-                                <td>{exalumno.promocion}</td>
+                                <td>{exalumno.email || '-'}</td>
+                                <td>{exalumno.telefono || '-'}</td>
+                                <td>{exalumno.promocion || '-'}</td>
+                                <td>{exalumno.presidenteprom ? 'Sí' : 'No'}</td>
                                 <td>{exalumno.fechaInscripcion?.toDate().toLocaleDateString() || '-'}</td>
                                 <td>
                                     <button onClick={() => handleEditExalumno(exalumno)}>Editar</button>
                                     <button onClick={() => handleConfirmDelete('exalumno', exalumno.id, exalumno.nombre)}>
                                         Eliminar
-                                    </button>                                </td>
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -2213,6 +2244,16 @@ const AdminPanel = () => {
                                     <span className="input-error">El DNI debe tener 8 dígitos</span>
                                 )}
                             </div>
+                            <div className="form-group checkbox-group">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={presidenteProm}
+                                        onChange={(e) => setPresidenteProm(e.target.checked)}
+                                    />
+                                    Presidente de Promoción
+                                </label>
+                            </div>
                             <div className="form-group">
                                 <label>Email</label>
                                 <input
@@ -2240,6 +2281,7 @@ const AdminPanel = () => {
                                     <span className="input-error">El teléfono debe tener 9 dígitos</span>
                                 )}
                             </div>
+
                             <div className="form-group">
                                 <label>Promoción</label>
                                 <input
@@ -2267,12 +2309,35 @@ const AdminPanel = () => {
                                     required
                                 />
                             </div>
+                            <div className="form-group">
+                                <label>Foto</label>
+                                <input
+                                    type="file"
+                                    onChange={(e) => handleImageUpload(e, setImagen)}
+                                    accept="image/*"
+                                />
+                                {imagen && (
+                                    <div className="imagealumn-preview">
+                                        <img src={imagen} alt="Preview" className="imagealumn-preview" />
+                                        <button
+                                            className="remove-image"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setImagen('');
+                                            }}
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
                             <div className="popup-buttons">
                                 <LoadingButton
                                     onClick={handleAddExalumno}
                                     loading={actionLoading}
                                     text={editId ? 'Actualizar Exalumno' : 'Añadir Exalumno'}
-                                    disabled={!titulo || !fecha || !email || !telf || !promocion}
+                                    disabled={!titulo || !fecha} // Only name and DNI are required
                                 />
                                 <button onClick={() => setShowAddPopup(false)}>Cancelar</button>
                             </div>

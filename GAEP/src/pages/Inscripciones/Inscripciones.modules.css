@@ -123,6 +123,7 @@
     box-shadow: 0 4px 12px rgba(2, 96, 16, 0.2);
 }
 
+
 @media (max-width: 768px) {
     .inscripciones-banner h1 {
         font-size: 2rem;

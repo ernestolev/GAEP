@@ -8,12 +8,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1;
 }
 
 .contentmodal {
     background: white;
-    padding: 30px 10px;
+    padding: 30px 30px;
     border-radius: 20px;
     width: 90%;
     max-width: 600px;
@@ -104,7 +104,7 @@
 }
 
 .payment-info {
-    background: #f8f8f8;
+    background: #650a8f;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -179,4 +179,62 @@
 
 .loading button {
     cursor: not-allowed;
+}
+.comprobante-preview {
+    position: relative;
+    margin-top: 10px;
+    max-width: 200px;
+}
+
+.comprobante-preview img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    border: 2px solid #ddd;
+}
+
+.remove-preview {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-message {
+    display: block;
+    color: #026010;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.pdf-indicator {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.payment-info img{
+    width: 120px;
+}
+
+.payment-info p{
+    color: #ddd;
+    margin: 5px;
+    font-size: 0.9rem;
+}
+
+.payment-info strong{
+    color: #ffffff;
+
 }

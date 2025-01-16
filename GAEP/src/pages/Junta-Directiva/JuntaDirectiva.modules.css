@@ -194,6 +194,7 @@
 
 .jdminfo h2 {
     color: #026010;
+    padding: 0px;
     font-size: 2.2rem;
     font-family: 'arboria-black';
     margin-top: 10px;
@@ -356,6 +357,8 @@
     }
 
     .jd-list {
+        display: flex;
+        flex-direction: column;
         margin-top: 0px;
         padding: 0px;
         gap: 20px;

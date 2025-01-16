@@ -57,6 +57,9 @@ const Navbar2 = () => {
                 <Link to="/junta-directiva" onClick={toggleMenu}>
                   Miembros de Junta Directiva
                 </Link>
+                <Link to="/presidentes-promociones" onClick={toggleMenu}>
+                  Presidentes de Promociones
+                </Link>
                 <Link to="/miembros-gaep" onClick={toggleMenu}>
                   Miembros GAEP
                 </Link>
