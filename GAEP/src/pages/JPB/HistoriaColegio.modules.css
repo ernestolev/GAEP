@@ -177,7 +177,7 @@ h2{
     line-height: 1.3rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 468px) {
     .hero-section h1 {
         font-size: 2rem;
     }
@@ -190,17 +190,94 @@ h2{
         flex-direction: column;
     }
 
+
+    .timeline-section {
+        padding: 30px 0;
+    }
+
     .timeline::after {
-        left: 31px;
+        left: 20px; /* Move line to left */
     }
 
     .timeline-item {
         width: 100%;
-        padding-left: 70px;
-        padding-right: 25px;
+        padding-left: 50px;
+        padding-right: 10px;
+        margin-bottom: 30px;
     }
 
-    .timeline-item:nth-child(even) {
+    .timeline-item:nth-child(even),
+    .timeline-item:nth-child(odd) {
         left: 0;
     }
+
+    .timeline-content {
+        padding: 15px;
+    }
+
+    .timeline-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+
+    .timeline-content p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .timeline-content::before {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: #026010;
+        border-radius: 50%;
+        left: -46px;
+        top: 15px;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 2px;
+        background: #026010;
+        left: 20px;
+        top: 20px;
+    }
+
+    .content-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .text-content p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .hero-section h1 {
+        font-size: 1.8rem;
+        padding: 0 15px;
+    }
+
+    .historia-guion {
+        padding: 10px 20px;
+        margin-bottom: 0px;
+    }
+
+    .content-section h2, .section-content, h2{
+        padding: 10px 20px;
+        font-size: 2.1rem;
+        line-height: 2.3rem;
+        margin: 0px;
+    }
+    .reverse h2, .reverse p{
+        text-align: left;
+    }
+
+    .text-content p{
+        font-size: 1rem;
+    }
+
 }

@@ -2011,6 +2011,56 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     overflow-y: auto;
 }
 
+.submit-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 20px;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.submit-button.loading {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.loading-message {
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #026010;
+    font-size: 0.9rem;
+}
+
+/* Customize loading state colors for dark theme */
+.dark-theme .loading-spinner {
+    border-color: rgba(255, 255, 255, 0.2);
+    border-top-color: white;
+}
+
 /* Add more dark theme styles as needed */
 
 @media (max-width: 768px) {

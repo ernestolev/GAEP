@@ -401,14 +401,13 @@ const AdminPanel = () => {
         try {
             // Find all documents for this promocion
             const docs = galeriaFotos.filter(g => g['numero-promocion'] === promocion);
-
+    
             // Find which document contains this image
             for (const docData of docs) {
                 if (docData.imagenes.includes(imagen)) {
                     const updatedImagenes = docData.imagenes.filter(img => img !== imagen);
-
                     const docRef = doc(db, 'galeria-fotos-promociones', docData.id);
-
+    
                     if (updatedImagenes.length === 0) {
                         // If no images left, delete the document
                         await deleteDoc(docRef);
@@ -418,18 +417,24 @@ const AdminPanel = () => {
                             imagenes: updatedImagenes
                         });
                     }
-
-                    // Refresh data
-                    await fetchGaleriaFotos();
-
-                    // Update selected grupo if it exists
+    
+                    // Update selectedGrupo before fetching new data
                     if (selectedGrupo) {
-                        setSelectedGrupo(prev => ({
-                            ...prev,
-                            imagenes: prev.imagenes.filter(img => img !== imagen)
-                        }));
+                        const updatedGrupo = {
+                            ...selectedGrupo,
+                            imagenes: selectedGrupo.imagenes.filter(img => img !== imagen)
+                        };
+                        setSelectedGrupo(updatedGrupo);
                     }
-
+    
+                    // Fetch updated data
+                    const querySnapshot = await getDocs(collection(db, 'galeria-fotos-promociones'));
+                    const galeriaData = querySnapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    setGaleriaFotos(galeriaData);
+    
                     break;
                 }
             }
@@ -581,12 +586,12 @@ const AdminPanel = () => {
                                     </div>
                                 </div>
                                 <div className="popup-buttons">
-                                    <button
+                                    <LoadingButton
                                         onClick={handleAddGaleria}
+                                        loading={actionLoading}
+                                        text={editId ? 'Actualizar' : 'Añadir'}
                                         disabled={!numeroPromocion || galeriaImagenes.length === 0}
-                                    >
-                                        Añadir
-                                    </button>
+                                    />
                                     <button onClick={() => setShowGaleriaPopup(false)}>Cancelar</button>
                                 </div>
                             </div>
@@ -600,6 +605,7 @@ const AdminPanel = () => {
 
     const handleAddGaleria = async () => {
         try {
+            setActionLoading(true);
             if (!numeroPromocion || galeriaImagenes.length === 0) {
                 alert('Por favor complete todos los campos y añada al menos una imagen');
                 return;
@@ -618,6 +624,8 @@ const AdminPanel = () => {
             await fetchGaleriaFotos();
         } catch (error) {
             console.error("Error adding galería:", error);
+        } finally {
+            setActionLoading(false);
         }
     };
 
@@ -1507,18 +1515,23 @@ const AdminPanel = () => {
         if (file) {
             try {
                 setActionLoading(true);
-                // Show loading message
                 const loadingMessage = document.createElement('div');
                 loadingMessage.className = 'loading-message';
                 loadingMessage.textContent = 'Procesando imagen...';
                 e.target.parentNode.appendChild(loadingMessage);
 
-                const compressedFile = await compressImage(file);
+                const options = {
+                    maxSizeMB: 1,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                    initialQuality: 0.8,
+                };
+
+                const compressedFile = await imageCompression(file, options);
                 const reader = new FileReader();
 
                 reader.onloadend = () => {
                     setImageFunc(reader.result);
-                    // Remove loading message
                     loadingMessage.remove();
                     setActionLoading(false);
                 };
@@ -1531,6 +1544,17 @@ const AdminPanel = () => {
             }
         }
     };
+
+    const LoadingButton = ({ onClick, loading, text, disabled }) => (
+        <button
+            onClick={onClick}
+            disabled={loading || disabled}
+            className={`submit-button ${loading ? 'loading' : ''}`}
+        >
+            {text}
+            {loading && <span className="loading-spinner"></span>}
+        </button>
+    );
 
     const handleDeleteExalumno = async (id) => {
         try {
