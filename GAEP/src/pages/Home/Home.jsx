@@ -19,6 +19,9 @@ import foto3 from '../../assets/images/img-bannerbenef.png';
 import icon1 from '../../assets/icons/icon-unidos.png';
 import icon2 from '../../assets/icons/icon-fortalecemos.png';
 import icon3 from '../../assets/icons/icon-generamos.png';
+import comubanner from '../../assets/images/img-comunidadbanner.png';
+import imgvalores from '../../assets/images/img-valores.jpeg';
+import imginscrip from '../../assets/images/img-bannerinscrip.png';
 
 import em1 from '../../assets/images/img-almuerzo2025.jpeg';
 import em2 from '../../assets/images/img-salud2025.jpeg';
@@ -87,7 +90,7 @@ const Home = () => {
                     </div>
                 </div>
             ),
-            image: foto2
+            image: imgvalores
         },
         {
             title: "Hazte miembro por un costo único de s/.10",
@@ -97,7 +100,7 @@ const Home = () => {
                     <button className='boton-inscrip'>Inscribirme</button>
                 </div>
             ),
-            image: foto2
+            image: imginscrip
         }
     ];
 
@@ -397,7 +400,7 @@ const Home = () => {
                                 </div>
                             </div>
                             <div className="nuestracomunidad-imagen">
-                                <img src={foto1} alt="Nuestra Comunidad" className="comunidad-img" />
+                                <img src={comubanner} alt="Nuestra Comunidad" className="comunidad-img" />
                             </div>
                         </div>
                     </section>

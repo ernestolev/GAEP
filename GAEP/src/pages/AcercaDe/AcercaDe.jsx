@@ -35,7 +35,7 @@ const AcercaDe = () => {
                     <h2>Nuestra Historia</h2>
                     <div className="section-content">
                         <div className="text-content">
-                            <p>Desde su fundación en 1917, el colegio "José Pardo y Barreda" ha sido un símbolo de excelencia educativa y un referente cultural en nuestra provincia. Por más de un siglo, ha formado generaciones de estudiantes, inculcándoles valores y conocimientos que los han convertido en ciudadanos comprometidos con el desarrollo de la sociedad. La conexión entre los exalumnos y su querido colegio se ha mantenido viva a través de los años, manifestándose en celebraciones memorables como las bodas de oro en 1968 y el centenario en 2017, que reunieron a miles de pardinos de diversas promociones. Estos hitos son testimonio de la unión y orgullo que caracteriza a la comunidad pardina.</p>
+                            <p>Desde su fundación en 1917, el colegio "José Pardo y Barreda" ha sido un símbolo de excelencia educativa y un referente cultural en nuestra provincia. Por más de un siglo, ha formado generaciones de estudiantes, inculcándoles valores y conocimientos que los han convertido en ciudadanos comprometidos con el desarrollo de la sociedad. La conexión entre los exalumnos y su querido colegio se ha mantenido viva a través de los años, manifestándose en celebraciones memorables como las bodas de oro en 1968 y el centenario en 2018, que reunieron a miles de pardinos de diversas promociones. Estos hitos son testimonio de la unión y orgullo que caracteriza a la comunidad pardina.</p>
                         </div>
                         <div className="image-content">
                             <img src={img1} alt="Historia GAEP" />
@@ -112,7 +112,7 @@ const AcercaDe = () => {
                         </div>
                         <div className="timeline-item">
                             <div className="timeline-content">
-                                <h3>2017</h3>
+                                <h3>2018</h3>
                                 <p>Celebración del centenario del colegio, liderada por Hugo Vásquez Matías (promoción 1988), en un evento histórico que marcó la comunidad pardina.</p>
                             </div>
                         </div>
