@@ -50,6 +50,7 @@ section {
     line-height: 3.4rem;
     font-size: 3.3rem;
     margin-top: 0px;
+    padding: 0px;
     margin-bottom: 20px;
 }
 
@@ -216,9 +217,9 @@ section {
 .beneficio-item1 {
     display: flex;
     font-family: 'arboria-regular';
+    align-items: center;
     line-height: 2.7rem;
     background-image: url('../../assets/images/img-bannerbenef.png');
-    /* Ruta de la imagen de fondo */
     background-size: cover;
     width: auto;
     height: 350px;
@@ -233,10 +234,10 @@ section {
 
 .beneficio-item2 {
     display: flex;
+    align-items: center;
     font-family: 'arboria-regular';
     line-height: 2.7rem;
     background-image: url('../../assets/images/img-bannerbenef.png');
-    /* Ruta de la imagen de fondo */
     background-size: cover;
     width: auto;
     height: 350px;
@@ -273,7 +274,7 @@ section {
     width: 45%;
     height: 85%;
     position: relative;
-    transform: translateY(17.5%);
+    transform: translateY(9%);
     bottom: 0;
     border-radius: 0 0 0 26px;
     object-fit: cover;
@@ -283,16 +284,16 @@ section {
     width: 45%;
     height: 85%;
     position: relative;
-    transform: translateY(17.5%);
+    transform: translateY(9%);
     bottom: 0;
     border-radius: 0 0 0 100px;
     object-fit: cover;
 }
 
-.beneficio-content {
+.contentbenef {
     display: flex;
     align-items: center;
-    margin: 0px 40px;
+    margin-right: 40px;
     justify-content: space-around;
     flex-wrap: nowrap;
     width: 80%;
@@ -302,20 +303,23 @@ section {
 .beneficio-text {
     text-align: left;
     padding: 20px;
+    width: 80%;
 }
 
 .beneficio-text h4 {
-    font-size: 2.5rem;
-    line-height: 2.5rem;
+    font-size: 2rem;
+    line-height: 2rem;
     color: #ffffff;
-    margin-bottom: 20px;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-family: 'arboria-bold';
 }
 
 .beneficio-text p {
     font-family: 'arboria-light';
     color: #f0f0f0;
-    line-height: 1.5rem;
-    font-size: 1.5rem;
+    line-height: 1.3rem;
+    font-size: 1.3rem;
     margin-top: 0px;
     margin-right: 10px;
 }
@@ -426,7 +430,7 @@ section {
     line-height: 3rem;
     font-size: 3.2rem;
     color: #ffffff;
-    /* Color del texto blanco */
+    padding: 0px;
     margin-bottom: 10px;
 }
 
@@ -536,15 +540,32 @@ section {
     display: block;
     background-color: #ffffff;
     border-radius: 10px 40px;
-    padding: 40px;
+    padding: 25px;
     margin: 10px;
     width: 320px;
-    /* Ancho incrementado */
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     flex-grow: 1;
     /* Permite que los elementos se expandan */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contenidoevento {
+    width: 100%;
+    /* Ajusta el ancho del div según lo necesites */
+    height: auto;
+    /* Bordes opcionales para visualización */
+    padding: 10px;
+    /* Espaciado interno */
+    word-wrap: break-word;
+    /* Asegura que las palabras largas se ajusten */
+    white-space: normal;
+    /* Permite que el texto haga saltos de línea */
+    overflow-wrap: break-word;
+    /* Asegura el ajuste de las palabras */
+    overflow: hidden;
+    /* Opcional: oculta cualquier contenido que se desborde */
+    box-sizing: border-box;
 }
 
 .evento:hover {
@@ -554,10 +575,10 @@ section {
 
 .evento img {
     width: 100%;
-    height: auto;
+    height: 180px;
     border-radius: 15px;
     object-fit: cover;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .fecha-evento {
@@ -579,7 +600,10 @@ section {
 
 .evento h4 {
     text-align: left;
-    font-size: 1.5rem;
+    width: 100%;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    font-family: 'arboria-bold';
     color: #333;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -589,7 +613,7 @@ section {
     text-align: left;
     font-size: 1rem;
     color: #333;
-    margin-top: 0px;
+    margin-top: 8px;
     margin-bottom: 10px;
 }
 
@@ -632,6 +656,7 @@ section {
     font-family: 'arboria-bold';
     color: #026010;
     margin-bottom: 10px;
+    padding: 0px;
 }
 
 .nuestracomunidad-text p {
@@ -711,6 +736,7 @@ section {
     color: #026010;
     margin-top: 15px;
     margin-bottom: 10px;
+    padding: 0px;
 }
 
 .banner-cuadro p {
@@ -810,6 +836,7 @@ section {
     line-height: 3rem;
     color: #026010;
     margin-bottom: 10px;
+    padding: 0px;
 }
 
 .mapapardinos-text p {
@@ -975,6 +1002,8 @@ section {
     font-size: 3.6rem;
     font-family: 'arboria-bold';
     margin: 0;
+    
+    padding: 0px;
 }
 
 .ver-mas-noticias {
@@ -1045,12 +1074,15 @@ section {
 }
 
 .noticia p {
-    padding: 0px 30px;
+    padding: 0px 0px;
     text-align: left;
-    margin-top: 0px;
-    margin-bottom: 20px;
+    margin: 10px 30px ;
     font-size: 1rem;
     color: #666;
+}
+
+.actividades h2{
+    padding: 0px;
 }
 
 /* Media Queries for Responsiveness */
@@ -1212,13 +1244,7 @@ section {
         line-height: 1.3rem;
     }
 
-    .beneficio-content {
-        flex-direction: none;
-        justify-content: left;
-        align-items: flex-start;
-        margin-left: 0;
-        width: 100%;
-    }
+
 
 
     .testimonio {
@@ -1580,6 +1606,7 @@ section {
     .beneficio-item {
         width: 100%;
         margin: 0px;
+        height: 250px;
         padding: 0px;
         flex-direction: column;
         align-items: flex-start;
@@ -1599,6 +1626,7 @@ section {
     .beneficio-text {
         flex-direction: none;
         padding: 15px;
+        width: 90%;
     }
 
     .beneficio-number {
@@ -1625,32 +1653,32 @@ section {
 
     .beneficio-item1 h4 {
         margin: 15px 0px;
-        font-size: 1.9rem;
-        line-height: 1.9rem;
+        font-size: 1.6rem;
+        line-height: 1.6rem;
     }
 
     .beneficio-item1 p {
-        font-size: 1.3rem;
+        font-size: 1rem;
         line-height: 1.3rem;
     }
 
     .beneficio-item2 h4 {
-        font-size: 1.9rem;
+       
         margin: 15px 0px;
-
-        line-height: 1.9rem;
+        font-size: 1.6rem;
+        line-height: 1.6rem;
     }
 
     .beneficio-item2 p {
-        font-size: 1.3rem;
-        line-height: 1.3rem;
+        font-size: 0.9rem;
+        line-height: 1.2rem;
     }
 
     .beneficio-item2 img {
         display: none;
     }
 
-    .beneficio-content {
+    .contentbenef {
         flex-direction: none;
         justify-content: left;
         align-items: flex-start;
@@ -1751,6 +1779,7 @@ section {
 
     .nuestracomunidad {
         padding: 60px 20px;
+        margin-top: 200px;
     }
 
     .nuestracomunidad-content {
@@ -1775,6 +1804,7 @@ section {
         width: 100%;
         font-size: 2.6rem;
         line-height: 2.6rem;
+        padding: 0px;
     }
 
     .nuestracomunidad-text p {
@@ -1807,6 +1837,7 @@ section {
     .banner-cuadro h2 {
         font-size: 1.8rem;
         line-height: 1.8rem;
+        padding: 0px;
     }
 
     .boton-inscrip {
@@ -1848,6 +1879,7 @@ section {
         margin-top: 0px;
         font-size: 3rem;
         line-height: 3rem;
+        padding: 0px;
     }
 
     .mapapardinos-text p {
@@ -1894,6 +1926,7 @@ section {
 
     .actividades h2 {
         font-size: 3rem !important;
+        padding: 0px;
     }
 
     .ultimasnoticias {
@@ -1926,5 +1959,6 @@ section {
 
     .noticia p {
         font-size: 0.6rem;
+        line-height: 1rem;
     }
 }

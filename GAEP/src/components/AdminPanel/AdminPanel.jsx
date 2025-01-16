@@ -50,7 +50,11 @@ const AdminPanel = () => {
     const [galeriaImagenes, setGaleriaImagenes] = useState([]);
     const [numeroPromocion, setNumeroPromocion] = useState('');
     const [searchGaleria, setSearchGaleria] = useState('');
-
+    const [toast, setToast] = useState({
+        show: false,
+        message: '',
+        type: '' // 'success' or 'error'
+    });
 
     const [sponsors, setSponsors] = useState([]);
     const [showSponsorPopup, setShowSponsorPopup] = useState(false);
@@ -120,6 +124,17 @@ const AdminPanel = () => {
         id: null,
         title: ''
     });
+
+    const Toast = ({ message, type, onClose }) => (
+        <div className={`toast-notification ${type}`}>
+            <div className="toast-content">
+                {type === 'success' && <i className="fas fa-check-circle"></i>}
+                {type === 'error' && <i className="fas fa-times-circle"></i>}
+                <span>{message}</span>
+            </div>
+            <button onClick={onClose}>×</button>
+        </div>
+    );
     const handleConfirmDelete = (type, id, ids, title) => {
         setConfirmAction({
             show: true,
@@ -311,67 +326,89 @@ const AdminPanel = () => {
     };
     const executeDelete = async () => {
         try {
-            const { type, id } = confirmAction;
+            setActionLoading(true);
+            const { type, id, ids, title } = confirmAction;
 
             switch (type) {
                 case 'actividad':
                     await deleteDoc(doc(db, 'actividades', id));
-                    setActividades(actividades.filter(item => item.id !== id));
+                    setToast({
+                        show: true,
+                        message: 'Actividad eliminada correctamente',
+                        type: 'success'
+                    });
+                    await fetchActividades();
                     break;
 
                 case 'noticia':
                     await deleteDoc(doc(db, 'noticias', id));
-                    setNoticias(noticias.filter(item => item.id !== id));
+                    setToast({
+                        show: true,
+                        message: 'Noticia eliminada correctamente',
+                        type: 'success'
+                    });
+                    await fetchNoticias();
                     break;
 
                 case 'exalumno':
                     await deleteDoc(doc(db, 'exalumnos', id));
-                    setExalumnos(exalumnos.filter(item => item.id !== id));
+                    setToast({
+                        show: true,
+                        message: 'Exalumno eliminado correctamente',
+                        type: 'success'
+                    });
+                    await fetchExalumnos();
                     break;
 
                 case 'juntaDirectiva':
                     await deleteDoc(doc(db, 'junta-directiva', id));
-                    setJuntaDirectiva(juntaDirectiva.filter(item => item.id !== id));
-                    break;
-                case 'sponsor':
-                    await deleteDoc(doc(db, 'sponsor', id));
-                    setSponsors(sponsors.filter(item => item.id !== id));
-                    break;
-                case 'galeria':
-                    if (Array.isArray(confirmAction.ids)) {
-                        for (let docId of confirmAction.ids) {
-                            await deleteDoc(doc(db, 'galeria-fotos-promociones', docId));
-                        }
-                    }
-                    await fetchGaleriaFotos();
-                    break;
-            }
-
-            // Refresh data after deletion
-            switch (type) {
-                case 'actividad':
-                    await fetchActividades();
-                    break;
-                case 'noticia':
-                    await fetchNoticias();
-                    break;
-                case 'exalumno':
-                    await fetchExalumnos();
-                    break;
-                case 'juntaDirectiva':
+                    setToast({
+                        show: true,
+                        message: 'Miembro eliminado correctamente',
+                        type: 'success'
+                    });
                     await fetchJuntaDirectiva();
                     break;
+
                 case 'sponsor':
+                    await deleteDoc(doc(db, 'sponsor', id));
+                    setToast({
+                        show: true,
+                        message: 'Sponsor eliminado correctamente',
+                        type: 'success'
+                    });
                     await fetchSponsors();
                     break;
+
                 case 'galeria':
-                    await fetchGaleriaFotos();
+                    if (Array.isArray(ids)) {
+                        for (let docId of ids) {
+                            await deleteDoc(doc(db, 'galeria-fotos-promociones', docId));
+                        }
+                        setToast({
+                            show: true,
+                            message: 'Galería eliminada correctamente',
+                            type: 'success'
+                        });
+                        await fetchGaleriaFotos();
+                    }
                     break;
             }
         } catch (error) {
             console.error(`Error deleting ${confirmAction.type}:`, error);
+            setToast({
+                show: true,
+                message: `Error al eliminar ${confirmAction.type}`,
+                type: 'error'
+            });
         } finally {
+            setActionLoading(false);
             setConfirmAction({ show: false, type: '', id: null, ids: null, title: '' });
+
+            // Auto hide toast after 3 seconds
+            setTimeout(() => {
+                setToast({ show: false, message: '', type: '' });
+            }, 3000);
         }
     };
 
@@ -401,13 +438,13 @@ const AdminPanel = () => {
         try {
             // Find all documents for this promocion
             const docs = galeriaFotos.filter(g => g['numero-promocion'] === promocion);
-    
+
             // Find which document contains this image
             for (const docData of docs) {
                 if (docData.imagenes.includes(imagen)) {
                     const updatedImagenes = docData.imagenes.filter(img => img !== imagen);
                     const docRef = doc(db, 'galeria-fotos-promociones', docData.id);
-    
+
                     if (updatedImagenes.length === 0) {
                         // If no images left, delete the document
                         await deleteDoc(docRef);
@@ -417,7 +454,7 @@ const AdminPanel = () => {
                             imagenes: updatedImagenes
                         });
                     }
-    
+
                     // Update selectedGrupo before fetching new data
                     if (selectedGrupo) {
                         const updatedGrupo = {
@@ -426,7 +463,7 @@ const AdminPanel = () => {
                         };
                         setSelectedGrupo(updatedGrupo);
                     }
-    
+
                     // Fetch updated data
                     const querySnapshot = await getDocs(collection(db, 'galeria-fotos-promociones'));
                     const galeriaData = querySnapshot.docs.map(doc => ({
@@ -434,7 +471,7 @@ const AdminPanel = () => {
                         ...doc.data()
                     }));
                     setGaleriaFotos(galeriaData);
-    
+
                     break;
                 }
             }
@@ -863,9 +900,12 @@ const AdminPanel = () => {
                             </div>
 
                             <div className="popup-buttons">
-                                <button onClick={handleAddJuntaDirectiva}>
-                                    {editId ? 'Actualizar' : 'Añadir'}
-                                </button>
+                                <LoadingButton
+                                    onClick={handleAddJuntaDirectiva}
+                                    loading={actionLoading}
+                                    text={editId ? 'Actualizar' : 'Añadir'}
+                                    disabled={!nombre || !apellidos || !cargo || !dni || !email || !telf}
+                                />
                                 <button onClick={() => setShowJuntaPopup(false)}>Cancelar</button>
                             </div>
                         </div>
@@ -1183,12 +1223,12 @@ const AdminPanel = () => {
                                             <i className="fas fa-eye"></i>
                                         </button>
                                         {solicitud.estado === 'pendiente' && (
-                                            <button
-                                                className="btn-accept"
+                                            <LoadingButton
                                                 onClick={() => handleAcceptSolicitud(solicitud.id)}
-                                            >
-                                                <i className="fas fa-check"></i>
-                                            </button>
+                                                loading={actionLoading}
+                                                text="Aceptar"
+                                                className="btn-accept"
+                                            />
                                         )}
                                     </div>
                                 </td>
@@ -1336,12 +1376,13 @@ const AdminPanel = () => {
                                 )}
                             </div>
                             <div className="popup-buttons">
-                                <button onClick={handleAddSponsor}>
-                                    {editId ? 'Actualizar' : 'Añadir'}
-                                </button>
-                                <button onClick={() => setShowSponsorPopup(false)}>
-                                    Cancelar
-                                </button>
+                                <LoadingButton
+                                    onClick={handleAddSponsor}
+                                    loading={actionLoading}
+                                    text={editId ? 'Actualizar Sponsor' : 'Añadir Sponsor'}
+                                    disabled={!razonSocial || !logo}
+                                />
+                                <button onClick={() => setShowSponsorPopup(false)}>Cancelar</button>
                             </div>
                         </div>
                     </div>
@@ -1545,11 +1586,11 @@ const AdminPanel = () => {
         }
     };
 
-    const LoadingButton = ({ onClick, loading, text, disabled }) => (
+    const LoadingButton = ({ onClick, loading, text, disabled, className = '' }) => (
         <button
             onClick={onClick}
             disabled={loading || disabled}
-            className={`submit-button ${loading ? 'loading' : ''}`}
+            className={`submit-button ${loading ? 'loading' : ''} ${className}`}
         >
             {text}
             {loading && <span className="loading-spinner"></span>}
@@ -1737,9 +1778,12 @@ const AdminPanel = () => {
                                     </div>
                                 </div>
                                 <div className="popup-buttons">
-                                    <button onClick={handleAdd} className="btn-submit">
-                                        {editId ? 'Actualizar Actividad' : 'Agregar Actividad'}
-                                    </button>
+                                    <LoadingButton
+                                        onClick={handleAdd}
+                                        loading={actionLoading}
+                                        text={editId ? 'Actualizar Actividad' : 'Agregar Actividad'}
+                                        disabled={!titulo || !fecha}
+                                    />
                                     <button onClick={() => setShowAddPopup(false)}>Cancelar</button>
                                 </div>
                             </div>
@@ -1867,9 +1911,12 @@ const AdminPanel = () => {
                                     </div>
                                 </div>
                                 <div className="popup-buttons">
-                                    <button onClick={handleAddNoticia} className="btn-submit">
-                                        {editId ? 'Actualizar Noticia' : 'Agregar Noticia'}
-                                    </button>
+                                    <LoadingButton
+                                        onClick={handleAddNoticia}
+                                        loading={actionLoading}
+                                        text={editId ? 'Actualizar Noticia' : 'Agregar Noticia'}
+                                        disabled={!titulo || !descripcion}
+                                    />
                                     <button onClick={() => setShowNoticiaPopup(false)}>Cancelar</button>
                                 </div>
                             </div>
@@ -2045,8 +2092,13 @@ const AdminPanel = () => {
                         <button className="popup-close" onClick={() => setShowConfirm(false)}>×</button>
                         <p>¿Estás seguro de que deseas eliminar este exalumno?</p>
                         <div className="popup-buttons">
-                            <button onClick={() => handleDeleteExalumno(deleteId)}>Sí</button>
-                            <button onClick={() => setShowConfirm(false)}>No</button>
+                            <LoadingButton
+                                onClick={handleAddExalumno}
+                                loading={actionLoading}
+                                text={editId ? 'Actualizar Exalumno' : 'Añadir Exalumno'}
+                                disabled={!titulo || !fecha || !email || !telf || !promocion}
+                            />
+                            <button onClick={() => setShowAddPopup(false)}>Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -2140,9 +2192,12 @@ const AdminPanel = () => {
                                 />
                             </div>
                             <div className="popup-buttons">
-                                <button onClick={handleAddExalumno}>
-                                    {editId ? 'Actualizar' : 'Añadir'}
-                                </button>
+                                <LoadingButton
+                                    onClick={handleAddExalumno}
+                                    loading={actionLoading}
+                                    text={editId ? 'Actualizar Exalumno' : 'Añadir Exalumno'}
+                                    disabled={!titulo || !fecha || !email || !telf || !promocion}
+                                />
                                 <button onClick={() => setShowAddPopup(false)}>Cancelar</button>
                             </div>
                         </div>
@@ -2288,6 +2343,14 @@ const AdminPanel = () => {
                     </div>
 
                 </div>
+
+            )}
+            {toast.show && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast({ show: false, message: '', type: '' })}
+                />
             )}
         </>
     );

@@ -19,9 +19,21 @@ import foto3 from '../../assets/images/img-bannerbenef.png';
 import icon1 from '../../assets/icons/icon-unidos.png';
 import icon2 from '../../assets/icons/icon-fortalecemos.png';
 import icon3 from '../../assets/icons/icon-generamos.png';
+
+import em1 from '../../assets/images/img-almuerzo2025.jpeg';
+import em2 from '../../assets/images/img-salud2025.jpeg';
+import em3 from '../../assets/images/img-campeonato2025.jpeg';
+import em4 from '../../assets/images/img-chocolatada2025.jpeg';
+
+import benef01 from '../../assets/images/img-benef01.png';
+import benef02 from '../../assets/images/img-benef02.png';
+import benef03 from '../../assets/images/img-benef03.png';
+import benef04 from '../../assets/images/img-benef04.png';
+import benef05 from '../../assets/images/img-benef05.png';
+
 import icon4 from '../../assets/icons/icon-calendar.png';
 import Mapa from '../../components/Map/map';
-import persona from '../../assets/images/img-hombre.png';
+import persona from '../../assets/icons/icon-userdefault.png';
 import flecha from '../../assets/icons/icon-flecha.png';
 import flecha2 from '../../assets/icons/icon-flecha2.png';
 import Benefimg from '../../assets/images/img-grupaal.png';
@@ -234,55 +246,50 @@ const Home = () => {
                         <div className="beneficios-grid">
                             <div className="beneficio-item">
                                 <h3>Estas son algunas razones para que te nos unas...</h3>
-                                <p>Join us today and become part of an organisation that makes a difference in the lives of those involved in local agriculture.</p>
+                                <p>Únete ahora y disfruta de los siguientes beneficios que tenemos para ti por ser miembro.</p>
                             </div>
                             <div className="beneficio-item1">
-                                <img src={persona} alt="Beneficio 1" />
-                                <div className="beneficio-content">
-                                    <div className="beneficio-number">1</div>
+                                <img src={benef01} alt="Beneficio 1" />
+                                <div className="contentbenf">
                                     <div className="beneficio-text">
-                                        <h4>Beneficios exlusivos para miembros</h4>
-                                        <p>Lorem ipsum dolor sit amet adipisicing adipisicing adipisicing adipisicing adipisicing elit. </p>
+                                        <h4>Acceso a actividades exclusivas</h4>
+                                        <p>Participación preferente en actividades culturales, deportivas y académicas organizadas por la asociación, fortaleciendo el sentido de pertenencia y la unión entre sus miembros. </p>
                                     </div>
                                 </div>
                             </div>
                             <div className="beneficio-item2">
-                                <img src={persona} alt="Beneficio 2" />
+                                <img src={benef02} alt="Beneficio 2" />
                                 <div className="beneficio-content">
-                                    <div className="beneficio-number">2</div>
                                     <div className="beneficio-text">
-                                        <h4>Beneficio 2</h4>
-                                        <p>Descripción del beneficio 2.</p>
+                                        <h4>Descuentos en eventos sociales</h4>
+                                        <p>Acceso a descuentos y facilidades para participar en eventos sociales organizados por la asociación. Además, se fomenta la colaboración con empresas de exalumnos y socios estratégicos a través de convenios vigentes.</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="beneficio-item1">
-                                <img src={persona} alt="Beneficio 3" />
+                                <img src={benef03} alt="Beneficio 3" />
                                 <div className="beneficio-content">
-                                    <div className="beneficio-number">3</div>
                                     <div className="beneficio-text">
-                                        <h4>Beneficio 3</h4>
-                                        <p>Descripción del beneficio 3.</p>
+                                        <h4>Red de contactos y oportunidades laborales</h4>
+                                        <p>Acceso a una base de datos exclusiva de asociados para facilitar la conexión laboral entre miembros, fomentando oportunidades de trabajo y colaboraciones profesionales.</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="beneficio-item2">
-                                <img src={persona} alt="Beneficio 4" />
+                                <img src={benef04} alt="Beneficio 4" />
                                 <div className="beneficio-content">
-                                    <div className="beneficio-number">4</div>
                                     <div className="beneficio-text">
-                                        <h4>Beneficio 4</h4>
-                                        <p>Descripción del beneficio 4.</p>
+                                        <h4>Apoyo en salud y bienestar</h4>
+                                        <p>Convenios exclusivos con clínicas y farmacias que ofrecen descuentos especiales en servicios médicos y medicamentos para los socios y sus familias.</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="beneficio-item1">
-                                <img src={persona} alt="Beneficio 5" />
+                                <img src={benef05} alt="Beneficio 5" />
                                 <div className="beneficio-content">
-                                    <div className="beneficio-number">5</div>
                                     <div className="beneficio-text">
-                                        <h4>Beneficio 5</h4>
-                                        <p>Descripción del beneficio 5.</p>
+                                        <h4>Promoción de emprendimientos de exalumnos</h4>
+                                        <p>Espacios dedicados a promover empresas y emprendimientos liderados por exalumnos, fortaleciendo la comunidad y generando más visibilidad para sus proyectos.</p>
                                     </div>
                                 </div>
                             </div>
@@ -339,39 +346,36 @@ const Home = () => {
                                 <div className="carrusel-eventos-container" ref={carruselRef}>
                                     <div className="carrusel-eventos">
                                         <div className="evento">
-                                            <img src={foto1} alt="Evento 1" className="evento-img2" />
-                                            <p className="fecha-evento">Fecha: 01/01/2023</p>
-                                            <h4>Evento 1</h4>
-                                            <p>Descripción del evento 1.</p>
-                                            <a href="/evento1" className="evento-enlace">Ver más</a>
+                                            <img src={em1} alt="Evento 1" className="evento-img2" />
+                                            <div className='contenidoevento'>
+                                                <h4>Almuerzo de exalumnos 2025</h4>
+                                                <p>Almuerzo anual entre exalumnos para mantener la confraternidad y compartir buenos momentos.</p>
+                                                <a href="/actividades" className="evento-enlace">Ver más</a>
+                                            </div>
                                         </div>
                                         <div className="evento">
-                                            <img src={foto1} alt="Evento 2" className="evento-img2" />
-                                            <p className="fecha-evento">Fecha: 02/01/2023</p>
-                                            <h4>Evento 2</h4>
-                                            <p>Descripción del evento 2.</p>
-                                            <a href="/evento2" className="evento-enlace">Ver más</a>
+                                            <img src={em2} alt="Evento 2" className="evento-img2" />
+                                            <div className='contenidoevento'>
+                                                <h4>Campaña de salud 2025</h4>
+                                                <p>Camapaña anual para que los asociados puedan hacer revision de su salud.</p>
+                                                <a href="/actividades" className="evento-enlace">Ver más</a>
+                                            </div>
                                         </div>
                                         <div className="evento">
-                                            <img src={foto1} alt="Evento 3" className="evento-img2" />
-                                            <p className="fecha-evento">Fecha: 03/01/2023</p>
-                                            <h4>Evento 3</h4>
-                                            <p>Descripción del evento 3.</p>
-                                            <a href="/evento3" className="evento-enlace">Ver más</a>
+                                            <img src={em3} alt="Evento 3" className="evento-img2" />
+                                            <div className='contenidoevento'>
+                                                <h4>Campeonato deportivo de exalumnos 2025</h4>
+                                                <p>Torneo de futbol entre promociones, fomentando la buena practica y valores que nos representan.</p>
+                                                <a href="/actividades" className="evento-enlace">Ver más</a>
+                                            </div>
                                         </div>
                                         <div className="evento">
-                                            <img src={foto1} alt="Evento 4" className="evento-img2" />
-                                            <p className="fecha-evento">Fecha: 04/01/2023</p>
-                                            <h4>Evento 4</h4>
-                                            <p>Descripción del evento 4.</p>
-                                            <a href="/evento4" className="evento-enlace">Ver más</a>
-                                        </div>
-                                        <div className="evento">
-                                            <img src={foto1} alt="Evento 5" className="evento-img2" />
-                                            <p className="fecha-evento">Fecha: 05/01/2023</p>
-                                            <h4>Evento 5</h4>
-                                            <p>Descripción del evento 5.</p>
-                                            <a href="/evento5" className="evento-enlace">Ver más</a>
+                                            <img src={em4} alt="Evento 4" className="evento-img2" />
+                                            <div className='contenidoevento'>
+                                                <h4>Chocolatada navideña 2025</h4>
+                                                <p>Entrega de jueguetes y organizacion de chocolatadas para los niños mas necesitados de nuestra ciudad.</p>
+                                                <a href="/actividades" className="evento-enlace">Ver más</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -438,8 +442,8 @@ const Home = () => {
                                             className="imagen-fondo"
                                             style={{
                                                 backgroundImage: `url(${actividad.imagenes && actividad.imagenes.length > 0
-                                                        ? actividad.imagenes[0]
-                                                        : actividad.imagen || ''
+                                                    ? actividad.imagenes[0]
+                                                    : actividad.imagen || ''
                                                     })`
                                             }}
                                         ></div>
@@ -470,7 +474,9 @@ const Home = () => {
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <img
-                                            src={noticia.imagen}
+                                            src={noticia.imagenes && noticia.imagenes.length > 0
+                                                ? noticia.imagenes[0]
+                                                : noticia.imagen || ''}
                                             alt={noticia.titulo}
                                             className="noticia-img"
                                         />

@@ -63,6 +63,9 @@ const Navbar2 = () => {
                 <Link to="/acerca-de" onClick={toggleMenu}>
                   Acerca de GAEP
                 </Link>
+                <Link to="/galeria-fotos" onClick={toggleMenu}>
+                  Galería de fotos
+                </Link>
               </div>
             </Link>
           </li>
