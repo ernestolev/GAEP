@@ -72,7 +72,7 @@ const Navbar2 = () => {
               </div>
             </Link>
           </li>
-          <li><Link className={styles.link} to="/" onClick={toggleMenu}>Beneficios y Servicios</Link></li>
+          <li><Link className={styles.link} to="/" onClick={toggleMenu}>Beneficios</Link></li>
           <li><Link className={styles.link} to="/actividades" onClick={toggleMenu}>Actividades</Link></li>
           <li><Link className={styles.link} to="/noticias" onClick={toggleMenu}>Noticias</Link></li>
           <li><Link className={styles.link} to="/contacto" onClick={toggleMenu}>Contacto</Link></li>

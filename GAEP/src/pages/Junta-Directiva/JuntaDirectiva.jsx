@@ -84,6 +84,7 @@ const JuntaDirectiva = () => {
                                     <div className="info-details">
                                         <p><strong>Promoción:</strong> {selectedMiembro.prom}</p>
                                         <p><strong>Email:</strong> {selectedMiembro.email}</p>
+                                        <p><strong>Teléfono:</strong> {selectedMiembro.telf}</p>
                                         <div className="biografia">
                                             <h3>Biografía</h3>
                                             <div

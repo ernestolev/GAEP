@@ -49,7 +49,7 @@ const compressLogo = async (file) => {
 
     try {
         let compressedFile = await imageCompression(file, options);
-        
+
         // If still too large, compress again with lower quality
         if (compressedFile.size > 1000000) {
             options.initialQuality = 0.5;
@@ -80,6 +80,7 @@ const AdminPanel = () => {
         type: '' // 'success' or 'error'
     });
 
+    const [sponsorEmail, setSponsorEmail] = useState('');
 
     const [sponsorTelefono, setSponsorTelefono] = useState('');
     const [sponsorEnlace, setSponsorEnlace] = useState('');
@@ -1343,10 +1344,10 @@ const AdminPanel = () => {
         setSponsorEnlace(sponsor.enlace || '');
         setSponsorDescripcion(sponsor.descripcion || '');
         setSponsorUbicacion(sponsor.ubicacion || '');
+        setSponsorEmail(sponsor.email || ''); // Add this line
         setEditId(sponsor.id);
         setShowSponsorPopup(true);
     };
-
     const clearSponsorForm = () => {
         setRazonSocial('');
         setLogo('');
@@ -1354,6 +1355,7 @@ const AdminPanel = () => {
         setSponsorEnlace('');
         setSponsorDescripcion('');
         setSponsorUbicacion('');
+        setSponsorEmail(''); // Add this line
         setEditId(null);
     };
 
@@ -1371,7 +1373,8 @@ const AdminPanel = () => {
                 telefono: sponsorTelefono,
                 enlace: sponsorEnlace,
                 descripcion: sponsorDescripcion,
-                ubicacion: sponsorUbicacion
+                ubicacion: sponsorUbicacion,
+                email: sponsorEmail // Add this line
             };
 
             if (editId) {
@@ -1462,6 +1465,15 @@ const AdminPanel = () => {
                                 {sponsorTelefono && sponsorTelefono.length !== 9 && (
                                     <span className="input-error">El teléfono debe tener 9 dígitos</span>
                                 )}
+                            </div>
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input
+                                    type="email"
+                                    value={sponsorEmail}
+                                    onChange={(e) => setSponsorEmail(e.target.value)}
+                                    placeholder="ejemplo@correo.com"
+                                />
                             </div>
                             <div className="form-group">
                                 <label>Enlace (URL)</label>
@@ -1683,20 +1695,20 @@ const AdminPanel = () => {
                 loadingMessage.className = 'loading-message';
                 loadingMessage.textContent = 'Procesando imagen...';
                 e.target.parentNode.appendChild(loadingMessage);
-    
+
                 // Use specific compression for logos
-                const compressedFile = setImageFunc === setLogo ? 
-                    await compressLogo(file) : 
+                const compressedFile = setImageFunc === setLogo ?
+                    await compressLogo(file) :
                     await compressImage(file);
-    
+
                 const reader = new FileReader();
-    
+
                 reader.onloadend = () => {
                     setImageFunc(reader.result);
                     loadingMessage.remove();
                     setActionLoading(false);
                 };
-    
+
                 reader.readAsDataURL(compressedFile);
             } catch (error) {
                 console.error("Error processing image:", error);

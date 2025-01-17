@@ -21,11 +21,11 @@ const Footer = () => {
           </div>
           <div className="footer-info">
             <h4>Teléfono</h4>
-            <p>+51 123 456 789</p>
+            <p>+51 956647620</p>
           </div>
           <div className="footer-info">
             <h4>Email</h4>
-            <p>info@ejemplo.com</p>
+            <p>gaepjpb@gmail.com</p>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import Navbar2 from '../../components/Navbar/Navbar2';
 import Footer from '../../components/Footer/Footer';
 import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
 import './PresidentesPromociones.modules.css';
+import defimg from '../../assets/icons/icon-userdefault.png';
 
 const PresidentesPromociones = () => {
     const [presidentes, setPresidentes] = useState(null);
@@ -64,7 +65,7 @@ const PresidentesPromociones = () => {
                         >
                             <div
                                 className="jd-imagen"
-                                style={{ backgroundImage: `url(${presidente.imagen || '/path/to/default/image.jpg'})` }}
+                                style={{ backgroundImage: `url(${presidente.imagen || {defimg}})` }}
                             ></div>
                             <div className="jd-info">
                                 <h3>{presidente.nombre}</h3>
@@ -75,14 +76,14 @@ const PresidentesPromociones = () => {
                 </div>
 
                 {showModal && selectedPresidente && (
-                    <div className="popjd" onClick={() => setShowModal(false)}>
+                    <div className="poppdp" onClick={() => setShowModal(false)}>
                         <div className="jdmodal" onClick={e => e.stopPropagation()}>
                             <button className="closebtn" onClick={() => setShowModal(false)}>×</button>
-                            <div className="jdmbody">
+                            <div className="jdmsbody">
                                 <div className="modal-foto">
                                     <div 
                                         className="foto-container" 
-                                        style={{ backgroundImage: `url(${selectedPresidente.imagen || '/path/to/default/image.jpg'})` }}
+                                        style={{ backgroundImage: `url(${selectedPresidente.imagen || {defimg}})` }}
                                     ></div>
                                 </div>
                                 <div className="jdminfo">
