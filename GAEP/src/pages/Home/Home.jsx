@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, startAfter } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen';
 import { Link } from 'react-router-dom';
@@ -55,6 +55,11 @@ const Home = () => {
     const [fade, setFade] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    const [lastVisible, setLastVisible] = useState(null);
+    const [hasMore, setHasMore] = useState(true);
+    const loadingRef = useRef(null);
+    const ITEMS_PER_PAGE = 5;
+
     const navigate = useNavigate();
     const banners = [
         {
@@ -99,21 +104,23 @@ const Home = () => {
                 <div>
                     <p>Hazte miembro ahora y disfruta de los proximos eventos que estaremos realizando.</p>
                     <div className='comunidad-button'>
-                                    <button
-                                        className='btn1'
-                                        onClick={() => navigate('/inscripciones')}
-                                    >
-                                        Inscribirme
-                                    </button>
-                                </div>
+                        <button
+                            className='btn1'
+                            onClick={() => navigate('/inscripciones')}
+                        >
+                            Inscribirme
+                        </button>
+                    </div>
                 </div>
             ),
             image: imginscrip
         }
     ];
 
+
+
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async (isInitial = true) => {
 
             AOS.init({
                 duration: 800,
@@ -122,8 +129,26 @@ const Home = () => {
             });
 
             try {
+
+                let actividadesQuery;
+
+                if (isInitial) {
+                    actividadesQuery = query(
+                        collection(db, 'actividades'),
+                        orderBy('fecha', 'desc'),
+                        limit(ITEMS_PER_PAGE)
+                    );
+                } else if (lastVisible) {
+                    actividadesQuery = query(
+                        collection(db, 'actividades'),
+                        orderBy('fecha', 'desc'),
+                        startAfter(lastVisible),
+                        limit(ITEMS_PER_PAGE)
+                    );
+                }
+
                 const [actividadesSnapshot, ubicacionesSnapshot, noticiasSnapshot] = await Promise.all([
-                    getDocs(collection(db, 'actividades')),
+                    getDocs(actividadesQuery || collection(db, 'actividades')),
                     getDocs(collection(db, 'ubicaciones')),
                     getDocs(collection(db, 'noticias'))
                 ]);
@@ -134,6 +159,20 @@ const Home = () => {
                     id: doc.id,
                     fecha: doc.data().fecha.toDate().toLocaleDateString()
                 }));
+
+                if (actividadesData.length < ITEMS_PER_PAGE) {
+                    setHasMore(false);
+                }
+
+                setLastVisible(actividadesSnapshot.docs[actividadesSnapshot.docs.length - 1]);
+
+                if (isInitial) {
+                    setActividades(actividadesData);
+                } else {
+                    setActividades(prev => [...prev, ...actividadesData]);
+                }
+
+
                 const actividadesOrdenadas = actividadesData.sort((a, b) =>
                     new Date(a.fecha) - new Date(b.fecha)
                 );
@@ -149,7 +188,7 @@ const Home = () => {
                     id: doc.id
                 }));
                 setNoticias(noticiasData.slice(0, 3));
-
+        
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
@@ -160,8 +199,25 @@ const Home = () => {
             }
         };
 
+
+
         fetchData();
-    }, []);
+
+        const observer = new IntersectionObserver(
+            entries => {
+                if (entries[0].isIntersecting && hasMore) {
+                    fetchData(false);
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        if (loadingRef.current) {
+            observer.observe(loadingRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [hasMore, lastVisible]);
     const agregarUbicacion = (nuevaUbicacion) => {
         setUbicaciones([...ubicaciones, nuevaUbicacion]);
     };
@@ -204,7 +260,7 @@ const Home = () => {
             setFade(false);
         }, 500); // Duración de la animación de fade
     };
-    
+
 
     return (
         <>
@@ -261,7 +317,7 @@ const Home = () => {
                         </div>
                     </section>
                     <div data-aos="fade-up">
-                    <Sponsors />
+                        <Sponsors />
                     </div>
                     <section className="beneficios" id='beneficios'>
                         <div className="beneficios-grid">
@@ -330,7 +386,7 @@ const Home = () => {
                                 </div>
                                 <img src={comillas} alt="Comilla" className="comilla" />
                             </div>
-                            <div className="testimonio-cuadro"  data-aos="fade-up" data-aos-delay="600">
+                            <div className="testimonio-cuadro" data-aos="fade-up" data-aos-delay="600">
                                 <p>"Ser parte de la GAEP ha sido una experiencia increíble. Gracias a la asociación, he podido participar en eventos exclusivos, conectar con exalumnos de diferentes generaciones y disfrutar de beneficios que fortalecen nuestro vínculo como comunidad. Es gratificante ver cómo nuestra red de egresados del Colegio José Pardo y Barreda sigue creciendo y apoyándonos mutuamente."</p>
                                 <div className="testimonio-footer">
                                     <img src={persona} alt="Persona" className="testimonio-img" />
@@ -365,7 +421,7 @@ const Home = () => {
                             <div className="eventosmuestra-imagen">
                                 <img src={foto1} alt="Evento destacado" className="evento-img" />
                                 <div className="carrusel-eventos-container" ref={carruselRef}>
-                                    <div className="carrusel-eventos"  data-aos="fade-up" data-aos-delay="800">
+                                    <div className="carrusel-eventos" data-aos="fade-up" data-aos-delay="800">
                                         <div className="evento">
                                             <img src={em1} alt="Evento 1" className="evento-img2" />
                                             <div className='contenidoevento'>
@@ -460,6 +516,7 @@ const Home = () => {
                                 {actividades.map((actividad, index) => (
                                     <div
                                         key={index}
+                                        ref={index === actividades.length - 1 ? loadingRef : null}
                                         className={`tarjeta-actividad ${index === 0 ? 'tarjeta-actividad-principal' : ''}`}
                                         onClick={() => navigate(`/actividades/${actividad.id}`)}
                                         style={{ cursor: 'pointer' }}

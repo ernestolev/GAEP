@@ -242,6 +242,7 @@
 
 .bio-content p {
     margin-bottom: 1em;
+    height: auto;
 }
 
 @keyframes fadeIn {
