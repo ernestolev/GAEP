@@ -213,6 +213,7 @@ const InscripcionModal = ({ isOpen, onClose }) => {
                 promocion: formData.promocion,
                 nombre: formData.nombre,
                 apellidos: formData.apellidos,
+                prof: formData.prof,
                 email: formData.email,
                 comprobante: base64Image,
                 estado: 'pendiente',
@@ -389,6 +390,15 @@ const InscripcionModal = ({ isOpen, onClose }) => {
                                 type="email"
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Profesión u Oficio</label>
+                            <input
+                                type="text"
+                                value={formData.prof}
+                                onChange={(e) => setFormData({ ...formData, prof: e.target.value })}
+                                placeholder="Ingrese su profesión u oficio"
                             />
                         </div>
                     </div>

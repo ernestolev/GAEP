@@ -10,8 +10,14 @@ import './MiembrosGaep.modules.css';
 const MiembrosGaep = () => {
     const [exalumnos, setExalumnos] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [filterProf, setFilterProf] = useState('');
+    const [filterPromocion, setFilterPromocion] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [sortDirection, setSortDirection] = useState('asc');
+
+    const professions = [...new Set(exalumnos.map(e => e.prof).filter(Boolean))];
+    const promotions = [...new Set(exalumnos.map(e => e.promocion).filter(Boolean))].sort((a, b) => b - a);
+
 
     useEffect(() => {
         const fetchExalumnos = async () => {
@@ -45,7 +51,7 @@ const MiembrosGaep = () => {
         const newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
         setSortDirection(newDirection);
         const sortedExalumnos = [...exalumnos].sort((a, b) => {
-            return newDirection === 'asc' 
+            return newDirection === 'asc'
                 ? a.nombre.localeCompare(b.nombre)
                 : b.nombre.localeCompare(a.nombre);
         });
@@ -53,9 +59,19 @@ const MiembrosGaep = () => {
     };
 
     const filteredExalumnos = exalumnos.filter(exalumno => {
-        const normalizedName = normalizeText(exalumno.nombre);
         const normalizedSearch = normalizeText(searchTerm);
-        return normalizedName.includes(normalizedSearch);
+        const normalizedName = normalizeText(exalumno.nombre);
+        const normalizedProf = normalizeText(exalumno.prof || '');
+        const normalizedPromocion = exalumno.promocion?.toString() || '';
+
+        const matchesSearch = normalizedName.includes(normalizedSearch) ||
+            normalizedProf.includes(normalizedSearch) ||
+            normalizedPromocion.includes(normalizedSearch);
+
+        const matchesProf = !filterProf || normalizeText(exalumno.prof || '').includes(normalizeText(filterProf));
+        const matchesPromocion = !filterPromocion || exalumno.promocion?.toString() === filterPromocion;
+
+        return matchesSearch && matchesProf && matchesPromocion;
     });
 
     return (
@@ -74,22 +90,44 @@ const MiembrosGaep = () => {
                 <div className="search-section">
                     <input
                         type="text"
-                        placeholder="Buscar por nombre..."
+                        placeholder="Buscar por nombre, profesión o promoción..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="search-input"
                     />
+                    <select
+                        value={filterProf}
+                        onChange={(e) => setFilterProf(e.target.value)}
+                        className="filter-select"
+                    >
+                        <option value="">Todas las profesiones</option>
+                        {professions.map(prof => (
+                            <option key={prof} value={prof}>{prof}</option>
+                        ))}
+                    </select>
+                    <select
+                        value={filterPromocion}
+                        onChange={(e) => setFilterPromocion(e.target.value)}
+                        className="filter-select"
+                    >
+                        <option value="">Todas las promociones</option>
+                        {promotions.map(prom => (
+                            <option key={prom} value={prom}>Promoción {prom}</option>
+                        ))}
+                    </select>
                     <button onClick={handleSort} className="sort-button">
                         Ordenar {sortDirection === 'asc' ? '↑' : '↓'}
                     </button>
                 </div>
-
-                <div className="miembros-table-container">
+                <div style={{ overflowX: 'auto' }}>
                     <table className="miembros-table">
                         <thead>
                             <tr>
                                 <th>N°</th>
                                 <th>Nombres</th>
+                                <th>Profesión</th>
+                                <th>Promoción</th>
+                                <th>Telefono</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,6 +135,9 @@ const MiembrosGaep = () => {
                                 <tr key={exalumno.id}>
                                     <td>{index + 1}</td>
                                     <td>{exalumno.nombre}</td>
+                                    <td>{exalumno.prof || '-'}</td>
+                                    <td>{exalumno.promocion || '-'}</td>
+                                    <td>{exalumno.telefono || '-'}</td>
                                 </tr>
                             ))}
                         </tbody>

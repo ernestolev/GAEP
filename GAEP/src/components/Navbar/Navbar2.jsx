@@ -66,12 +66,30 @@ const Navbar2 = () => {
                 <Link to="/acerca-de" onClick={toggleMenu}>
                   Acerca de GAEP
                 </Link>
-                <Link to="/galeria-fotos" onClick={toggleMenu}>
-                  Galería de fotos
-                </Link>
               </div>
             </Link>
           </li>
+          <li className={styles.dropdown}>
+                      <Link
+                        className={styles.link}
+                        to="/"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsJBPDropdownOpen(!isJBPDropdownOpen);
+                        }}
+                      >
+                        Galería
+                        <div className={`${styles.dropdownContent} ${isJBPDropdownOpen ? styles.show : ''}`}>
+          
+                          <Link to="/galeria-fotos" onClick={toggleMenu}>
+                            Fotos de Promociones
+                          </Link>
+                          <Link to="/fotos-selecciones" onClick={toggleMenu}>
+                            Fotos de Selecciones
+                          </Link>
+                        </div>
+                      </Link>
+                    </li>
           <li><Link className={styles.link} to="/" onClick={toggleMenu}>Beneficios</Link></li>
           <li><Link className={styles.link} to="/actividades" onClick={toggleMenu}>Actividades</Link></li>
           <li><Link className={styles.link} to="/noticias" onClick={toggleMenu}>Noticias</Link></li>

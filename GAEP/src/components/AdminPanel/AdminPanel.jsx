@@ -24,7 +24,8 @@ import {
     FaUsers,
     FaUserGraduate,
     FaUserPlus,
-    FaHandshake
+    FaHandshake,
+    FaFutbol // Add this import
 } from 'react-icons/fa';
 import { FaImages } from 'react-icons/fa';
 import imageCompression from 'browser-image-compression';
@@ -64,6 +65,8 @@ const compressLogo = async (file) => {
 };
 
 const AdminPanel = () => {
+    const [prof, setProf] = useState('');
+
     const [showComprobanteModal, setShowComprobanteModal] = useState(false);
     const [currentComprobante, setCurrentComprobante] = useState(null);
     const [selectedGrupo, setSelectedGrupo] = useState(null);
@@ -87,6 +90,14 @@ const AdminPanel = () => {
     const [sponsorDescripcion, setSponsorDescripcion] = useState('');
     const [sponsorUbicacion, setSponsorUbicacion] = useState('');
     const [sponsors, setSponsors] = useState([]);
+
+
+    const [showSeleccionPopup, setShowSeleccionPopup] = useState(false);
+    const [seleccionImagenes, setSeleccionImagenes] = useState([]);
+    const [yearSeleccion, setYearSeleccion] = useState('');
+    const [searchSeleccion, setSearchSeleccion] = useState('');
+    const [seleccionFotos, setSeleccionFotos] = useState([]);
+    const [selectedSeleccion, setSelectedSeleccion] = useState(null);
 
 
     const [showSponsorPopup, setShowSponsorPopup] = useState(false);
@@ -159,6 +170,18 @@ const AdminPanel = () => {
 
     const [presidenteProm, setPresidenteProm] = useState(false);
 
+    const fetchSeleccionFotos = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'fotos-seleccionesfutbol'));
+            const fotosData = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setSeleccionFotos(fotosData);
+        } catch (error) {
+            console.error("Error fetching selección fotos:", error);
+        }
+    };
 
     const Toast = ({ message, type, onClose }) => (
         <div className={`toast-notification ${type}`}>
@@ -426,6 +449,19 @@ const AdminPanel = () => {
                             type: 'success'
                         });
                         await fetchGaleriaFotos();
+                    }
+                    break;
+                case 'seleccion':
+                    if (Array.isArray(ids)) {
+                        for (let docId of ids) {
+                            await deleteDoc(doc(db, 'fotos-seleccionesfutbol', docId));
+                        }
+                        setToast({
+                            show: true,
+                            message: 'Fotos eliminadas correctamente',
+                            type: 'success'
+                        });
+                        await fetchSeleccionFotos();
                     }
                     break;
             }
@@ -1121,6 +1157,7 @@ const AdminPanel = () => {
                 await fetchSolicitudes();
                 await fetchGaleriaFotos();
                 await fetchSponsors();
+                await fetchSeleccionFotos();
             } finally {
                 setTimeout(() => {
                     setIsLoading(false);
@@ -1587,7 +1624,8 @@ const AdminPanel = () => {
                 telefono: telf,
                 promocion: promocion,
                 presidenteprom: presidenteProm,
-                imagen: imagen // Add image field
+                imagen: imagen,
+                prof: prof
             };
 
             if (editId) {
@@ -1681,7 +1719,8 @@ const AdminPanel = () => {
         setTelf(exalumno.telefono || '');
         setPromocion(exalumno.promocion || '');
         setPresidenteProm(exalumno.presidenteprom || false);
-        setImagen(exalumno.imagen || ''); // Add this line
+        setImagen(exalumno.imagen || '');
+        setProf(exalumno.prof || ''); // Add this line
         setEditId(exalumno.id);
         setShowAddPopup(true);
     };
@@ -2136,6 +2175,232 @@ const AdminPanel = () => {
         }
     };
 
+    const renderSeleccionFutbol = () => {
+        // Group photos by year
+        const groupedPhotos = seleccionFotos.reduce((acc, foto) => {
+            const year = foto['year-seleccion'];
+            if (!acc[year]) {
+                acc[year] = {
+                    year,
+                    imagenes: [...foto.imagenes],
+                    ids: [foto.id]
+                };
+            } else {
+                acc[year].imagenes.push(...foto.imagenes);
+                acc[year].ids.push(foto.id);
+            }
+            return acc;
+        }, {});
+
+        const sortedGroups = Object.values(groupedPhotos).sort((a, b) =>
+            b.year - a.year
+        );
+
+        return (
+            <div className="section">
+                <h2>Galería de Fotos - Selecciones de Fútbol</h2>
+                <div className="search-filter-container">
+                    <div className="search-box">
+                        <input
+                            type="text"
+                            placeholder="Buscar por año..."
+                            value={searchSeleccion}
+                            onChange={(e) => setSearchSeleccion(e.target.value)}
+                        />
+                        <i className="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <button className='btn-añadir' onClick={() => {
+                    setSeleccionImagenes([]);
+                    setYearSeleccion('');
+                    setShowSeleccionPopup(true);
+                }}>
+                    Añadir Fotos
+                </button>
+
+                <div className='galeriaoverf'>
+                    <div className="galeria-grid">
+                        {sortedGroups
+                            .filter(grupo => grupo.year.toString().includes(searchSeleccion))
+                            .map((grupo) => (
+                                <div key={grupo.year} className="galeria-card">
+                                    <h3>Selección {grupo.year}</h3>
+                                    <div className="galeria-preview">
+                                        <img src={grupo.imagenes[0]} alt={`Selección ${grupo.year}`} />
+                                        <span className="imagen-count">{grupo.imagenes.length} fotos</span>
+                                    </div>
+                                    <div className="galeria-actions">
+                                        <button onClick={() => setSelectedSeleccion(grupo)}>Ver fotos</button>
+                                        <button onClick={() => handleConfirmDelete('seleccion', null, grupo.ids, grupo.year)}>
+                                            Eliminar Año
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+
+                {selectedSeleccion && (
+                    <div className="overlay" onClick={() => setSelectedSeleccion(null)}>
+                        <div className="popup popup-lg" onClick={e => e.stopPropagation()}>
+                            <button className="popup-close" onClick={() => setSelectedSeleccion(null)}>×</button>
+                            <div className="popup-content">
+                                <h3>Fotos Selección {selectedSeleccion.year}</h3>
+                                <div className="galeria-grid-popup">
+                                    {selectedSeleccion.imagenes.map((imagen, index) => (
+                                        <div key={index} className="galeria-item">
+                                            <img src={imagen} alt={`Foto ${index + 1}`} />
+                                            <button
+                                                className="remove-image"
+                                                onClick={() => handleDeleteSeleccionImage(selectedSeleccion.year, imagen)}
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {showSeleccionPopup && (
+                    <div className="overlay" onClick={() => setShowSeleccionPopup(false)}>
+                        <div className="popup" onClick={e => e.stopPropagation()}>
+                            <button className="popup-close" onClick={() => setShowSeleccionPopup(false)}>×</button>
+                            <div className="popup-content">
+                                <h3>Añadir Fotos de Selección</h3>
+                                <div className="form-group">
+                                    <label>Año de Selección</label>
+                                    <input
+                                        type="text"
+                                        value={yearSeleccion}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/\D/g, '');
+                                            if (value.length <= 4) setYearSeleccion(value);
+                                        }}
+                                        maxLength="4"
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Imágenes (1-8 fotos)</label>
+                                    <input
+                                        type="file"
+                                        onChange={(e) => {
+                                            if (seleccionImagenes.length < 8) {
+                                                handleImageUpload(e, (newImage) => {
+                                                    setSeleccionImagenes([...seleccionImagenes, newImage]);
+                                                });
+                                            }
+                                        }}
+                                        accept="image/*"
+                                        className="form-control"
+                                        disabled={seleccionImagenes.length >= 8}
+                                    />
+                                    <div className="images-preview">
+                                        {seleccionImagenes.map((img, index) => (
+                                            <div key={index} className="image-preview-container">
+                                                <img src={img} alt={`Preview ${index + 1}`} />
+                                                <button
+                                                    onClick={() => {
+                                                        const newImages = seleccionImagenes.filter((_, i) => i !== index);
+                                                        setSeleccionImagenes(newImages);
+                                                    }}
+                                                    className="remove-image"
+                                                >×</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="popup-buttons">
+                                    <LoadingButton
+                                        onClick={handleAddSeleccion}
+                                        loading={actionLoading}
+                                        text="Añadir"
+                                        disabled={!yearSeleccion || seleccionImagenes.length === 0}
+                                    />
+                                    <button onClick={() => setShowSeleccionPopup(false)}>Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    const handleAddSeleccion = async () => {
+        try {
+            setActionLoading(true);
+            if (!yearSeleccion || seleccionImagenes.length === 0) {
+                alert('Por favor complete todos los campos y añada al menos una imagen');
+                return;
+            }
+
+            const nuevaSeleccion = {
+                'year-seleccion': yearSeleccion,
+                imagenes: seleccionImagenes
+            };
+
+            await addDoc(collection(db, 'fotos-seleccionesfutbol'), nuevaSeleccion);
+
+            setShowSeleccionPopup(false);
+            setSeleccionImagenes([]);
+            setYearSeleccion('');
+            await fetchSeleccionFotos();
+
+            setToast({
+                show: true,
+                message: 'Fotos añadidas correctamente',
+                type: 'success'
+            });
+        } catch (error) {
+            console.error("Error adding selección:", error);
+            setToast({
+                show: true,
+                message: 'Error al añadir fotos',
+                type: 'error'
+            });
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    const handleDeleteSeleccionImage = async (year, imagen) => {
+        try {
+            const docs = seleccionFotos.filter(g => g['year-seleccion'] === year);
+
+            for (const docData of docs) {
+                if (docData.imagenes.includes(imagen)) {
+                    const updatedImagenes = docData.imagenes.filter(img => img !== imagen);
+                    const docRef = doc(db, 'fotos-seleccionesfutbol', docData.id);
+
+                    if (updatedImagenes.length === 0) {
+                        await deleteDoc(docRef);
+                    } else {
+                        await updateDoc(docRef, {
+                            imagenes: updatedImagenes
+                        });
+                    }
+
+                    if (selectedSeleccion) {
+                        setSelectedSeleccion(prev => ({
+                            ...prev,
+                            imagenes: prev.imagenes.filter(img => img !== imagen)
+                        }));
+                    }
+
+                    await fetchSeleccionFotos();
+                    break;
+                }
+            }
+        } catch (error) {
+            console.error("Error deleting image:", error);
+        }
+    };
+
     const renderExalumnos = () => (
         <div className="section">
             <h2>Exalumnos Inscritos</h2>
@@ -2171,6 +2436,7 @@ const AdminPanel = () => {
                             <th>DNI</th>
                             <th>Email</th>
                             <th>Teléfono</th>
+                            <th>Profesión</th>
                             <th>Promoción</th>
                             <th>Presidente</th>
                             <th>Fecha Inscripción</th>
@@ -2185,6 +2451,7 @@ const AdminPanel = () => {
                                 <td>{exalumno.dni}</td>
                                 <td>{exalumno.email || '-'}</td>
                                 <td>{exalumno.telefono || '-'}</td>
+                                <td>{exalumno.prof || '-'}</td>
                                 <td>{exalumno.promocion || '-'}</td>
                                 <td>{exalumno.presidenteprom ? 'Sí' : 'No'}</td>
                                 <td>{exalumno.fechaInscripcion?.toDate().toLocaleDateString() || '-'}</td>
@@ -2293,6 +2560,15 @@ const AdminPanel = () => {
                                     <span className="input-error">El teléfono debe tener 9 dígitos</span>
                                 )}
                             </div>
+                            <div className="form-group">
+                                <label>Profesión u Oficio</label>
+                                <input
+                                    type="text"
+                                    value={prof}
+                                    onChange={(e) => setProf(e.target.value)}
+                                    placeholder="Ingrese profesión u oficio"
+                                />
+                            </div>
 
                             <div className="form-group">
                                 <label>Promoción</label>
@@ -2300,15 +2576,16 @@ const AdminPanel = () => {
                                     type="text"
                                     value={promocion}
                                     onChange={(e) => {
-                                        const value = e.target.value.replace(/\D/g, '');
-                                        if (value.length <= 4) setPromocion(value);
+                                        // Allow numbers and hyphen
+                                        const value = e.target.value.replace(/[^0-9-]/g, '');
+                                        if (value.length <= 6) setPromocion(value);
                                     }}
-                                    maxLength="4"
-                                    placeholder="Ingrese año de promoción"
+                                    maxLength="6"
+                                    placeholder="Ej: 1973-2"
                                     required
                                 />
-                                {promocion && promocion.length !== 4 && (
-                                    <span className="input-error">La promoción debe tener 4 dígitos</span>
+                                {promocion && promocion.length > 6 && (
+                                    <span className="input-error">La promoción debe tener máximo 6 caracteres</span>
                                 )}
                             </div>
                             <div className="form-group">
@@ -2458,6 +2735,12 @@ const AdminPanel = () => {
                         }}>
                             <FaImages className="sidebar-icon" /> Galería de Fotos
                         </button>
+                        <button onClick={() => {
+                            setActiveSection('seleccionFutbol');
+                            setIsSidebarOpen(false);
+                        }}>
+                            <FaFutbol className="sidebar-icon" /> Fotos Selección Fútbol
+                        </button>
                         {/* 
                         <button className="theme-toggle" onClick={toggleTheme}>
                             {darkTheme ? (
@@ -2492,6 +2775,8 @@ const AdminPanel = () => {
                             {activeSection === 'solicitudesMiembros' && renderSolicitudesMiembros()}
                             {activeSection === 'galeriaFotos' && renderGaleriaFotos()}
                             {activeSection === 'sponsors' && renderSponsors()}
+                            {activeSection === 'seleccionFutbol' && renderSeleccionFutbol()}
+
                         </div>
                     </div>
 

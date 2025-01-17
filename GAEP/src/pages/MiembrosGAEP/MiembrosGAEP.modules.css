@@ -111,6 +111,22 @@
     border-bottom: none;
 }
 
+.filter-select {
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #026010;
+    background-color: white;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+
+.filter-select:focus {
+    border-color: #026010;
+    outline: none;
+}
+
 @media (max-width: 768px) {
     .miembros-page {
         margin-top: 20px;
@@ -123,6 +139,12 @@
 
     .search-section {
         flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-select {
+        width: 100%;
+        margin-right: 0;
     }
 
     .sort-button {

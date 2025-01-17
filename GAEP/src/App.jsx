@@ -20,7 +20,7 @@ import HistoriaColegio from './pages/JPB/HistoriaColegio';
 import HimnoColegio from './pages/JPB/HimnoColegio';
 import GaleriaFotos from './pages/GaleriaFotos/GaleriaFotos';
 import PresidentesPromociones from './pages/PresidentesPromociones/PresidentesPromociones';
-
+import FotosSelecciones from './pages/FotosSelecciones/FotosSelecciones';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -55,6 +55,7 @@ const App = () => {
         <Route path="/himno-colegio" element={<HimnoColegio />} />
         <Route path="/galeria-fotos" element={<GaleriaFotos />} />
         <Route path="/presidentes-promociones" element={<PresidentesPromociones />} />
+        <Route path="/fotos-selecciones" element={<FotosSelecciones />} />
                 {/*
                 <Route path="/admin" element={<Admin />} />
                 */}
