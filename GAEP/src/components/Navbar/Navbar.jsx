@@ -121,7 +121,7 @@ const Navbar = () => {
                 <Link to="/galeria-fotos" onClick={toggleMenu}>
                   Fotos de Promociones
                 </Link>
-                <Link to="/galeria-fotos-selecciones" onClick={toggleMenu}>
+                <Link to="/fotos-selecciones" onClick={toggleMenu}>
                   Fotos de Selecciones
                 </Link>
               </div>

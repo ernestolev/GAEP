@@ -58,31 +58,71 @@ const Mapa = ({ ubicaciones }) => {
                 {Object.keys(ubicacionesAgrupadas).map((key, index) => {
                     const [lat, lng] = key.split(',').map(Number);
                     const ubicacionesEnPais = ubicacionesAgrupadas[key];
-                    const promociones = [...new Set(ubicacionesEnPais.map(u => u.promocion))];
+                    
+                    // Group names by promotion
+                    const promocionesConNombres = ubicacionesEnPais.reduce((acc, ubi) => {
+                        if (!acc[ubi.promocion]) {
+                            acc[ubi.promocion] = [];
+                        }
+                        acc[ubi.promocion].push(ubi.nombre);
+                        return acc;
+                    }, {});
+
                     return (
                         <Marker key={index} position={[lat, lng]} icon={jadeGreenIcon}>
                             <Popup>
-                                {promociones.map((promocion, idx) => (
-                                    <div key={idx}>{promocion}</div>
-                                ))}
-                                <div>Total: {ubicacionesEnPais.length}</div>
+                                <div className="popup-content">
+                                    <h4>{ubicacionesEnPais[0].pais}</h4>
+                                    {Object.entries(promocionesConNombres).map(([promocion, nombres], idx) => (
+                                        <div key={idx} className="promocion-group">
+                                            <strong>Promoción {promocion}:</strong>
+                                            <ul>
+                                                {nombres.map((nombre, i) => (
+                                                    <li key={i}>{nombre}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    ))}
+                                    <div className="total-count">
+                                        <strong>Total: {ubicacionesEnPais.length}</strong>
+                                    </div>
+                                </div>
                             </Popup>
                         </Marker>
                     );
                 })}
             </MapContainer>
+            
             <div className="ubicaciones-principales">
-                {ubicacionesPrincipales.map((ubicacion, index) => (
-                    <div
-                        key={index}
-                        className="ubicacion-principal"
-                        onClick={() => handleUbicacionClick(ubicacion.lat, ubicacion.lng)}
-                    >
-                        <div className="ubicacion-principal-nombre">{ubicacion.pais}</div>
-                        <div className="ubicacion-principal-promociones">{ubicacion.promociones.join(', ')}</div>
-                        <div className="ubicacion-principal-count">Total: {ubicacion.count}</div>
-                    </div>
-                ))}
+                {ubicacionesPrincipales.map((ubicacion, index) => {
+                    const ubicacionesEnPais = ubicacionesAgrupadas[`${ubicacion.lat},${ubicacion.lng}`];
+                    const nombresAgrupados = ubicacionesEnPais.reduce((acc, ubi) => {
+                        if (!acc[ubi.promocion]) {
+                            acc[ubi.promocion] = [];
+                        }
+                        acc[ubi.promocion].push(ubi.nombre);
+                        return acc;
+                    }, {});
+
+                    return (
+                        <div
+                            key={index}
+                            className="ubicacion-principal"
+                            onClick={() => handleUbicacionClick(ubicacion.lat, ubicacion.lng)}
+                        >
+                            <div className="ubicacion-principal-nombre">{ubicacion.pais}</div>
+                            <div className="ubicacion-principal-info">
+                                {Object.entries(nombresAgrupados).map(([promocion, nombres], idx) => (
+                                    <div key={idx} className="promocion-info">
+                                        <div>Promoción {promocion}:</div>
+                                        <div className="nombres-list">{nombres.join(', ')}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="ubicacion-principal-count">Total: {ubicacion.count}</div>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );

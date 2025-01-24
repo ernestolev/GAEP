@@ -1096,6 +1096,38 @@ section {
     animation: fadeInUp 0.8s ease forwards;
 }
 
+.popup-content {
+    min-width: 200px;
+    padding: 5px;
+}
+
+.promocion-group {
+    margin: 8px 0;
+}
+
+.promocion-group ul {
+    list-style: none;
+    padding-left: 15px;
+    margin: 5px 0;
+}
+
+.promocion-info {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.nombres-list {
+    color: #666;
+    font-size: 0.9em;
+    margin-left: 10px;
+}
+
+.total-count {
+    margin-top: 8px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+}
+
 @keyframes fadeInUp {
     to {
         opacity: 1;
@@ -1451,11 +1483,7 @@ section {
         justify-content: center;
     }
 
-    .ubicacion-principal {
-        height: 60px;
-        width: 70px;
-        margin: 5px;
-    }
+    
 
     .ubicacion-principal-nombre,
     .ubicacion-principal-promociones,
@@ -1914,7 +1942,7 @@ section {
     }
 
     .ubicacion-principal {
-        height: 60px;
+        height: 100px;
         width: 70px;
         margin: 5px;
         border-radius: 7px;
@@ -1941,6 +1969,11 @@ section {
     .ultimasnoticias {
         padding: 0px;
     }
+    .nombres-list {
+        color: #666;
+        font-size: 0.5rem;
+        margin-left: 10px;
+    }
 
     .ultimasnoticias-header {
         margin-bottom: 0px;
@@ -1950,6 +1983,11 @@ section {
     .ultimasnoticias-header h2 {
         font-size: 2.8rem;
         line-height: 2.8rem;
+    }
+
+    .promocion-info {
+        margin: 5px 0;
+        font-size: 0.6rem;
     }
 
     .noticias-content {
