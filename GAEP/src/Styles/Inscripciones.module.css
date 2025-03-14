@@ -1,0 +1,411 @@
+.inscripcionesPage {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+    position: relative;
+    overflow: hidden;
+}
+
+.inscripcionesPage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54 48L6 12M6 48L54 12' stroke='%23026010' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E") repeat;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.inscripcionesBanner {
+    background: linear-gradient(135deg, #026010 0%, #028641 100%);
+    color: white;
+    padding: 80px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(2, 96, 16, 0.2);
+}
+
+.inscripcionesBanner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    z-index: 1;
+}
+
+.inscripcionesBanner h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(0px);
+    transition: transform 0.5s ease;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.inscripcionesBanner p {
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.inscripcionesContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    position: relative;
+}
+
+.inscripcionesContent h2 {
+    color: #026010;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.inscripcionesContent h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #026010, rgba(2, 96, 16, 0.3));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    transform: translateX(calc(50% - 40px));
+}
+
+.inscripcionesContent:hover h2::after {
+    width: 160px;
+    transform: translateX(calc(50% - 80px));
+}
+
+.inscripcionesIntro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 70px;
+    line-height: 1.7;
+    color: #333;
+    font-size: 1.15rem;
+    position: relative;
+    padding: 0 20px;
+}
+
+.inscripcionesIntro::before,
+.inscripcionesIntro::after {
+    content: '';
+    position: absolute;
+    height: 50px;
+    width: 50px;
+}
+
+.inscripcionesIntro::before {
+    top: -20px;
+    left: 0;
+    border-top: 3px solid rgba(2, 96, 16, 0.3);
+    border-left: 3px solid rgba(2, 96, 16, 0.3);
+}
+
+.inscripcionesIntro::after {
+    bottom: -20px;
+    right: 0;
+    border-bottom: 3px solid rgba(2, 96, 16, 0.3);
+    border-right: 3px solid rgba(2, 96, 16, 0.3);
+}
+
+.stepsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin: 60px 0;
+    perspective: 1000px;
+}
+
+.step {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(2, 96, 16, 0.1);
+    overflow: hidden;
+}
+
+.step::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(2, 96, 16, 0.05) 0%, rgba(2, 134, 65, 0.05) 100%);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.step:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.step:hover::before {
+    opacity: 1;
+}
+
+.stepNumber {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #026010, #028641);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(2, 96, 16, 0.2);
+    transition: all 0.3s ease;
+}
+
+.step:hover .stepNumber {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 15px 25px rgba(2, 96, 16, 0.3);
+}
+
+.stepNumber::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border-radius: 50%;
+    border: 2px dashed rgba(2, 96, 16, 0.3);
+    animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.step h3 {
+    color: #026010;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.4rem;
+}
+
+.step p {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.05rem;
+}
+
+.inscripcionesCta {
+    text-align: center;
+    margin-top: 70px;
+    padding: 60px;
+    background: linear-gradient(135deg, rgba(248, 248, 248, 0.9), rgba(240, 240, 240, 0.9));
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.inscripcionesCta::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(2, 96, 16, 0.05) 0%, transparent 70%);
+    top: -120px;
+    right: -120px;
+    z-index: -1;
+}
+
+.inscripcionesCta::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(2, 96, 16, 0.05) 0%, transparent 70%);
+    bottom: -80px;
+    left: -80px;
+    z-index: -1;
+}
+
+.inscripcionesCta p {
+    margin-bottom: 40px;
+    color: #333;
+    font-size: 1.25rem;
+    font-weight: 500;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.startButton {
+    background: linear-gradient(135deg, #026010, #028641);
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 12px 24px rgba(2, 96, 16, 0.2);
+}
+
+.startButton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+.startButton:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 20px 30px rgba(2, 96, 16, 0.3);
+}
+
+.startButton:hover::after {
+    left: 100%;
+}
+
+.startButton:active {
+    transform: translateY(0) scale(0.98);
+}
+
+@media (max-width: 1024px) {
+    .inscripcionesBanner {
+        padding: 60px 30px;
+    }
+    
+    .inscripcionesBanner h1 {
+        font-size: 3rem;
+    }
+    
+    .inscripcionesCta {
+        padding: 50px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .inscripcionesBanner h1 {
+        font-size: 2.5rem;
+    }
+    
+    .inscripcionesContent {
+        padding: 60px 30px;
+    }
+    
+    .inscripcionesContent h2 {
+        font-size: 2rem;
+    }
+    
+    .stepsContainer {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .inscripcionesCta p {
+        font-size: 1.1rem;
+    }
+    
+    .inscripcionesPage {
+        margin-top: 60px;
+    }
+    
+    .inscripcionesBanner p {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .inscripcionesBanner {
+        padding: 50px 20px;
+    }
+    
+    .inscripcionesBanner h1 {
+        font-size: 2rem;
+    }
+    
+    .inscripcionesBanner p {
+        font-size: 1.1rem;
+    }
+    
+    .inscripcionesContent {
+        padding: 50px 20px;
+    }
+    
+    .inscripcionesContent h2 {
+        font-size: 1.8rem;
+    }
+    
+    .step {
+        padding: 30px 20px;
+    }
+    
+    .stepNumber {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .inscripcionesPage {
+        margin-top: 50px;
+    }
+    
+    .startButton {
+        padding: 16px 40px;
+        font-size: 1.1rem;
+    }
+}

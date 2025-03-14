@@ -1,0 +1,851 @@
+.actividadDetallePage {
+    font-family: 'Montserrat', sans-serif;
+    padding: 40px 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.actividadDetallePage::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    right: -150px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.actividadDetallePage::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(2, 96, 16, 0.06) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: 0;
+}
+
+.detalleGuion {
+    position: sticky;
+    top: 20px;
+    width: 100%;
+    margin: 0 40px;
+    margin-bottom: 30px;
+    font-size: 0.85rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #666;
+    padding: 15px 20px;
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.detalleGuion a {
+    color: #026010;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.detalleGuion a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #026010;
+    transition: width 0.3s ease;
+}
+
+.detalleGuion span {
+    margin: 0 10px;
+    color: #999;
+}
+
+.detalleGuion a:hover {
+    color: #038641;
+}
+
+.detalleGuion a:hover::after {
+    width: 100%;
+}
+
+.actividadHeader {
+    margin: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 90px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.actividadTitleSection {
+    padding-right: 20px;
+}
+
+.actividadTitleSection .fecha {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    color: #028641;
+    background-color: white;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 25px rgba(2, 96, 16, 0.1);
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+
+.actividadTitleSection .fecha:hover {
+    transform: translateY(-2px);
+}
+
+.actividadTitleSection h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    color: #026010;
+    margin: 0;
+    line-height: 1.1;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(to right, #026010, #038641);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.actividadIcon {
+    width: 22px;
+    height: 22px;
+    filter: brightness(0) saturate(100%) invert(21%) sepia(99%) saturate(1751%) hue-rotate(126deg) brightness(95%) contrast(101%);
+    transition: transform 0.3s ease;
+}
+
+.fecha:hover .actividadIcon {
+    transform: rotate(15deg);
+}
+
+.actividadImageSection {
+    display: flex;
+    justify-content: center;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.actividadDetalleImagen {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: rotateY(-5deg);
+    overflow: hidden;
+}
+
+.actividadDetalleImagen:hover {
+    transform: rotateY(0) scale(1.02);
+    box-shadow: 0 25px 50px rgba(2, 96, 16, 0.2);
+}
+
+.actividadContent {
+    margin: 40px 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+    align-items: start;
+}
+
+
+.actividadDescripcion {
+    line-height: 1.8;
+    color: #333;
+    font-size: 1.15rem;
+    max-width: 800px;
+    padding: 40px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+.actividadDescripcion:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 35px 70px rgba(2, 96, 16, 0.12);
+}
+
+.actividadDescripcion::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 8px;
+    width: 100%;
+    background: linear-gradient(90deg, #026010, #038641, #026010);
+    background-size: 200% 100%;
+    animation: gradientMove 4s ease infinite;
+    border-radius: 8px 8px 0 0;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+
+.actividadDescripcion::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(2, 96, 16, 0.03) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+/* Mejoras al contenido HTML dentro de la descripción */
+.actividadDescripcion h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1em;
+    color: #026010;
+    position: relative;
+    display: none;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+
+.actividadDescripcion h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #026010, #038641);
+    border-radius: 3px;
+}
+
+.actividadDescripcion h2 {
+    font-size: 1.8rem;
+    margin: 1.5em 0 0.8em;
+    color: #026010;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+
+
+.actividadDescripcion h2::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 20px;
+    background: #026010;
+    border-radius: 3px;
+}
+
+.actividadDescripcion h3 {
+    font-size: 1.4rem;
+    margin: 1.2em 0 0.6em;
+    color: #026010;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.actividadDescripcion p {
+    margin-bottom: 1.2em;
+    line-height: 1.8;
+    color: #333;
+    font-size: 1.15rem;
+}
+
+.actividadDescripcion p:first-of-type::first-letter {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #026010;
+    float: left;
+    margin-right: 8px;
+    line-height: 1;
+}
+
+.actividadDescripcion ul,
+.actividadDescripcion ol {
+    margin-left: 25px;
+    margin-bottom: 1.5em;
+    padding-left: 20px;
+}
+
+.actividadDescripcion ul {
+    list-style-type: none;
+}
+
+.actividadDescripcion ul li {
+    margin-bottom: 0.8em;
+    position: relative;
+}
+
+.actividadDescripcion ul li::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    background: #026010;
+    border-radius: 50%;
+}
+
+.actividadDescripcion ol li {
+    margin-bottom: 0.8em;
+    padding-left: 8px;
+}
+
+.actividadDescripcion a {
+    color: #028641;
+    text-decoration: none;
+    position: relative;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding-bottom: 2px;
+    border-bottom: 1px dashed rgba(2, 96, 16, 0.3);
+}
+
+.actividadDescripcion a:hover {
+    color: #026010;
+    border-bottom: 1px solid #026010;
+}
+
+.actividadDescripcion blockquote {
+    margin: 2em 0;
+    padding: 15px 30px;
+    background: rgba(2, 96, 16, 0.05);
+    border-left: 4px solid #026010;
+    border-radius: 0 10px 10px 0;
+    font-style: italic;
+}
+
+
+.actividadDescripcion img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 1.5em 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.actividadDescripcion img:hover {
+    transform: scale(1.02);
+}
+
+.actividadDescripcion table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1.5em 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.actividadDescripcion th {
+    background: #026010;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.actividadDescripcion td {
+    padding: 12px 15px;
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.actividadDescripcion tr:last-child td {
+    border-bottom: none;
+}
+
+.actividadDescripcion hr {
+    margin: 2em 0;
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(2, 96, 16, 0.2), transparent);
+}
+
+/* Rediseño completo de la sección de detalles */
+.actividadDetalles {
+    position: relative;
+}
+
+
+
+.detallesContainer {
+    border-radius: 25px;
+    padding: 0;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    background: white;
+    position: sticky;
+    top: 110px;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.detallesContainer:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(2, 96, 16, 0.2);
+}
+
+
+.detallesTitulo {
+    background: linear-gradient(135deg, #026010 0%, #038641 100%);
+    padding: 25px 30px;
+    color: white;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detallesTitulo svg {
+    font-size: 1.5rem;
+}
+
+.detalleSeccion {
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+
+@keyframes shine {
+    0% { background-position: -200px; }
+    100% { background-position: 200px; }
+}
+
+.detallesBody {
+    padding: 30px;
+    background: white;
+}
+
+
+
+.detalleSeccion:first-child {
+    padding-top: 0;
+}
+
+.detalleSeccion:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.detalleSeccion:hover {
+    transform: translateX(5px);
+}
+
+.detalleSeccion h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #026010;
+    margin: 0 0 15px 0;
+    font-size: 1.2rem;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+}
+
+.detalleSeccion h3 .detalleIcon {
+    font-size: 1.4rem;
+    background: #f2f9f4;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #026010;
+    transition: all 0.3s ease;
+    margin-right: 0;
+}
+
+.detalleSeccion:hover h3 .detalleIcon {
+    transform: rotate(15deg);
+    background: #e2f7e6;
+}
+
+.detalleSeccion p {
+    margin: 8px 0;
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    padding-left: 52px;
+}
+
+.fechaDetalle {
+    font-weight: 500;
+    color: #026010 !important;
+    font-size: 1.1rem;
+}
+
+.accionesActividad {
+    margin-top: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(2, 96, 16, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.accionesActividad:hover {
+    transform: translateY(-5px);
+}
+
+.accionBoton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #026010 0%, #038641 100%);
+    color: #fff;
+    border-radius: 0;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    width: 100%;
+}
+
+.accionBoton svg {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.accionBoton:hover {
+    background: linear-gradient(135deg, #038641 0%, #026010 100%);
+    color: white;
+}
+
+.accionBoton:hover svg {
+    transform: translateX(5px);
+}
+
+/* Estilos para infográficos y elementos adicionales */
+.infoBox {
+    margin: 2em 0;
+    padding: 25px;
+    border-radius: 15px;
+    background: #f9f9f9;
+    border: 1px solid rgba(2, 96, 16, 0.1);
+    position: relative;
+}
+
+.infoBoxHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: #026010;
+    font-weight: 600;
+}
+
+.infoBoxIcon {
+    font-size: 1.5rem;
+    color: #026010;
+}
+@media (max-width: 768px) {
+    .actividadHeader,
+    .actividadContent {
+        grid-template-columns: 1fr;
+    }
+
+    .actividadTitleSection {
+        padding-right: 0;
+        order: 2;
+    }
+
+    .actividadImageSection {
+        order: 1;
+    }
+
+    .actividadDetalleImagen {
+        height: 300px;
+        transform: rotateY(0);
+    }
+
+    .actividadTitleSection h1 {
+        font-size: 3rem;
+    }
+
+    .actividadHeader {
+        margin-bottom: 40px;
+    }
+
+    .actividadDescripcion {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 468px) {
+    .actividadHeader {
+        grid-template-columns: 1fr;
+        margin: 0 20px;
+        gap: 25px;
+    }
+
+    .actividadContent {
+        display: flex;
+        flex-direction: column;
+        margin: 0 20px;
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .actividadTitleSection .fecha {
+        padding: 6px 15px;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+
+    .actividadTitleSection h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.2rem;
+        line-height: 1.2;
+    }
+
+    .actividadDetalleImagen {
+        height: 250px;
+        border-radius: 15px;
+    }
+
+    .actividadDetallePage {
+        padding: 0;
+        margin-top: 60px;
+    }
+
+    .detalleGuion {
+        padding: 10px 15px;
+        top: 58px;
+        position: sticky;
+        width: auto;
+        margin: 0 15px 20px;
+        font-size: 0.7rem;
+        border-radius: 30px;
+    }
+
+    .detalleGuion span {
+        margin: 0 4px;
+    }
+
+    .actividadDescripcion {
+        padding: 25px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+    }
+
+    .actividadDescripcion h1 {
+        font-size: 1.6rem;
+    }
+    
+    .actividadDescripcion h2 {
+        font-size: 1.4rem;
+    }
+    
+    .actividadDescripcion h3 {
+        font-size: 1.2rem;
+    }
+
+
+
+    .detalleSeccion {
+        padding: 15px 0;
+    }
+
+    .detalleSeccion h3 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+    }
+
+    .detalleSeccion p {
+        font-size: 0.9rem;
+        margin: 5px 0;
+    }
+
+   
+}
+
+/* Añadir estas nuevas clases al archivo existente */
+
+.detalleIcon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+
+.fechaDetalle {
+    font-weight: 500;
+    color: #fff;
+}
+
+.accionesActividad {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.accionBoton {
+    display: inline-block;
+    padding: 12px 25px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    width: 100%;
+}
+
+.accionBoton:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 1100px) {
+    .actividadContent {
+        grid-template-columns: 1.5fr 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .actividadContent {
+        grid-template-columns: 1fr;
+    }
+
+    .actividadDescripcion {
+        padding: 30px;
+    }
+
+    .detallesContainer {
+        position: relative;
+        top: 0;
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 468px) {
+    .actividadContent {
+        display: flex;
+        flex-direction: column;
+        margin: 0 20px;
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .actividadDescripcion {
+        padding: 25px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+    }
+
+    .actividadDescripcion p:first-of-type::first-letter {
+        font-size: 2.2rem;
+    }
+
+    .actividadDescripcion h1 {
+        font-size: 1.8rem;
+    }
+    
+    .actividadDescripcion h2 {
+        font-size: 1.6rem;
+    }
+    
+    .actividadDescripcion h3 {
+        font-size: 1.3rem;
+    }
+
+    .detallesContainer {
+        border-radius: 20px;
+        margin-bottom: 30px;
+    }
+
+    .detallesTitulo {
+        padding: 20px 25px;
+        font-size: 1.1rem;
+    }
+
+    .detallesBody {
+        padding: 25px 20px;
+    }
+
+    .detalleSeccion {
+        padding: 15px 0;
+    }
+
+    .detalleSeccion h3 {
+        font-size: 1.1rem;
+    }
+
+    .detalleSeccion h3 .detalleIcon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+    }
+
+    .detalleSeccion p {
+        font-size: 0.95rem;
+        padding-left: 48px;
+    }
+
+    .actividadHeader{
+        margin-top: 4rem;
+    }
+}
+

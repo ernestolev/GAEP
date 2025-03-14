@@ -1,0 +1,406 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.contentModal {
+    background-color: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: modalFadeIn 0.4s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modalClose {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.modalClose:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.modalProgress {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto 30px;
+    width: 80%;
+    padding-top: 40px;
+    position: relative;
+}
+
+.modalProgress::before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: 10%;
+    width: 80%;
+    height: 3px;
+    background: #e0e0e0;
+    z-index: 1;
+}
+
+.progressStep {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.progressStep.active {
+    background: #026010;
+    color: white;
+    border-color: #026010;
+    box-shadow: 0 0 0 6px rgba(2, 96, 16, 0.1);
+}
+
+.modalStep {
+    padding: 30px 40px;
+}
+
+.modalStep h2 {
+    color: #026010;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.formGroup {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.formGroup input {
+    width: 90%;
+    padding: 14px 16px;
+    color: #026010;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: #026010;
+    box-shadow: 0 0 0 2px rgba(2, 96, 16, 0.1);
+}
+
+.error {
+    border-color: #e74c3c !important;
+    background-color: rgba(231, 76, 60, 0.02);
+}
+
+.errorMessage {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.loadingMessage {
+    color: #026010;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: block;
+}
+
+.paymentInfo {
+    background: rgba(2, 96, 16, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    border: 1px dashed rgba(2, 96, 16, 0.2);
+}
+
+.paymentInfo img {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+.paymentInfo p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.fileInput {
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+}
+
+.fileInput:hover {
+    border-color: #026010;
+    background: rgba(2, 96, 16, 0.02);
+}
+
+.comprobantePreview {
+    margin-top: 15px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.comprobantePreview img {
+    width: 100%;
+    display: block;
+}
+
+.removePreview {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.removePreview:hover {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.pdfIndicator {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(2, 96, 16, 0.05);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 40px 40px;
+    gap: 15px;
+}
+
+.btnPrimary {
+    padding: 14px 35px;
+    background: linear-gradient(135deg, #026010, #038641);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(2, 96, 16, 0.2);
+}
+
+.btnPrimary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(2, 96, 16, 0.3);
+}
+
+.btnSecondary {
+    padding: 14px 35px;
+    background: #f5f5f5;
+    color: #444;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btnSecondary:hover {
+    background: #eaeaea;
+}
+
+.success {
+    text-align: center;
+}
+
+.success h2 {
+    color: #026010;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.success h2::after {
+    content: '✓';
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: #026010;
+    color: white;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    margin-left: 10px;
+    text-align: center;
+    line-height: 40px;
+}
+
+.success p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.confirmationDetails {
+    background: rgba(2, 96, 16, 0.05);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: left;
+}
+
+.confirmationDetails p {
+    margin-top: 0;
+    font-weight: 600;
+    color: #333;
+}
+
+.confirmationDetails ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.confirmationDetails li {
+    margin-bottom: 10px;
+    color: #444;
+}
+
+@media (max-width: 768px) {
+    .modalStep {
+        padding: 25px 20px;
+    }
+    
+    .modalButtons {
+        padding: 20px;
+    }
+    
+    .modalProgress {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .modalStep h2 {
+        font-size: 1.5rem;
+    }
+    
+    .btnPrimary, .btnSecondary {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .formGroup input {
+        padding: 12px;
+    }
+    
+    .modalProgress::before {
+        left: 15%;
+        width: 70%;
+    }
+}
+
+
+.loadingButtonContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.loadingSpinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+.formError {
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    padding: 10px;
+    background-color: rgba(231, 76, 60, 0.1);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

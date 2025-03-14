@@ -1,0 +1,117 @@
+.mapapardinos {
+    padding: 40px 65px;
+    margin: 40px 0;
+  }
+  
+  .mapapardinos h3 {
+    font-size: 2.2rem;
+    color: #026010;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .mapita {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .mapitaContent {
+    flex: 3;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ubicacionesPrincipales {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 450px;
+    padding-right: 10px;
+  }
+  
+  .ubicacionPrincipal {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .ubicacionPrincipal:hover {
+    background-color: #e9e9e9;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ubicacionPrincipalNombre {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #026010;
+    margin-bottom: 8px;
+  }
+  
+  .ubicacionPrincipalCount {
+    font-weight: bold;
+    margin-top: 5px;
+    color: #555;
+  }
+  
+  .ubicacionPrincipalInfo {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .promocionInfo {
+    margin: 3px 0;
+  }
+  
+  .nombresList {
+    color: #666;
+    font-size: 0.85rem;
+    margin-left: 10px;
+  }
+  
+  .popupContent {
+    min-width: 200px;
+    padding: 5px;
+  }
+  
+  .promocionGroup {
+    margin: 8px 0;
+  }
+  
+  .promocionGroup ul {
+    list-style: none;
+    padding-left: 15px;
+    margin: 5px 0;
+  }
+  
+  .totalCount {
+    margin-top: 8px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+  }
+  
+  @media (max-width: 768px) {
+    .mapapardinos {
+      padding: 30px;
+    }
+  
+    .mapita {
+      flex-direction: column;
+    }
+  
+    .ubicacionesPrincipales {
+      max-height: 300px;
+    }
+  }
+  
+  @media (max-width: 478px) {
+    .mapapardinos {
+      padding: 20px;
+    }
+  
+    .mapapardinos h3 {
+      font-size: 1.8rem;
+    }
+  }

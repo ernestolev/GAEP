@@ -1,0 +1,11 @@
+[
+  {
+    "origin": [
+      "http://localhost:5174", 
+      "https://gaep-jpb.com"
+    ],
+    "method": ["GET", "HEAD", "PUT", "POST", "DELETE"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type", "Content-Disposition", "Content-Length"]
+  }
+]

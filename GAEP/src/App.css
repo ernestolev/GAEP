@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&family=Montserrat&family=Tilt+Warp&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 #root {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+ 
 }
 
 .logo {
@@ -44,22 +44,48 @@
   color: #888;
 }
 
-@media (max-width: 768px) {
-  #root {
-    width: 100%;
-    max-width: 0px;
-    margin: 0 auto;
-    padding: 0rem;
-    text-align: center;
-  }
+html.lenis {
+  height: auto;
 }
 
-@media (max-width: 458px) {
-  #root {
-    width: 100%;
-    max-width: 0px;
-    margin: 0 auto;
-    padding: 0rem;
-    text-align: center;
-  }
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Estilos para barras de desplazamiento personalizadas */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #026010;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #024a0c;
+}
+
+/* Estilos para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #026010 #f1f1f1;
 }

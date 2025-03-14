@@ -1,0 +1,141 @@
+.actividades {
+    padding: 40px 65px;
+    margin: 40px 0;
+  }
+  
+  .actividadesHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .actividades h3 {
+    font-size: 2.2rem;
+    color: #026010;
+    margin: 0;
+  }
+  
+  .btnVerTodas {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #026010;
+    border: 2px solid #026010;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btnVerTodas:hover {
+    background-color: #026010;
+    color: white;
+  }
+  
+  .tarjetasActividades {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+  
+  .tarjetaActividadPrincipal {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 300px;
+  }
+  
+  .tarjetaActividadPrincipal .tarjetaActividadImagen {
+    height: 100%;
+  }
+  
+  .tarjetaActividad {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .tarjetaActividad:hover {
+    transform: translateY(-5px);
+  }
+  
+  .tarjetaActividadImagen {
+    height: 180px;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .tarjetaActividadImagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .tarjetaActividad:hover .tarjetaActividadImagen img {
+    transform: scale(1.05);
+  }
+  
+  .tarjetaActividadContenido {
+    padding: 20px;
+  }
+  
+  .tarjetaActividadFecha {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  
+  .tarjetaActividadTitulo {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #026010;
+  }
+  
+  .tarjetaActividadDescripcion {
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 1024px) {
+    .tarjetasActividades {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .tarjetaActividadPrincipal {
+      grid-column: span 2;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .actividades {
+      padding: 30px;
+    }
+  
+    .tarjetaActividadPrincipal {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+  
+    .tarjetaActividadPrincipal .tarjetaActividadImagen {
+      height: 200px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .tarjetasActividades {
+      grid-template-columns: 1fr;
+    }
+  
+    .tarjetaActividadPrincipal {
+      grid-column: 1;
+    }
+  
+    .actividades h3 {
+      font-size: 1.8rem;
+    }
+  }

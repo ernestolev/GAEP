@@ -1,0 +1,796 @@
+.jd-page {
+    font-family: 'Montserrat', sans-serif;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 90px;
+    position: relative;
+    min-height: 70vh;
+}
+
+.jd-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54 48L6 12M6 48L54 12' stroke='%23026010' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E") repeat;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.header-sticky {
+    position: sticky;
+    top: 80px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 85%, rgba(255, 255, 255, 0) 100%);
+    z-index: 100;
+    padding: 20px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(2, 96, 16, 0.08);
+}
+
+.jdbreadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 15px;
+    width: fit-content;
+    transition: all 0.3s ease;
+}
+
+
+
+.jdbreadcrumb a {
+    color: #026010;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0 2px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.icon-breadcrumb {
+    font-size: 0.85rem;
+    color: #026010;
+    opacity: 0.9;
+}
+
+.jdbreadcrumb a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #026010;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.jdbreadcrumb a:hover {
+    color: #038a1e;
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.jdbreadcrumb a:hover::after {
+    width: 100%;
+}
+
+.jdbreadcrumb span {
+    margin: 0 10px;
+    color: #999;
+    font-size: 0.8rem;
+    user-select: none;
+}
+
+.jdbreadcrumb span:last-of-type {
+    color: #666;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.header-sticky h1 {
+    color: #026010;
+    font-size: 2.8rem;
+    margin: 10px 0 0;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    display: inline-block;
+}
+
+.header-sticky h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #026010, rgba(2, 96, 16, 0.3));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.header-sticky:hover h1::after {
+    width: 160px;
+}
+
+.jd-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 10px 5px;
+    margin-top: 30px;
+}
+
+.jd-item {
+    position: relative;
+    border-radius: 24px;
+    height: 380px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.jd-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: all 0.6s ease;
+}
+
+.jd-item:hover .jd-content {
+    transform: translateY(-10px);
+}
+
+.jd-item:hover {
+    box-shadow: 0 15px 40px rgba(2, 96, 16, 0.2);
+}
+
+.jd-imagen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center top;
+    transition: transform 0.8s ease;
+}
+
+.jd-item:hover .jd-imagen {
+    transform: scale(1.05);
+}
+
+.jd-overlay {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgba(2, 96, 16, 0.95) 0%, rgba(2, 96, 16, 0) 100%);
+    z-index: 1;
+    transition: all 0.4s ease;
+}
+
+.jd-item:hover .jd-overlay {
+    height: 65%;
+    opacity: 0.95;
+}
+
+.jd-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    padding: 35px;
+    transition: all 0.4s ease;
+}
+
+.jd-item:hover .jd-info {
+    transform: translateY(-15px);
+}
+
+.jd-info h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    line-height: 1.3;
+    color: #fff;
+    margin-bottom: 15px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.jd-info h3::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: #fff;
+    transition: width 0.3s ease;
+}
+
+.jd-item:hover .jd-info h3 {
+    transform: translateY(-5px);
+}
+
+.jd-item:hover .jd-info h3::after {
+    width: 80px;
+}
+
+.cargo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    display: inline-block;
+    border-radius: 50px;
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #026010;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    opacity: 0.95;
+}
+
+.jd-item:hover .cargo {
+    transform: translateY(-5px);
+    background: white;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    opacity: 1;
+}
+
+.view-profile {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    color: #026010;
+    z-index: 3;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.view-icon {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.jd-item:hover .view-profile {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.jd-item:hover .view-icon {
+    transform: scale(1.2);
+}
+
+/* Modal styles */
+.popjd {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.jdmodal {
+    background: white;
+    width: 90%;
+    max-width: 1000px;
+    max-height: 90vh;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.5s ease;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.closebtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    color: #026010;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.closebtn:hover {
+    transform: rotate(90deg);
+    background: white;
+    color: #026010;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.jdmbody {
+    display: flex;
+    max-height: 90vh;
+    position: relative;
+}
+
+.modal-foto {
+    width: 30%;
+    position: relative;
+}
+
+.foto-container {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center top;
+    position: relative;
+}
+
+.foto-container::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(2, 96, 16, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.modal-cargo-badge {
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+    background: white;
+    color: #026010;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    animation: fadeUp 0.6s 0.3s both;
+    border: 1px solid rgba(2, 96, 16, 0.1);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.jdminfo {
+    width: 70%;
+    padding: 25px 25px;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.jdminfo h2 {
+    color: #026010;
+    padding: 0;
+    font-size: 2.2rem;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+    animation: fadeUp 0.6s 0.1s both;
+}
+
+.jdminfo h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #026010, rgba(2, 96, 16, 0.3));
+    border-radius: 2px;
+    animation: lineGrow 0.6s 0.4s forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+}
+
+@keyframes lineGrow {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.info-details {
+    margin-top: 30px;
+    animation: fadeUp 0.6s 0.2s both;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s 0.4s both;
+    padding: 12px 20px;
+    background: rgba(2, 96, 16, 0.03);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.detail-item:hover {
+    background: rgba(2, 96, 16, 0.06);
+    transform: translateX(5px);
+}
+
+.detail-item p {
+    margin: 0;
+    color: #333;
+    font-size: 1rem;
+}
+
+.detail-item strong {
+    color: #026010;
+    margin-right: 5px;
+}
+
+.detail-icon {
+    margin-right: 15px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(2, 96, 16, 0.08);
+    border-radius: 50%;
+    color: #026010;
+    transition: all 0.3s ease;
+}
+
+.detail-item:hover .detail-icon {
+    background: rgba(2, 96, 16, 0.12);
+    transform: rotate(5deg) scale(1.1);
+}
+
+.biografia {
+    margin-top: 35px;
+    animation: fadeUp 0.6s 0.3s both;
+    padding: 20px;
+    border-radius: 16px;
+    background: rgba(2, 96, 16, 0.02);
+    border: 1px solid rgba(2, 96, 16, 0.06);
+    position: relative;
+}
+
+.biografia::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, #026010, rgba(2, 96, 16, 0.2));
+    border-radius: 3px 0 0 3px;
+}
+
+.biografia h3 {
+    color: #026010;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    display: inline-block;
+    position: relative;
+}
+
+.biografia h3::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #026010, rgba(2, 96, 16, 0.3));
+    border-radius: 2px;
+}
+
+.bio-content {
+    line-height: 1.7;
+    color: #444;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+.bio-content p {
+    margin-bottom: 1.2em;
+    font-size: 1rem;
+}
+
+.bio-content p:first-of-type::first-letter {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #026010;
+    float: left;
+    line-height: 1;
+    padding-right: 10px;
+    padding-top: 4px;
+}
+
+.no-miembros {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    color: #666;
+    background: rgba(2, 96, 16, 0.03);
+    border-radius: 24px;
+    padding: 40px;
+    margin-top: 40px;
+}
+
+.no-miembros p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Custom scrollbar */
+.bio-content::-webkit-scrollbar,
+.jdminfo::-webkit-scrollbar {
+    width: 8px;
+}
+
+.bio-content::-webkit-scrollbar-track,
+.jdminfo::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.bio-content::-webkit-scrollbar-thumb,
+.jdminfo::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #026010 0%, #038a1e 100%);
+    border-radius: 10px;
+    border: 2px solid #f1f1f1;
+}
+
+.bio-content::-webkit-scrollbar-thumb:hover,
+.jdminfo::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #038a1e 0%, #026010 100%);
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .jd-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 992px) {
+    .jdmbody {
+        flex-direction: column;
+        max-height: none;
+        height: auto;
+    }
+
+    .modal-foto {
+        width: 100%;
+        height: 350px;
+    }
+
+    .jdminfo {
+        width: 100%;
+        padding: 35px;
+        max-height: none;
+    }
+
+    .foto-container::after {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(2, 96, 16, 0.3) 100%);
+    }
+
+    .modal-cargo-badge {
+        left: 20px;
+        bottom: 20px;
+    }
+
+    .bio-content p:first-of-type::first-letter {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .jd-page {
+        padding: 30px 25px;
+        margin-top: 80px;
+    }
+
+    .header-sticky h1 {
+        font-size: 2.5rem;
+    }
+
+    .jd-list {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .jdmodal {
+        width: 95%;
+        max-height: 85vh;
+    }
+
+    .modal-foto {
+        height: 300px;
+    }
+
+    .jdminfo {
+        padding: 25px;
+    }
+
+    .jdminfo h2 {
+        font-size: 1.8rem;
+    }
+
+    .biografia {
+        padding: 20px;
+    }
+
+    .biografia h3 {
+        font-size: 1.4rem;
+    }
+
+    .detail-item {
+        padding: 10px 15px;
+    }
+
+    .detail-icon {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .jd-page {
+        padding: 20px 15px;
+        margin-top: 70px;
+    }
+
+    .jdbreadcrumb {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 0px;
+    }
+
+    .jdbreadcrumb span{
+        margin: 0;
+    }
+
+    .jdminfo{
+        padding: 1rem;
+        width: 92%;
+        height: 60vh;
+        overflow-y: hidden;
+    }
+
+    .jdminfo h2{
+        font-size: 1.8rem;
+        margin-bottom: 0;
+    }
+
+    .info-details{
+        margin-top: 1rem;
+        overflow-y: auto;
+        height: 40vh;
+    }
+
+    .header-sticky h1 {
+        font-size: 2rem;
+    }
+
+    .jd-item {
+        height: 350px;
+    }
+
+    .jd-info h3 {
+        font-size: 1.5rem;
+    }
+
+    .cargo {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+
+    .closebtn {
+        top: 15px;
+        right: 15px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .modal-foto {
+        height: 250px;
+    }
+
+    .modal-cargo-badge {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .jdminfo h2 {
+        font-size: 1.6rem;
+    }
+
+    .biografia {
+        padding: 15px;
+    }
+
+    
+}
+

@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "gaep-c338c"
-  }
+    "default": "gaep-c338c",
+    "rex": "gaep-c338c"
+  },
+  "targets": {},
+  "etags": {}
 }

@@ -1,0 +1,1607 @@
+/* Modern CSS Variables for consistent theming */
+:root {
+    --primary-color: #2e86de;
+    --primary-hover: #1c6dc4;
+    --primary-light: #e9f3ff;
+    --success-color: #00b894;
+    --danger-color: #e74c3c;
+    --warning-color: #ffc107;
+    --light-bg: #f7f9fc;
+    --dark-bg: #121212;
+    --card-light: #ffffff;
+    --card-dark: #1e1e1e;
+    --text-light: #333333;
+    --text-dark: #f0f0f0;
+    --text-muted-light: #666666;
+    --text-muted-dark: #bbbbbb;
+    --border-light: #e0e0e0;
+    --border-dark: #444444;
+    --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-dark: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Base layout styles */
+.adminActividades {
+    display: flex;
+    min-height: 100vh;
+    margin-left: 280px;
+    background-color: var(--light-bg);
+    transition: background-color var(--transition-normal);
+    font-family: var(--font-family);
+    overflow-x: hidden;
+}
+
+.darkTheme {
+    background-color: var(--dark-bg);
+    color: var(--text-dark);
+}
+
+.content {
+    font-family: 'Montserrat', sans-serif;
+
+    flex: 1;
+    padding: clamp(20px, 3vw, 40px);
+    transition: margin-left var(--transition-normal), padding var(--transition-normal);
+    width: 100%;
+}
+
+/* Header styling with modern look */
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.sectionHeader h1 {
+    font-size: clamp(24px, 4vw, 32px);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+    position: relative;
+}
+
+.darkTheme .sectionHeader h1 {
+    color: var(--text-dark);
+}
+
+.headerIcon {
+    color: var(--primary-color);
+    font-size: 1.2em;
+    filter: drop-shadow(0 2px 4px rgba(46, 134, 222, 0.2));
+}
+
+.darkTheme .headerIcon {
+    color: var(--primary-color);
+    filter: drop-shadow(0 2px 4px rgba(46, 134, 222, 0.4));
+}
+
+/* Control section with improved spacing and layout */
+.sectionControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 15px;
+    position: relative;
+}
+
+/* Modern searchbox with animated focus state */
+.searchBox {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    transition: max-width var(--transition-normal);
+}
+
+.searchBox input {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    background-color: var(--card-light);
+    font-size: 16px;
+    transition: all var(--transition-normal);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.searchBox input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.15);
+}
+
+.darkTheme .searchBox input {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+}
+
+.darkTheme .searchBox input:focus {
+    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3);
+}
+
+.searchBox i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted-light);
+    pointer-events: none;
+    transition: color var(--transition-fast);
+}
+
+.darkTheme .searchBox i {
+    color: var(--text-muted-dark);
+}
+
+/* Animated primary action button */
+.addButton {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 10px rgba(46, 134, 222, 0.2);
+}
+
+.addButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(46, 134, 222, 0.25);
+}
+
+.addButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(46, 134, 222, 0.15);
+}
+
+.counterDisplay {
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: var(--text-muted-light);
+    background-color: var(--primary-light);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    display: inline-block;
+}
+
+.darkTheme .counterDisplay {
+    color: var(--text-muted-dark);
+    background-color: rgba(46, 134, 222, 0.1);
+}
+
+/* Modern card grid with improved responsiveness */
+.activitiesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(15px, 2vw, 25px);
+}
+
+/* Card styling with hover effects and better transitions */
+.activityCard {
+    position: relative;
+    background-color: var(--card-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-light);
+    height: 100%;
+    will-change: transform;
+}
+
+.darkTheme .activityCard {
+    background-color: var(--card-dark);
+    box-shadow: var(--shadow-dark);
+    border-color: var(--border-dark);
+}
+
+.activityCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+}
+
+.darkTheme .activityCard:hover {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Highlighted card styling */
+.destacado {
+    border: 2px solid var(--warning-color);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.15);
+}
+
+.darkTheme .destacado {
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.1);
+}
+
+.destacadoBadge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--warning-color);
+    color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+}
+
+/* Image container with enhanced hover effects */
+.activityImage {
+    height: 180px;
+    overflow: hidden;
+    position: relative;
+}
+
+.activityImage::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.2));
+    pointer-events: none;
+    z-index: 1;
+}
+
+.activityImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.activityCard:hover .activityImage img {
+    transform: scale(1.08);
+}
+
+.noImage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9ecef;
+    color: var(--text-muted-light);
+    font-size: 3rem;
+    background: linear-gradient(135deg, #e9ecef 0%, #f5f5f5 100%);
+}
+
+.darkTheme .noImage {
+    background: linear-gradient(135deg, #2c2c2c 0%, #333333 100%);
+    color: var(--text-muted-dark);
+}
+
+/* Card content styling with improved typography and spacing */
+.activityContent {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.activityContent h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-light);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.darkTheme .activityContent h3 {
+    color: var(--text-dark);
+}
+
+.fecha,
+.lugar {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-muted-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.darkTheme .fecha,
+.darkTheme .lugar {
+    color: var(--text-muted-dark);
+}
+
+/* Modern action buttons with micro-interactions */
+.activityActions {
+    display: flex;
+    margin-top: auto;
+    padding-top: 15px;
+    gap: 10px;
+    border-top: 1px solid var(--border-light);
+}
+
+.darkTheme .activityActions {
+    border-top-color: var(--border-dark);
+}
+
+.activityActions button {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 14px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: all var(--transition-fast);
+    font-weight: 500;
+}
+
+.editButton {
+    background-color: #f0f0f0;
+    color: var(--text-light);
+}
+
+.darkTheme .editButton {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-dark);
+}
+
+.editButton:hover {
+    background-color: #e0e0e0;
+    color: var(--primary-color);
+}
+
+.darkTheme .editButton:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: var(--primary-color);
+}
+
+.deleteButton {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+}
+
+.darkTheme .deleteButton {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: #ff6b6b;
+}
+
+.deleteButton:hover {
+    background-color: rgba(231, 76, 60, 0.2);
+}
+
+.darkTheme .deleteButton:hover {
+    background-color: rgba(231, 76, 60, 0.25);
+}
+
+/* Enhanced modal styles */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+    padding: clamp(10px, 3vw, 30px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.popup {
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    background-color: var(--card-light);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+    border: 1px solid var(--border-light);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.darkTheme .popup {
+    background-color: var(--card-dark);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    border-color: var(--border-dark);
+}
+
+.popupClose {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-muted-light);
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+    z-index: 10;
+}
+
+.popupClose:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+    color: var(--danger-color);
+}
+
+.darkTheme .popupClose {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted-dark);
+}
+
+.darkTheme .popupClose:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--danger-color);
+}
+
+.popupContent {
+    padding: clamp(20px, 3vw, 30px);
+}
+
+.popupContent h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    font-size: clamp(20px, 3vw, 24px);
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.popupContent h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+.darkTheme .popupContent h3 {
+    color: var(--text-dark);
+}
+
+/* Form styling with consistent visual language */
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 15px;
+}
+
+.darkTheme .formGroup label {
+    color: var(--text-dark);
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="date"],
+.formGroup input[type="time"],
+.formGroup input[type="file"] {
+    width: 85%;
+    color: black;
+    padding: 12px 15px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    font-size: 16px;
+    background-color: var(--card-light);
+    transition: all var(--transition-fast);
+}
+
+.formGroup input[type="text"]:focus,
+.formGroup input[type="date"]:focus,
+.formGroup input[type="time"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.15);
+}
+
+.darkTheme .formGroup input[type="text"],
+.darkTheme .formGroup input[type="date"],
+.darkTheme .formGroup input[type="time"],
+.darkTheme .formGroup input[type="file"] {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+}
+
+.darkTheme .formGroup input[type="text"]:focus,
+.darkTheme .formGroup input[type="date"]:focus,
+.darkTheme .formGroup input[type="time"]:focus {
+    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3);
+}
+
+.formGroup input[type="file"] {
+    padding: 10px;
+    border-style: dashed;
+    cursor: pointer;
+}
+
+.formGroup input[type="file"]:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.darkTheme .formGroup input[type="file"]:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+/* Layout enhancements */
+.formRow {
+    display: flex;
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .formRow {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+.formRow .formGroup {
+    flex: 1;
+}
+
+/* Custom checkbox styling */
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkboxLabel input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkboxLabel span {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    border: 1px solid var(--border-light);
+    transition: all var(--transition-fast);
+}
+
+.darkTheme .checkboxLabel span {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border-dark);
+}
+
+.checkboxLabel input:checked~span {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkboxLabel span:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkboxLabel input:checked~span:after {
+    display: block;
+}
+
+/* Image preview with enhanced styling */
+.imagenPreview {
+    margin-top: 15px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    max-height: 200px;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    transition: all var(--transition-normal);
+}
+
+.darkTheme .imagenPreview {
+    border-color: var(--border-dark);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.imagenPreview img {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    transition: transform var(--transition-normal);
+}
+
+.imagenPreview:hover img {
+    transform: scale(1.03);
+}
+
+/* Modern buttons for forms */
+.popupButtons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+@media (max-width: 500px) {
+    .popupButtons {
+        flex-direction: column;
+    }
+}
+
+.popupButtons button {
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    flex: 1;
+    border: none;
+}
+
+.popupButtons button:first-child {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: white;
+    box-shadow: 0 4px 10px rgba(46, 134, 222, 0.2);
+}
+
+.popupButtons button:first-child:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(46, 134, 222, 0.3);
+}
+
+.popupButtons button:first-child:active {
+    transform: translateY(0);
+}
+
+.popupButtons button:last-child {
+    background-color: var(--card-light);
+    border: 1px solid var(--border-light);
+    color: var(--text-light);
+}
+
+.darkTheme .popupButtons button:last-child {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-dark);
+    color: var(--text-dark);
+}
+
+.popupButtons button:last-child:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.darkTheme .popupButtons button:last-child:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Confirmation popup styling */
+.confirmPopup {
+    width: 90%;
+    max-width: 450px;
+    background-color: var(--card-light);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    animation: zoomIn 0.3s ease;
+    border: 1px solid var(--border-light);
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.darkTheme .confirmPopup {
+    background-color: var(--card-dark);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    border-color: var(--border-dark);
+}
+
+.confirmPopup p {
+    font-size: 17px;
+    margin-bottom: 20px;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.darkTheme .confirmPopup p {
+    color: var(--text-dark);
+}
+
+.confirmPopup strong {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* No results found styling */
+.noResults {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: var(--card-light);
+    border-radius: var(--radius-lg);
+    color: var(--text-muted-light);
+    grid-column: 1 / -1;
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--border-light);
+}
+
+.darkTheme .noResults {
+    background-color: var(--card-dark);
+    color: var(--text-muted-dark);
+    box-shadow: var(--shadow-dark);
+    border-color: var(--border-dark);
+}
+
+.noResults i {
+    font-size: 3rem;
+    color: var(--text-muted-light);
+    margin-bottom: 15px;
+    opacity: 0.7;
+}
+
+.darkTheme .noResults i {
+    color: var(--text-muted-dark);
+}
+
+.noResults p {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* ReactQuill editor styling */
+.formGroup .quill {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    background-color: var(--card-light);
+    transition: all var(--transition-fast);
+}
+
+.darkTheme .formGroup .quill {
+    border-color: var(--border-dark);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.formGroup .quill .ql-toolbar {
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+    border-bottom: 1px solid var(--border-light);
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.darkTheme .formGroup .quill .ql-toolbar {
+    border-bottom-color: var(--border-dark);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.formGroup .quill .ql-container {
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+    font-size: 16px;
+    min-height: 150px;
+}
+
+.formGroup .quill .ql-editor {
+    min-height: 150px;
+    max-height: 300px;
+}
+
+.darkTheme .formGroup .quill .ql-editor {
+    color: var(--text-dark);
+}
+
+.darkTheme .formGroup .quill .ql-editor.ql-blank::before {
+    color: var(--text-muted-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sectionControls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .searchBox {
+        max-width: none;
+        margin-bottom: 15px;
+    }
+
+    .activitiesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .popupContent {
+        padding: 20px 15px;
+    }
+
+    .formGroup input[type="text"],
+    .formGroup input[type="date"],
+    .formGroup input[type="time"] {
+        padding: 10px 12px;
+    }
+    .adminActividades{
+        margin-left: 0px;
+    }
+
+
+    .overlay{
+        padding: 0px;
+    }
+
+    .popupContent{
+        padding: 25px 15px !important;
+        height: 70vh;
+    }
+}
+
+/* Custom scrollbar styling */
+.popup::-webkit-scrollbar {
+    width: 8px;
+}
+
+.popup::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.popup::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+
+.darkTheme .popup::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Loading states */
+.formGroup.loading::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+}
+
+.darkTheme .formGroup.loading::after {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Custom utility class for smooth animations on page load */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.activitiesGrid>* {
+    animation: fadeInUp 0.5s backwards;
+}
+
+.activitiesGrid>*:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.activitiesGrid>*:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.activitiesGrid>*:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.activitiesGrid>*:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.activitiesGrid>*:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+/* Agrega estos estilos al final del archivo CSS */
+
+/* Estilos mejorados para el modal */
+.popup {
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    background-color: var(--card-light);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow-y: auto;
+    animation: slideUp 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid var(--border-light);
+}
+
+.darkTheme .popup {
+    background-color: var(--card-dark);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: var(--border-dark);
+}
+
+.popupContent {
+    padding: 25px;
+}
+
+.formTabs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.formColumn {
+    flex: 1;
+    min-width: 300px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+}
+
+.darkTheme .formGroup label {
+    color: var(--text-dark);
+}
+
+.requiredField {
+    color: var(--danger-color);
+    margin-left: 4px;
+}
+
+.formInput {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    transition: all 0.2s ease;
+    font-size: 15px;
+}
+
+.formInput:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.2);
+    outline: none;
+}
+
+.inputWithIcon {
+    position: relative;
+}
+
+.inputWithIcon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted-light);
+}
+
+.inputWithIcon input {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    transition: all 0.2s ease;
+    font-size: 15px;
+}
+
+.inputWithIcon input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.2);
+    outline: none;
+}
+
+.darkTheme .inputWithIcon i {
+    color: var(--text-muted-dark);
+}
+
+/* Toggle Switch */
+.toggleSwitch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin-top: 8px;
+}
+
+.toggleSwitch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggleTrack {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggleTrack:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+label .toggleTrack {
+    background-color: var(--primary-color);
+}
+
+input:checked+label .toggleTrack:before {
+    transform: translateX(26px);
+}
+
+/* Mejorado de subida de imágenes */
+.imageUploadContainer {
+    margin-top: 10px;
+}
+
+.imageUploader {
+    margin-bottom: 15px;
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.uploadLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--border-light);
+    border-radius: 12px;
+    padding: 30px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: rgba(0, 0, 0, 0.01);
+    text-align: center;
+}
+
+.uploadLabel:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(46, 134, 222, 0.04);
+}
+
+.uploadLabel i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.uploadLabel span {
+    font-weight: 500;
+}
+
+.darkTheme .uploadLabel {
+    border-color: var(--border-dark);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.darkTheme .uploadLabel:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(46, 134, 222, 0.1);
+}
+
+/* Grid de vista previa de imágenes */
+.imagePreviewGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.imagePreviewCard {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.imagePreviewCard:hover {
+    transform: translateY(-3px);
+}
+
+.imagePreviewCard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.removeImageBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: none;
+    width: 22px !important;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    padding: 0px;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--danger-color);
+    backdrop-filter: blur(5px);
+    font-size: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+.removeImageBtn:hover {
+    background-color: var(--danger-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Botones de acción del formulario */
+.formActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-light);
+}
+
+.darkTheme .formActions {
+    border-top-color: var(--border-dark);
+}
+
+.requiredNote {
+    font-size: 0.85rem;
+    color: var(--text-muted-light);
+}
+
+.darkTheme .requiredNote {
+    color: var(--text-muted-dark);
+}
+
+.formButtons {
+    display: flex;
+    gap: 10px;
+}
+
+.cancelButton {
+    padding: 12px 24px;
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--border-light);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.darkTheme .cancelButton {
+    color: var(--text-dark);
+    border-color: var(--border-dark);
+}
+
+.darkTheme .cancelButton:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.submitButton {
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: white;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(46, 134, 222, 0.2);
+    transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(46, 134, 222, 0.3);
+}
+
+.submitButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.submitButton.loading {
+    position: relative;
+    color: transparent;
+}
+
+.submitButton.loading .loading-spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s ease infinite;
+}
+
+/* Toast notifications */
+.toastNotification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    z-index: 1100;
+    min-width: 300px;
+    max-width: 450px;
+    background: white;
+    animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.toastNotification.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.toastNotification.error {
+    border-left: 4px solid var(--danger-color);
+}
+
+.toastContent {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toastContent i {
+    font-size: 20px;
+}
+
+.success .toastContent i {
+    color: var(--success-color);
+}
+
+.error .toastContent i {
+    color: var(--danger-color);
+}
+
+.toastNotification button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--text-muted-light);
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.toastNotification button:hover {
+    color: var(--text-light);
+}
+
+.darkTheme .toastNotification {
+    background: var(--card-dark);
+    color: var(--text-dark);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.darkTheme .toastNotification button {
+    color: var(--text-muted-dark);
+}
+
+.darkTheme .toastNotification button:hover {
+    color: var(--text-dark);
+}
+
+/* Hack para que el editor Quill se vea bien en tema oscuro */
+.darkTheme .quill .ql-toolbar {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.darkTheme .quill .ql-editor {
+    color: var(--text-dark);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Animación para indicar carga de imágenes */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(46, 134, 222, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(46, 134, 222, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(46, 134, 222, 0);
+    }
+}
+
+.imageUploadContainer.uploading .uploadLabel {
+    animation: pulse 1.5s infinite;
+    border-color: var(--primary-color);
+}
+/* Añade estos estilos al final de tu archivo CSS */
+.datePickerWrapper {
+    width: 100%;
+  }
+  
+  .customDateInput,
+  .customTimeInput {
+    position: relative;
+    width: 72%;
+  }
+  
+  .customDateInput i,
+  .customTimeInput i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: var(--text-muted-light);
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .customDateInput input,
+  .customTimeInput input {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    background: var(--card-light);
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-light);
+  }
+  
+  .darkTheme .customDateInput input,
+  .darkTheme .customTimeInput input {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+  }
+  
+  .customDateInput input:hover,
+  .customTimeInput input:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px rgba(46, 134, 222, 0.2);
+  }
+  
+  .customDateInput input:focus,
+  .customTimeInput input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.2);
+  }
+  
+  /* Estilos para los poppers */
+  .datepickerPopper,
+  .timePickerPopper {
+    z-index: 1100 !important;
+  }
+  
+  .datepickerPopper .react-datepicker,
+  .timePickerPopper .react-datepicker {
+    font-family: var(--font-family);
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .datepickerPopper .react-datepicker__header,
+  .timePickerPopper .react-datepicker__header {
+    background-color: var(--primary-color);
+    border-bottom: none;
+    padding-top: 10px;
+  }
+  
+  .datepickerPopper .react-datepicker__current-month,
+  .datepickerPopper .react-datepicker__day-name,
+  .timePickerPopper .react-datepicker__header-time {
+    color: white;
+  }
+  
+  .datepickerPopper .react-datepicker__day--selected,
+  .datepickerPopper .react-datepicker__day--keyboard-selected,
+  .timePickerPopper .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 4px;
+  }
+  
+  .datepickerPopper .react-datepicker__day:hover,
+  .timePickerPopper .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item:hover {
+    background-color: rgba(46, 134, 222, 0.1);
+    border-radius: 4px;
+  }
+  
+  .timePickerPopper .react-datepicker__time-container {
+    border-left: 1px solid var(--border-light);
+  }
+  
+  .timePickerPopper .react-datepicker__time-container .react-datepicker__time {
+    background-color: white;
+  }
+  
+  .timePickerPopper .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
+    width: 85px;
+  }
+  
+  /* Tema oscuro para datepicker */
+  .darkTheme .datepickerPopper .react-datepicker,
+  .darkTheme .timePickerPopper .react-datepicker {
+    background-color: var(--card-dark);
+    border-color: var(--border-dark);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .darkTheme .timePickerPopper .react-datepicker__time-container {
+    border-color: var(--border-dark);
+  }
+  
+  .darkTheme .timePickerPopper .react-datepicker__time-container .react-datepicker__time,
+  .darkTheme .datepickerPopper .react-datepicker__month-container {
+    background-color: var(--card-dark);
+  }
+  
+  .darkTheme .datepickerPopper .react-datepicker__day,
+  .darkTheme .timePickerPopper .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item {
+    color: var(--text-dark);
+  }

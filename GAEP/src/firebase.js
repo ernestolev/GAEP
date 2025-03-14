@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCwYXXFcW5FEwoqS_ecauLtl-N5fAJ9fO8",
@@ -12,11 +13,13 @@ const firebaseConfig = {
     measurementId: "G-P0L0TEPNKL"
 };
 
-
 const app = initializeApp(firebaseConfig);
+
+// Initialize services
 const db = getFirestore(app);
+const firestore = db; // Alias for consistency
 const auth = getAuth(app);
+const storage = getStorage(app);
 
-
-
-export { db, auth };
+// Export everything to support both naming conventions
+export { db, firestore, auth, storage };

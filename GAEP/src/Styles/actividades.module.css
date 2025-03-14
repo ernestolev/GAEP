@@ -1,0 +1,337 @@
+.act-page {
+    font-family: 'Montserrat', sans-serif;
+    padding: 40px;
+    max-width: 1300px;
+    margin: 0 auto;
+    margin-top: 90px;
+    position: relative;
+}
+
+.act-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54 48L6 12M6 48L54 12' stroke='%23026010' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E") repeat;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.header-sticky {
+    position: sticky;
+    top: 80px;
+    background: linear-gradient(180deg, rgba(255,255,255,1) 85%, rgba(255,255,255,0) 100%);
+    padding: 20px 0;
+    margin-bottom: 30px;
+    z-index: 100;
+    border-bottom: 1px solid rgba(2, 96, 16, 0.08);
+}
+
+.breadcrumb-actividades {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.breadcrumb-actividades a {
+    color: #026010;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.breadcrumb-actividades a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #026010;
+    transition: width 0.3s ease;
+}
+
+.breadcrumb-actividades a:hover {
+    color: #038a1e;
+}
+
+.breadcrumb-actividades a:hover::after {
+    width: 100%;
+}
+
+.breadcrumb-actividades span {
+    margin: 0 8px;
+    color: #aaa;
+}
+
+.act-page h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: #026010;
+    font-size: 3.2rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.act-page h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #026010, rgba(2, 96, 16, 0.3));
+    border-radius: 2px;
+}
+
+.act-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 10px 5px;
+    margin-top: 40px;
+}
+
+.act-item {
+    position: relative;
+    border-radius: 24px;
+    height: 380px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    color: #fff;
+    cursor: pointer;
+    background: #f8f8f8;
+}
+
+.act-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(2, 96, 16, 0.9) 100%);
+    z-index: 1;
+    transition: opacity 0.4s ease;
+}
+
+.act-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(2, 96, 16, 0.2);
+}
+
+.act-imagen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.8s ease;
+}
+
+.act-item:hover .act-imagen {
+    transform: scale(1.1);
+}
+
+.act-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    z-index: 2;
+    padding: 35px;
+    transform: translateY(0);
+    transition: transform 0.4s ease;
+}
+
+.act-item:hover .act-info {
+    transform: translateY(-10px);
+}
+
+.act-info h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    line-height: 1.3;
+    color: #fff;
+    margin-bottom: 15px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.act-info h3::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: #fff;
+    transition: width 0.3s ease;
+}
+
+.act-item:hover .act-info h3::after {
+    width: 80px;
+}
+
+.fecha {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.actividad-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    opacity: 0.9;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.act-item:hover .actividad-icon {
+    transform: scale(1.2);
+}
+
+.no-actividades {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    color: #666;
+    background: rgba(2, 96, 16, 0.03);
+    border-radius: 24px;
+    padding: 40px;
+    margin-top: 40px;
+}
+
+.no-actividades p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Animaciones de entrada */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.act-item:nth-child(1) {
+    animation: fadeUp 0.6s 0.1s both;
+}
+
+.act-item:nth-child(2) {
+    animation: fadeUp 0.6s 0.2s both;
+}
+
+.act-item:nth-child(3) {
+    animation: fadeUp 0.6s 0.3s both;
+}
+
+.act-item:nth-child(4) {
+    animation: fadeUp 0.6s 0.4s both;
+}
+
+.act-item:nth-child(5) {
+    animation: fadeUp 0.6s 0.5s both;
+}
+
+.act-item:nth-child(6) {
+    animation: fadeUp 0.6s 0.6s both;
+}
+
+@media (max-width: 1200px) {
+    .act-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .act-page {
+        padding: 30px;
+    }
+    
+    .act-info h3 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .act-page {
+        padding: 30px 25px;
+        margin-top: 80px;
+    }
+
+    .act-page h1 {
+        font-size: 2.5rem;
+    }
+
+    .header-sticky {
+        top: 60px;
+    }
+
+    .act-list {
+        grid-template-columns: 1fr;
+        margin-top: 20px;
+        gap: 25px;
+    }
+
+    .act-item {
+        height: 350px;
+    }
+
+    .act-info {
+        padding: 30px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .act-page {
+        padding: 20px 15px;
+        margin-top: 70px;
+    }
+
+    .act-page h1 {
+        font-size: 2rem;
+    }
+
+    .act-item {
+        height: 320px;
+        border-radius: 20px;
+    }
+
+    .act-info h3 {
+        font-size: 1.4rem;
+    }
+
+    .fecha {
+        font-size: 0.9rem;
+    }
+
+    .header-sticky {
+        padding: 15px 0;
+    }
+}

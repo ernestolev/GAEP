@@ -1,9 +1,51 @@
+// Actualiza las reglas en la consola de Firebase con este código completo:
 rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
+    // Regla para actividades
+    match /actividades/{actividadId} {
       allow read, write: if true;
+    }
+    
+    // Regla para solicitudes
+    match /solicitudes/{solicitudId} {
+      allow read, write: if true;
+    }
+    
+    // Regla para sponsor
+    match /sponsor/{sponsorId} {
+      allow read, write: if true;
+    }
+    
+    // Regla para galeria-fotos-promociones
+    match /galeria-fotos-promociones/{promocionId} {
+      allow read, write: if true;
+    }
+    
+    // Regla para fotos-seleccionesfutbol
+    match /fotos-seleccionesfutbol/{seleccionId} {
+      allow read, write: if true;
+    }
+    
+    // Regla para noticias
+    match /noticias/{noticiaId} {
+      allow read, write: if true;
+    }
+    
+    // Regla para usuarios
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+    
+    // Regla para junta-directiva - AÑADIDA AHORA
+    match /junta-directiva/{miembroId} {
+      allow read, write: if true;
+    }
+    
+    // Regla predeterminada para todo lo demás
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

@@ -1,0 +1,448 @@
+.mapita {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  
+  .mapita-content {
+    height: 450px;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(2, 96, 16, 0.1);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .map-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.95), transparent);
+    z-index: 10;
+    pointer-events: none;
+  }
+  
+  .ubicaciones-principales {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .ubicacion-principal {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 18px;
+    width: calc(20% - 15px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(2, 96, 16, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ubicacion-principal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: linear-gradient(to bottom, #026010, #03aa1b);
+    transition: height 0.5s ease;
+  }
+  
+  .ubicacion-principal:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(2, 96, 16, 0.15);
+  }
+  
+  .ubicacion-principal:hover::before {
+    height: 100%;
+  }
+  
+  .ubicacion-principal-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #026010;
+    color: white;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+  }
+  
+  .ubicacion-principal:hover .ubicacion-principal-badge {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .ubicacion-principal-nombre {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #026010;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 10px;
+  }
+  
+  .ubicacion-principal-nombre::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #026010;
+    border-radius: 50%;
+  }
+  
+  .ubicacion-principal-info {
+    margin-bottom: 15px;
+  }
+  
+  .promocion-info {
+    margin-bottom: 8px;
+    position: relative;
+  }
+  
+  .promocion-info-tag {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #444;
+    margin-bottom: 3px;
+    position: relative;
+  }
+  
+  .nombres-list {
+    color: #666;
+    font-size: 0.8rem;
+    margin-left: 10px;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+  }
+  
+  .ubicacion-principal:hover .nombres-list {
+    white-space: normal;
+    overflow: visible;
+  }
+  
+  .ubicacion-principal-count {
+    font-size: 0.9rem;
+    color: #026010;
+    font-weight: bold;
+    padding-top: 8px;
+    margin-top: 8px;
+    border-top: 1px dashed rgba(2, 96, 16, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .count-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .ubicacion-principal-button {
+    background: transparent;
+    border: none;
+    color: #026010;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  .ubicacion-principal-button:hover {
+    transform: scale(1.2);
+    background-color: rgba(2, 96, 16, 0.1);
+  }
+  
+  /* Estilos para el popup de Leaflet personalizado */
+  .custom-popup {
+    padding: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    width: 280px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border: none;
+  }
+  
+  .popup-header {
+    background: linear-gradient(135deg, #026010, #03aa1b);
+    color: white;
+    padding: 15px 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .popup-flag {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+  }
+  
+  .popup-content {
+    padding: 20px;
+    background: white;
+  }
+  
+  .popup-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+  }
+  
+  .popup-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    background: #f9f9f9;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  
+  .popup-stat-number {
+    font-weight: bold;
+    color: #026010;
+    font-size: 1.2rem;
+  }
+  
+  .popup-stat-label {
+    font-size: 0.7rem;
+    color: #666;
+  }
+  
+  .promocion-group {
+    margin-bottom: 12px;
+  }
+  
+  .promocion-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .promocion-title::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #026010;
+    border-radius: 50%;
+  }
+  
+  .promocion-list {
+    list-style: none;
+    padding-left: 15px;
+    margin: 5px 0;
+  }
+  
+  .promocion-list li {
+    font-size: 0.85rem;
+    color: #555;
+    padding: 3px 0;
+    position: relative;
+  }
+  
+  .promocion-list li::before {
+    content: '•';
+    position: absolute;
+    left: -10px;
+    color: #026010;
+  }
+  
+  .total-count {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+    text-align: right;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #026010;
+  }
+  
+  .map-marker {
+    width: 35px;
+    height: 35px;
+    border-radius: 50% 50% 50% 0;
+    background: linear-gradient(135deg, #026010, #03aa1b);
+    position: absolute;
+    transform: rotate(-45deg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .map-marker:hover {
+    transform: rotate(-45deg) scale(1.2);
+  }
+  
+  .map-marker::after {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .map-marker-pulse {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50% 50% 50% 0;
+    background: rgba(2, 96, 16, 0.3);
+    transform: rotate(-45deg);
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: rotate(-45deg) scale(0.8);
+      opacity: 0.8;
+    }
+    70% {
+      transform: rotate(-45deg) scale(1.3);
+      opacity: 0;
+    }
+    100% {
+      transform: rotate(-45deg) scale(0.8);
+      opacity: 0;
+    }
+  }
+  
+  .map-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .map-control-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .map-control-button:hover {
+    background: #026010;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(2, 96, 16, 0.2);
+  }
+  
+  @media (max-width: 992px) {
+    .ubicacion-principal {
+      width: calc(33.333% - 15px);
+    }
+    
+    .mapita-content {
+      height: 400px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .ubicacion-principal {
+      width: calc(50% - 10px);
+      min-width: 160px;
+      padding: 15px;
+    }
+    
+    .mapita-content {
+      height: 350px;
+    }
+    
+    .map-controls {
+      top: 10px;
+      right: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ubicaciones-principales {
+      gap: 8px;
+      margin-top: 15px;
+    }
+    
+    .ubicacion-principal {
+      width: 100%;
+      min-width: 0;
+      padding: 12px;
+    }
+    
+    .ubicacion-principal-nombre {
+      font-size: 0.85rem;
+    }
+    
+    .promocion-info-tag {
+      font-size: 0.7rem;
+    }
+    
+    .nombres-list {
+      font-size: 0.65rem;
+    }
+    
+    .ubicacion-principal-count {
+      font-size: 0.75rem;
+    }
+    
+    .count-number {
+      font-size: 1rem;
+    }
+    
+    .mapita-content {
+      height: 300px;
+      border-radius: 12px;
+    }
+  }

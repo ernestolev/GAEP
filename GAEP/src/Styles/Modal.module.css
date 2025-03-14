@@ -1,0 +1,467 @@
+.modal-overlay {
+    font-family: 'Montserrat', sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-overlay h3 {
+    margin: 10px 0 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+    color: #026010;
+    position: relative;
+    animation: titleSlideDown 0.5s ease;
+}
+
+@keyframes titleSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-overlay h3::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    width: 50%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(2, 96, 16, 0.6), transparent);
+    border-radius: 2px;
+    animation: lineGrow 0.6s ease-out forwards;
+    transform-origin: center;
+}
+
+@keyframes lineGrow {
+    from {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+.mapamodal {
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: slideUp 0.4s ease-out;
+    background-image: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    overflow: hidden;
+}
+
+.mapamodal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #026010, #038a1e);
+    animation: gradientShift 3s infinite alternate;
+    background-size: 200% 100%;
+}
+
+@keyframes gradientShift {
+    from {
+        background-position: 0% 50%;
+    }
+    to {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mapamodal img {
+    object-fit: contain;
+    width: 250px;
+    border-radius: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInRotate 0.6s ease-out;
+}
+
+@keyframes fadeInRotate {
+    from {
+        opacity: 0;
+        transform: rotate(-5deg) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+
+
+.mapamodal form {
+    padding: 10px 5px 0;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 30px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #333;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.modal-close:hover {
+    background-color: #f0f0f0;
+    color: #026010;
+    transform: rotate(90deg);
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+    animation: formFadeIn 0.5s ease-out 0.2s both;
+}
+
+@keyframes formFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.form div {
+    transition: transform 0.3s ease;
+}
+
+.form div:focus-within {
+    transform: translateY(-2px);
+}
+
+.form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #444;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.form div:focus-within label {
+    color: #026010;
+    transform: translateX(3px);
+}
+
+.form input,
+.form select {
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    padding: 14px 16px;
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    width: 90%;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.form select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23026010' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+.form input:focus,
+.form select:focus {
+    outline: none;
+    border-color: #026010;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(2, 96, 16, 0.1);
+}
+
+.form input:hover,
+.form select:hover {
+    background-color: #fafafa;
+    border-color: #ccc;
+}
+
+.location-toggle {
+    display: flex;
+    background: #f0f0f0;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    animation: togglePulse 0.5s ease;
+}
+
+.toggle-slider {
+    position: absolute;
+    width: calc(50% - 4px);
+    height: calc(100% - 8px);
+    background: #026010;
+    border-radius: 8px;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    z-index: 0;
+}
+.animate {
+    animation: buttonPress 0.3s ease;
+}
+
+@keyframes buttonPress {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes togglePulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+
+.location-toggle button {
+    flex: 1;
+    padding: 12px;
+    background: none;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    color: #026010;
+}
+
+.location-toggle button.active {
+    color: white;
+}
+
+.location-toggle::before {
+    position: absolute;
+    width: calc(50% - 4px);
+    height: calc(100% - 8px);
+    background: #026010;
+    border-radius: 8px;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    z-index: 0;
+}
+
+.location-toggle button:nth-child(2).active ~ .toggle-slider {
+    transform: translateX(100%);
+}
+
+.submit-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #026010 0%, #038a1e 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 25px;
+    box-shadow: 0 4px 12px rgba(2, 96, 16, 0.2);
+    overflow: hidden;
+    animation: buttonPulse 2s infinite alternate;
+}
+
+@keyframes buttonPulse {
+    0% {
+        box-shadow: 0 4px 12px rgba(2, 96, 16, 0.2);
+    }
+    100% {
+        box-shadow: 0 8px 20px rgba(2, 96, 16, 0.4);
+    }
+}
+
+.submit-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.7s ease;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(2, 96, 16, 0.25);
+}
+
+.submit-button:hover::before {
+    left: 100%;
+}
+
+.submit-button:active {
+    transform: translateY(1px);
+}
+
+.submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.loading {
+    opacity: 0.8;
+    cursor: wait;
+}
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 0.8s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-body {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mapamodal {
+        padding: 30px 20px;
+    }
+    
+    .mapamodal img {
+        width: 160px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 468px) {
+    .mapamodal {
+        padding: 25px 15px;
+        border-radius: 16px;
+    }
+    
+    .modal-overlay h3 {
+        font-size: 1.5rem;
+    }
+    
+    .form input, 
+    .form select {
+        padding: 12px 14px;
+    }
+
+    .modal-body img{
+        display: none;
+    }
+    
+    .submit-button {
+        padding: 14px 20px;
+    }
+   
+    .mapaform{
+        overflow-y: auto;
+        height: 45vh;
+    }
+}

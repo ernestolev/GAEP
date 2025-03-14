@@ -1,0 +1,391 @@
+.galleryContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    position: relative;
+}
+
+.mainImageContainer {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: perspective(1000px) rotateY(-5deg);
+    transform-style: preserve-3d;
+}
+
+.mainImageContainer:hover {
+    transform: perspective(1000px) rotateY(0) scale(1.02);
+    box-shadow: 0 25px 50px rgba(2, 96, 16, 0.2);
+}
+
+.mainImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.mainImageContainer:hover .mainImage {
+    transform: scale(1.05);
+}
+
+.thumbnailsContainer {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scrollbar-width: thin;
+    scrollbar-color: #026010 #f0f0f0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.thumbnailsContainer::-webkit-scrollbar {
+    height: 6px;
+}
+
+.thumbnailsContainer::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.thumbnailsContainer::-webkit-scrollbar-thumb {
+    background: #026010;
+    border-radius: 10px;
+}
+
+.thumbnail {
+    flex: 0 0 80px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.thumbnail:hover {
+    opacity: 0.85;
+    transform: translateY(-3px);
+}
+
+.thumbnail.active {
+    opacity: 1;
+    border-color: #026010;
+    transform: translateY(-3px);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 3;
+    font-size: 1rem;
+}
+
+.mainImageContainer:hover .navButton {
+    opacity: 0.8;
+}
+
+.navButton:hover {
+    background: rgba(2, 96, 16, 0.8);
+    transform: translateY(-50%) scale(1.1);
+    opacity: 1;
+}
+
+.prevButton {
+    left: 15px;
+}
+
+.nextButton {
+    right: 15px;
+}
+
+.expandButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 3;
+}
+
+.mainImageContainer:hover .expandButton {
+    opacity: 0.8;
+}
+
+.expandButton:hover {
+    background: rgba(2, 96, 16, 0.8);
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.imageCounter {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+}
+
+.mainImageContainer:hover .imageCounter {
+    opacity: 1;
+}
+
+/* Estilos para modo pantalla completa */
+.fullScreenOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000; /* Z-index extremadamente alto para asegurar que esté por encima de todo */
+    animation: fadeIn 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+.fullScreenContent {
+    position: relative;
+    width: 90vw;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1800px;
+    max-height: 1200px;
+}
+
+
+.fullScreenImage {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    animation: zoomIn 0.3s ease;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.closeButton {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-size: 1.2rem;
+}
+
+.closeButton:hover {
+    background: rgba(255, 0, 0, 0.6);
+    transform: rotate(90deg);
+}
+
+.fullScreenNavButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+}
+
+.fullScreenNavButton:hover {
+    background: rgba(2, 96, 16, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.fullScreenPrevButton {
+    left: 20px;
+}
+
+.fullScreenNextButton {
+    right: 20px;
+}
+
+.fullScreenCounter {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+}
+
+.loadingOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(240, 240, 240, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(2, 96, 16, 0.1);
+    border-left-color: #026010;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .mainImageContainer {
+        height: 350px;
+        transform: none;
+    }
+    
+    .mainImageContainer:hover {
+        transform: none;
+    }
+    
+    .navButton {
+        opacity: 0.8;
+        width: 36px;
+        height: 36px;
+    }
+    
+    .expandButton, 
+    .imageCounter {
+        opacity: 0.8;
+    }
+    
+    .thumbnail {
+        flex: 0 0 70px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 468px) {
+    .mainImageContainer {
+        height: 250px;
+        border-radius: 15px;
+    }
+    
+    .navButton {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    .expandButton {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .imageCounter {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+    }
+    
+    .thumbnail {
+        flex: 0 0 60px;
+        height: 45px;
+    }
+    
+    .fullScreenNavButton {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .fullScreenCounter {
+        padding: 6px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .closeButton {
+        width: 35px;
+        height: 35px;
+        top: -45px;
+    }
+}
+

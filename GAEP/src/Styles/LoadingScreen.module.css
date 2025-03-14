@@ -1,0 +1,260 @@
+.loadingScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,240,0.97) 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+}
+
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  min-width: 300px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logoContainer {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.escudoLogo {
+  width: 120px;
+  height: auto;
+  animation: gentlePulse 2s infinite ease-in-out;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes gentlePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulseEffect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: rgba(48, 134, 52, 0.322);
+  z-index: 1;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.6; }
+  70% { transform: translate(-50%, -50%) scale(1.1); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0; }
+}
+
+.progressContainer {
+  width: 100%;
+  height: 10px;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  position: relative;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #026010, #dbde2e);
+  border-radius: 20px;
+  transition: width 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.progressBar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progressLabel {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #026010;
+  opacity: 0.8;
+}
+
+.loadingText {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.dot {
+  opacity: 0;
+  font-size: 1.5rem;
+  margin-left: 2px;
+  animation: dotFade 1.4s infinite;
+  color: #026010;
+  font-weight: bold;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotFade {
+  0%, 80%, 100% { opacity: 0; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-5px); }
+}
+
+/* Estilos para el spinner pequeño */
+.loadingSpinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(46, 134, 222, 0.2);
+  border-radius: 50%;
+  border-top-color: #026010;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estilos para los puntos de carga */
+.loadingDots {
+  display: inline-flex;
+  align-items: center;
+}
+
+.loadingDots div {
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background-color: #026010;
+  animation: dots 1.4s infinite ease-in-out both;
+}
+
+.loadingDots div:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loadingDots div:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dots {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Mini barra de progreso para componentes más pequeños */
+.miniProgressContainer {
+  width: 100px;
+  height: 6px;
+  background-color: rgba(46, 134, 222, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.miniProgressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #026010, #dfdc36);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loadingContent {
+    padding: 30px;
+    min-width: 260px;
+  }
+  
+  .escudoLogo {
+    width: 90px;
+  }
+  
+  .pulseEffect {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .loadingText {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .loadingContent {
+    padding: 25px;
+    min-width: 220px;
+  }
+  
+  .escudoLogo {
+    width: 80px;
+  }
+  
+  .pulseEffect {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .progressContainer {
+    height: 8px;
+  }
+}

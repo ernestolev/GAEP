@@ -1,0 +1,81 @@
+.loading-button {
+    padding: 12px 24px;
+    border-radius: 4px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    min-width: 120px;
+  }
+  
+  .loading-button.primary {
+    background-color: #2e86de;
+    color: white;
+  }
+  
+  .loading-button.secondary {
+    background-color: #747d8c;
+    color: white;
+  }
+  
+  .loading-button.success {
+    background-color: #20bf6b;
+    color: white;
+  }
+  
+  .loading-button.danger {
+    background-color: #eb3b5a;
+    color: white;
+  }
+  
+  .loading-button:hover:not(.is-loading):not(.is-disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .loading-button:active:not(.is-loading):not(.is-disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  
+  .loading-button.is-loading {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+  
+  .loading-button.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: #dfe4ea;
+    color: #a4b0be;
+  }
+  
+  .loading-button .button-text {
+    transition: opacity 0.2s;
+  }
+  
+  .loading-button.is-loading .button-text {
+    opacity: 0.8;
+  }
+  
+  .loading-button .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    margin-left: 10px;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }

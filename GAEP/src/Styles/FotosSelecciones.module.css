@@ -1,0 +1,614 @@
+.galeriaFotosPage {
+    padding: 100px 20px 60px;
+    max-width: 1200px;
+    margin: 4rem auto 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(to bottom, #f8f8f8, #ffffff);
+    border-radius: 0 0 30px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.breadcrumb {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding: 10px 15px;
+    border-radius: 50px;
+    width: fit-content;
+    align-items: center;
+}
+
+.breadcrumb a {
+    color: #026010;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.breadcrumb a:hover {
+    color: #038641;
+}
+
+.breadcrumb a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #038641;
+    transition: width 0.3s ease;
+}
+
+.breadcrumb a:hover::after {
+    width: 100%;
+}
+
+.breadcrumb span {
+    color: #666;
+}
+
+.galeriaHeader {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.galeriaHeader h1 {
+    color: #026010;
+    margin-bottom: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    letter-spacing: -0.5px;
+    position: relative;
+    display: inline-block;
+}
+
+.galeriaHeader h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #026010, #038641);
+    border-radius: 2px;
+}
+
+.searchBar {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.searchBar::before {
+    content: '🔍';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.searchBar input {
+    width: 100%;
+    padding: 15px 20px 15px 50px;
+    border: 2px solid #e0e0e0;
+    background-color: white;
+    color: #333;
+    border-radius: 50px;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.searchBar input:focus {
+    border-color: #026010;
+    outline: none;
+    box-shadow: 0 5px 20px rgba(2, 96, 16, 0.15);
+    transform: translateY(-2px);
+}
+
+.galeriaGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 35px;
+    margin-top: 60px;
+    perspective: 1000px;
+}
+
+.galeriaCard {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    will-change: transform;
+    position: relative;
+}
+
+.galeriaCard:hover {
+    transform: translateY(-10px) scale(1.02) rotateX(5deg);
+    box-shadow: 0 15px 35px rgba(2, 96, 16, 0.2);
+}
+
+.galeriaCard::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.galeriaCard:hover::after {
+    opacity: 1;
+}
+
+.galeriaCard h3 {
+    margin: 0;
+    padding: 15px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.35rem;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.galeriaCardHeader {
+    padding: 20px;
+    background: linear-gradient(135deg, #026010 0%, #038641 100%);
+    color: white;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.galeriaCardHeader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.fotoCount {
+    font-size: 0.95rem;
+    font-weight: normal;
+    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 12px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.galeriaCard:hover .fotoCount {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.galeriaPreview {
+    position: relative;
+    aspect-ratio: 1;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.galeriaPreview::before {
+    content: 'Ver Galería';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 96, 16, 0.7);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.galeriaPreview:hover::before {
+    opacity: 1;
+}
+
+.galeriaPreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.galeriaPreview:hover img {
+    transform: scale(1.1);
+}
+
+.modalOverlay,
+.imageViewerOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modalContent {
+    background: white;
+    padding: 35px;
+    border-radius: 25px;
+    max-width: 90vw;
+    width: 1000px;
+    max-height: 85vh;
+    min-height: 75vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.4s ease;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    scrollbar-width: thin;
+    scrollbar-color: #026010 #f0f0f0;
+}
+
+.modalContent::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+    background-color: #026010;
+    border-radius: 10px;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modalContent h2 {
+    padding: 0;
+    margin: 0;
+    color: #026010;
+    font-size: 1.8rem;
+    border-bottom: 2px solid rgba(2, 96, 16, 0.1);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.modalGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.modalImageContainer {
+    aspect-ratio: 1;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.modalImageContainer:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modalImageContainer::after {
+    content: '🔍';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 2rem;
+    color: white;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.modalImageContainer:hover::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modalImageContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.modalImageContainer:hover::before {
+    opacity: 1;
+}
+
+.modalImageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.modalImageContainer:hover img {
+    transform: scale(1.1);
+}
+
+.imageViewerContent {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    animation: zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.imageViewerContent img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+}
+
+.closeButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.closeButton:hover {
+    background: rgba(217, 37, 37, 0.9);
+    transform: rotate(90deg);
+}
+
+.navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.3rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+}
+
+.navButton:hover {
+    background: rgba(2, 96, 16, 0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev {
+    left: -25px;
+}
+
+.next {
+    right: -25px;
+}
+
+.navButton:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: translateY(-50%) scale(1);
+}
+
+.imageCounter {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Elemento distintivo para Fotos de Selecciones */
+.galeriaHeader h1 {
+    position: relative;
+    display: inline-block;
+}
+
+.galeriaHeader h1::before {
+    content: '⚽';
+    position: absolute;
+    top: -15px;
+    left: -40px;
+    font-size: 2rem;
+    transform: rotate(-15deg);
+    opacity: 0.8;
+}
+
+.galeriaCardHeader {
+    background: linear-gradient(135deg, #036dbb 0%, #026010 100%);
+}
+
+@media (max-width: 768px) {
+    .galeriaFotosPage {
+        padding: 80px 15px 40px;
+    }
+
+    .galeriaHeader h1 {
+        font-size: 2.2rem;
+    }
+    
+    .galeriaHeader h1::after {
+        width: 60px;
+    }
+
+    .galeriaHeader h1::before {
+        top: -10px;
+        left: -30px;
+        font-size: 1.6rem;
+    }
+
+    .searchBar input {
+        padding: 12px 15px 12px 45px;
+        font-size: 0.95rem;
+    }
+
+    .modalContent {
+        padding: 25px 20px;
+        border-radius: 20px;
+    }
+
+    .modalGrid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 15px;
+    }
+
+    .navButton {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    .prev {
+        left: 10px;
+    }
+
+    .next {
+        right: 10px;
+    }
+
+    .galeriaGrid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .galeriaCard:hover {
+        transform: translateY(-5px);
+    }
+
+    .modalContent {
+        min-height: 80vh;
+        width: 90vw;
+    }
+
+    .modalContent h2 {
+        font-size: 1.6rem;
+        padding: 5px 5px 15px;
+    }
+
+    .imageCounter {
+        bottom: -40px;
+        padding: 6px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .galeriaFotosPage {
+        padding: 70px 12px 30px;
+    }
+    
+    .galeriaHeader h1 {
+        font-size: 1.8rem;
+    }
+
+    .galeriaHeader h1::before {
+        display: none;
+    }
+    
+    .breadcrumb {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+    
+    .galeriaGrid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    
+    .galeriaCardHeader {
+        padding: 15px;
+    }
+    
+    .galeriaCard h3 {
+        font-size: 1.2rem;
+        padding: 12px 15px;
+    }
+    
+    .modalContent h2 {
+        font-size: 1.4rem;
+    }
+    
+    .closeButton {
+        width: 32px;
+        height: 32px;
+    }
+}
