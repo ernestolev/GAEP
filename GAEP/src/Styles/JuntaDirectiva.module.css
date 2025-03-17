@@ -728,30 +728,54 @@
         margin-bottom: 0px;
     }
 
-    .jdbreadcrumb span{
+    .jdbreadcrumb span {
         margin: 0;
     }
 
-    .jdminfo{
+    .jdminfo {
         padding: 1rem;
-        width: 92%;
+        width: auto;
         height: 60vh;
         overflow-y: hidden;
     }
 
-    .jdminfo h2{
-        font-size: 1.8rem;
-        margin-bottom: 0;
+    .jdminfo h2 {
+        font-size: 1.3rem !important;
+        margin-bottom: 0px;
+        margin-top: 0px;
     }
 
-    .info-details{
+    .detail-item {
+        padding: 8px 12px;
+        margin-bottom: 0.5rem;
+    }
+
+    .detail-item p {
+        font-size: 0.8rem;
+    }
+
+    .biografia h3 {
+        font-size: 1.2rem;
+    }
+
+    .bio-content p {
+        font-size: 0.8rem;
+    }
+
+    .info-details {
         margin-top: 1rem;
         overflow-y: auto;
         height: 40vh;
     }
 
-    .header-sticky h1 {
-        font-size: 2rem;
+    .header-sticky {
+        padding: 0px;
+        top: 70px;
+        
+    }
+
+    .header-sticky h1{
+        font-size: 1.8rem;
     }
 
     .jd-item {
@@ -779,8 +803,8 @@
     }
 
     .modal-cargo-badge {
-        padding: 8px 16px;
-        font-size: 0.9rem;
+        padding: 5px 12px;
+        font-size: 0.7rem;
     }
 
     .jdminfo h2 {
@@ -791,6 +815,10 @@
         padding: 15px;
     }
 
-    
-}
+    .jd-info{
+        width: auto;
+        padding: 1rem;
+    }
 
+
+}

@@ -4,46 +4,70 @@
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
-  font-family: 'arboria-regular', sans-serif;
+  font-family: 'Montserrat';
+  font-weight: 600;
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-  padding: 5px 0px; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
   font-size: 1.1rem;
-  transition: height 0.8s ease-in-out, padding 0.8s ease-in-out; /* Ajuste del tiempo de transición */
+  transition: all 0.3s ease;
   z-index: 1000;
-  height: 80px;
 }
 
-.navbar button{
-  font-family: 'arboria-bold';
+.navwidth {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.menuOverlay {
+  display: flex;
+}
+
+.navbar button {
+  display: none;
   font-size: 1.1rem !important;
-  background-color: white;
+}
+
+.navbar.shrink {
+  height: 80px;
+  /* Altura reducida */
+  padding: 5px 0px;
+  /* Padding reducido */
 }
 
 .menu {
+  font-family: 'Montserrat';
   list-style: none;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-right: 60px;
-  padding: 0;
 }
 
 
 .logo {
-  height: 80px;
-  margin-left: 60px;
-  transition: height 0.4s ease-in-out; /* Ajuste del tiempo de transición */
+  height: 90px;
+  transition: all 0.3s ease;
 }
 
+.navbar.shrink .logo {
+  height: 80px;
+  /* Altura reducida del logo */
+}
 
 .link {
+  font-family: 'Montserrat';
+  font-size: 0.9rem;
   position: relative;
   display: inline-block;
   color: #026010;
-  text-decoration:  none !important;
+  text-decoration: none !important;
   padding: 10px 15px;
   transition: color 0.3s ease-in-out;
 }
@@ -52,9 +76,11 @@
   content: '';
   position: absolute;
   left: 0;
-  bottom: 3px; /* Ajusta esta distancia para controlar la separación del subrayado */
+  bottom: 3px;
+  /* Ajusta esta distancia para controlar la separación del subrayado */
   width: 100%;
-  height: 3px; /* Grosor del subrayado */
+  height: 3px;
+  /* Grosor del subrayado */
   background-color: rgb(201, 204, 102);
   transform: scaleX(0);
   transform-origin: bottom right;
@@ -89,40 +115,31 @@
   transform: translateY(0);
 }
 
-.closeButton {
-  display: none;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
-}
+
+
+
 
 .dropdown {
   position: relative;
 }
 
 .dropdown:hover .dropdownContent {
-  display: block;
   opacity: 1;
+  visibility: visible;
   transform: translateY(0);
 }
 
 .dropdownContent {
-  display: none;
   position: absolute;
-  background: white;
-  min-width: 250px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-  z-index: 1000;
-  border-radius: 8px;
   top: 100%;
   left: 0;
+  background: white;
+  min-width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   opacity: 0;
-  transform: translateY(-10px);
+  visibility: hidden;
+  transform: translateY(10px);
   transition: all 0.3s ease;
 }
 
@@ -147,19 +164,75 @@
 }
 
 
+
+
+
+
+
+
+
+.userEmail,
+.userName {
+  color: #026010;
+  padding: 12px 16px;
+  display: block;
+  border-bottom: 1px solid #eee;
+  font-weight: bold;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 @media (max-width: 768px) {
-  .navbar {
-    display: flex;
-    position: fixed;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: white;
+
+  .dropdownContent {
+    display: none;
+    position: static;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
     width: 100%;
-    height: 80px;
-    padding: 10px 20px;
-    font-size: 0.8rem;
-    flex-direction: row-reverse;
+  }
+
+  .dropdownContent.show {
+    display: block;
+  }
+
+
+  .dropdown:hover .dropdownContent {
+    display: block;
+  }
+
+  .navbar {
+    padding: 10px;
+    height: 70px;
+  }
+
+  .navwidth {
+    padding: 0 10px;
+  }
+
+  .logo {
+    height: 60px;
+  }
+
+
+  .menuOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease-in-out;
+    z-index: 1001;
+    overflow-y: auto; /* Permitir scroll vertical */
+    padding: 80px 20px 80px; /* Aumentar padding inferior para botón cerrar */
+  }
+
+  .menuOverlay.active {
+    transform: translateY(0);
   }
 
   .menuOverlay {
@@ -167,88 +240,138 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgb(255, 255, 255);
+    height: 100vh;
+    background-color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     transform: translateX(-100%);
-    transition: transform 0.5s ease-in-out;
-    z-index: 999;
+    transition: transform 0.4s ease-in-out;
+    z-index: 1001;
+    overflow-y: auto;
+    padding: 80px 20px 20px;
   }
 
   .menuOverlay.active {
-    transform: translateY(0);
+    transform: translateX(0);
   }
-  
-  .closeButton {
-    text-align: center;
+
+  .containermenu {
+    width: 100%;
+    height: auto; /* Cambiar de altura fija a automática */
     display: flex;
-    position: absolute;
-    top: 85%;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    left: 45%;
-    background: none;
-    border: 3px solid #026010;
-    color: #026010;
-    font-size: 2rem;
-    cursor: pointer;
-    z-index: 1000;
-  }
-
-  .navbar.shrink {
-    height: 60px; /* Altura reducida */
-    padding: 0px 20px; /* Padding reducido */
-  }
-  .logo {
-    height: 80px;
-    margin-left: 20px;
-  }
-
-  .navbar.shrink .logo {
-    height: 70px; /* Altura reducida del logo */
+    flex-direction: column; /* Asegurar dirección de columna */
+    overflow-y: visible; /* Permitir que el contenido se desborde */
+    max-height: none; /* Eliminar altura máxima */
   }
 
   .menu {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0px;
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    justify-content: center;
-    align-items: flex-start;
-    background-color: white;
-    overflow: hidden;
-    z-index: 1;
-    font-size: 1.6rem;
-    font-family: 'arboria-bold', sans-serif;
+    padding: 0;
+    margin: 0;
+    overflow-y: visible; /* Permitir desbordamiento */
+    position: relative; /* Cambiar de absoluto a relativo */
+    top: auto; /* Quitar posicionamiento absoluto */
+    left: auto; /* Quitar posicionamiento absoluto */
   }
 
+  .link {
+    font-size: 1.2rem;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+  }
 
-  .menu li {
-    padding: 8px 0;
+  .link:hover {
+    background-color: rgba(2, 96, 16, 0.05);
+  }
+
+  .dropdownContent {
+    position: static;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: transparent;
+    width: 100%;
+    padding-left: 20px;
+  }
+
+  .dropdownContent a {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    background-color: rgba(2, 96, 16, 0.03);
+  }
+
+  .closeButton {
+    position: fixed;
+    bottom: 30px;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #026010;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(2, 96, 16, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .closeButton:hover {
+    transform: translateX(-50%) scale(1.1);
   }
 
   .hamburger {
     display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 8px;
   }
 
   .hamburger div {
-    width: 25px;
-    height: 3px;
+    width: 24px;
+    height: 2px;
     background-color: #026010;
-    margin: 4px;
-    transition: 0.4s;
+    transition: 0.3s ease;
+    border-radius: 2px;
   }
-  
+
+
+  .navbar.shrink {
+    height: 60px;
+    /* Altura reducida */
+    padding: 0px 20px;
+    /* Padding reducido */
+  }
+
+
+
+  .navbar.shrink .logo {
+    height: 70px;
+    /* Altura reducida del logo */
+  }
+
+  .menu li {
+    width: 100%;
+    margin-bottom: 8px; /* Espacio entre elementos */
+  }
+
+  /* Asegurar que los dropdowns no rompan el scroll */
+  .dropdownContent {
+    max-height: none;
+    overflow: visible;
+  }
+
+
+
 }
 
 @media (max-width: 480px) {
@@ -259,87 +382,91 @@
     justify-content: flex-end;
     align-items: center;
     background-color: white;
-    width: 100%;
-    height: 40px;
+    width: 90%;
+    height: 50px;
     padding: 10px 20px;
     font-size: 0.8rem;
     flex-direction: row-reverse;
   }
 
 
-  .menuOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transform: translateX(-100%);
-    transition: transform 0.5s ease-in-out;
-    z-index: 999;
+
+  .link {
+    font-size: 1rem;
+    color: #026010;
+    text-decoration: none;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+    position: relative;
   }
 
-  .navbar button{
-    font-size: 1.4rem !important;
+
+  .navwidth {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .menuOverlay {
+    width: 75%; /* Reducir ancho en pantallas pequeñas */
+    padding: 70px 15px 100px; /* Ajustar padding */
+  }
+
+  /* Eliminar restricción de altura */
+  .containermenu {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
   .menuOverlay.active {
     transform: translateY(0);
   }
-  
+
   .closeButton {
-    text-align: center;
-    display: flex;
-    position: absolute;
-    top: 85%;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    left: 44%;
-    background: none;
-    border: 3px solid #026010;
-    color: #026010;
-    font-size: 1.4rem;
-    cursor: pointer;
-    z-index: 1000;
+    display: none;
   }
 
+  .dropdownContent {
+    padding-left: 0;
+  }
+
+  .navbar button {
+    font-size: 1.4rem !important;
+    font-family: 'Montserrat';
+  }
 
   .navbar.shrink {
-    height: 70px; /* Altura reducida */
-    padding: 0px 20px; /* Padding reducido */
+    height: 70px;
+    /* Altura reducida */
+    padding: 0px 20px;
+    /* Padding reducido */
   }
+
   .logo {
     height: 70px;
-    margin-left: 20px;
   }
 
   .navbar.shrink .logo {
-    height: 80px; /* Altura reducida del logo */
+    height: 80px;
+    /* Altura reducida del logo */
   }
-  .menu {
+
+  .containermenu{
+    height: 50vh;
     display: flex;
-    flex-direction: column;
-    padding: 0px;
-    margin-left: 0px;
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    justify-content: center;
-    align-items: flex-start;
-    background-color: white;
-    overflow: hidden;
-    z-index: 1;
-    font-size: 1.5rem;
-    font-family: 'arboria-bold', sans-serif;
+
+  }
+
+  .menu {
+    position: relative;
+    top: auto;
+    left: auto;
+    padding-bottom: 60px; /* Espacio para el botón de cerrar */
+    overflow-y: visible;
+    height: auto;
+    justify-content: flex-start; /* Alinear al inicio */
   }
 
   .menu li {
@@ -347,14 +474,15 @@
   }
 
   .hamburger {
+    gap: 0px;
     display: flex;
   }
 
   .hamburger div {
     width: 30px;
-    height: 3px;
+    height: 2.5px;
     background-color: #026010;
-    margin: 4px;
+    margin: 3px;
     transition: 0.4s;
   }
 }

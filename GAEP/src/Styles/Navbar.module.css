@@ -169,6 +169,19 @@
 
 
 
+
+
+.userEmail,
+.userName {
+  color: #026010;
+  padding: 12px 16px;
+  display: block;
+  border-bottom: 1px solid #eee;
+  font-weight: bold;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 @media (max-width: 768px) {
 
   .dropdownContent {
@@ -361,19 +374,6 @@
 
 }
 
-.userEmail,
-.userName {
-  color: #026010;
-  padding: 12px 16px;
-  display: block;
-  border-bottom: 1px solid #eee;
-  font-weight: bold;
-  font-size: 0.85rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
 @media (max-width: 480px) {
   .navbar {
     display: flex;
@@ -474,6 +474,7 @@
   }
 
   .hamburger {
+    gap: 0px;
     display: flex;
   }
 

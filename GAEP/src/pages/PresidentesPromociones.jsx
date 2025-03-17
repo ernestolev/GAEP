@@ -19,7 +19,7 @@ const PresidentesPromociones = () => {
         const fetchPresidentes = async () => {
             try {
                 const q = query(
-                    collection(db, 'exalumnos'), 
+                    collection(db, 'exalumnos'),
                     where('presidenteprom', '==', true)
                 );
                 const querySnapshot = await getDocs(q);
@@ -40,8 +40,8 @@ const PresidentesPromociones = () => {
         fetchPresidentes();
     }, []);
 
-    const filteredPresidentes = presidentes?.filter(presidente => 
-        presidente.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const filteredPresidentes = presidentes?.filter(presidente =>
+        presidente.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         presidente.promocion?.toString().includes(searchTerm)
     );
 
@@ -58,19 +58,20 @@ const PresidentesPromociones = () => {
                         <span>Presidentes de Promociones</span>
                     </div>
                     <h1>Presidentes de Promociones</h1>
-                    <p className={styles.subheading}>Conoce a los líderes que representaron a cada generación</p>
-                    
-                    <div className={styles.searchContainer}>
-                        <input 
-                            type="text"
-                            placeholder="Buscar por nombre o promoción..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className={styles.searchInput}
-                        />
-                    </div>
+
                 </div>
 
+                <p className={styles.subheading}>Conoce a los líderes que representaron a cada generación</p>
+
+                <div className={styles.searchContainer}>
+                    <input
+                        type="text"
+                        placeholder="Buscar por nombre o promoción..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className={styles.searchInput}
+                    />
+                </div>
                 {filteredPresidentes?.length === 0 ? (
                     <div className={styles.noResults}>
                         <p>No se encontraron resultados para "{searchTerm}"</p>
@@ -94,7 +95,7 @@ const PresidentesPromociones = () => {
                                     <h3>{presidente.nombre}</h3>
                                     <p className={styles.cargo}>Promoción {presidente.promocion}</p>
                                 </div>
-                                <button 
+                                <button
                                     className={styles.verDetalles}
                                     onClick={() => {
                                         setSelectedPresidente(presidente);
@@ -114,8 +115,8 @@ const PresidentesPromociones = () => {
                             <button className={styles.closebtn} onClick={() => setShowModal(false)}>×</button>
                             <div className={styles.jdmsbody}>
                                 <div className={styles.modalFoto}>
-                                    <div 
-                                        className={styles.fotoContainer} 
+                                    <div
+                                        className={styles.fotoContainer}
                                         style={{ backgroundImage: `url(${selectedPresidente.imagen || defimg})` }}
                                     ></div>
                                     <div className={styles.promocionTag}>Promoción {selectedPresidente.promocion}</div>

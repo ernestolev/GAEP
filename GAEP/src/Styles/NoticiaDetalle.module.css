@@ -604,12 +604,17 @@
 
     .noticiaDetallePage{
         padding: 1rem;
+        margin-top: 50px;
     }
     .detalleGuion{
+        font-size: 0.75rem;
         margin: 0;
         padding: 0;
     }
 
+    .fechaNoticia{
+        font-size: 0.75rem;
+    }
     .noticiaHeader{
         display: block;
         margin: 0;
@@ -617,20 +622,34 @@
 
     .noticiaTitleSection{
         margin-top: 2rem;
+        padding: 0px;
     }
 
     .noticiaTitleSection h1{
-        font-size: 2rem;
+        font-size: 1.7rem;
+    }
+
+    .noticiaBadges{
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .destacadoBadge{
+        font-size:  0.75rem;
     }
 
     .noticiaContent{
         display: flex;
-        margin: 3rem 0px 0;
+        margin: 2rem 0px 0;
         gap: 0;
     }
 
     .noticiaDescripcion{
         width: 100%;
         padding: 1rem;
+    }
+
+    .noticiaDescripcion p{
+        font-size: 0.8rem;
     }
 }

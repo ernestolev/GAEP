@@ -517,6 +517,7 @@
     .form-group input,
     .form-group textarea {
         padding: 12px 15px;
+        width: 90%;
     }
     
     .submit-button {

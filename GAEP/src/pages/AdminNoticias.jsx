@@ -26,6 +26,7 @@ const AdminNoticias = () => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
+  const [fechaPublicacion, setFechaPublicacion] = useState('');
 
   // Form states
   const [editId, setEditId] = useState(null);
@@ -122,15 +123,36 @@ const AdminNoticias = () => {
 
       const noticiasData = querySnapshot.docs.map(doc => {
         const data = doc.data();
-        // Log para depuración
         console.log('Noticia raw data:', data);
+
+        // Usar fechaTexto si existe, de lo contrario procesar fecha
+        let fechaFormateada = data.fechaTexto || '';
+
+        if (!fechaFormateada && data.fecha) {
+          if (data.fecha.toDate && typeof data.fecha.toDate === 'function') {
+            // Convertir el Timestamp de Firestore a Date y extraer solo la fecha
+            const fechaObj = data.fecha.toDate();
+            const year = fechaObj.getFullYear();
+            const month = String(fechaObj.getMonth() + 1).padStart(2, '0');
+            const day = String(fechaObj.getDate()).padStart(2, '0');
+            fechaFormateada = `${year}-${month}-${day}`;
+          } else if (data.fecha instanceof Date) {
+            const year = data.fecha.getFullYear();
+            const month = String(data.fecha.getMonth() + 1).padStart(2, '0');
+            const day = String(data.fecha.getDate()).padStart(2, '0');
+            fechaFormateada = `${year}-${month}-${day}`;
+          } else if (typeof data.fecha === 'string') {
+            fechaFormateada = data.fecha;
+          }
+        }
 
         return {
           id: doc.id,
           titulo: data.titulo || '',
           descripcion: data.descripcion || '',
           destacado: data.destacado || false,
-          imagenes: data.imagenes || []
+          imagenes: data.imagenes || [],
+          fecha: fechaFormateada || ''
         };
       });
 
@@ -234,14 +256,25 @@ const AdminNoticias = () => {
     try {
       setActionLoading(true);
 
+      // Crear un objeto Date a partir de la fecha seleccionada
+      // y asegurarnos de que se use la fecha local
+      const [year, month, day] = fechaPublicacion.split('-').map(num => parseInt(num));
+      const fechaSeleccionada = new Date(year, month - 1, day, 12, 0, 0);
+
+      console.log('Fecha seleccionada por el usuario:', fechaPublicacion);
+      console.log('Objeto Date creado:', fechaSeleccionada);
+      console.log('Fecha local para guardar:', fechaSeleccionada.toLocaleDateString());
+
       const noticiaData = {
         titulo: titulo,
         descripcion: descripcion,
         destacado: destacado,
-        imagenes: noticiasImagenes
+        imagenes: noticiasImagenes,
+        fechaTexto: fechaPublicacion, // Guardar el texto de la fecha exactamente como se seleccionó
+        fecha: Timestamp.fromDate(fechaSeleccionada) // Timestamp para ordenamiento
       };
 
-      console.log('Guardando noticia:', noticiaData);
+      console.log('Guardando noticia con fecha:', noticiaData);
 
       if (editId) {
         await setDoc(doc(firestore, 'noticias', editId), noticiaData);
@@ -327,6 +360,8 @@ const AdminNoticias = () => {
     setImagen(noticia.imagen || '');
     // Handle both old and new image structure
     setNoticiasImagenes(noticia.imagenes || (noticia.imagen ? [noticia.imagen] : []));
+    // Configurar la fecha de publicación
+    setFechaPublicacion(noticia.fecha || getTodayDate());
     setEditId(noticia.id);
     setShowNoticiaPopup(true);
     setActiveTab('info');
@@ -339,9 +374,20 @@ const AdminNoticias = () => {
     setDestacado(false);
     setImagen('');
     setNoticiasImagenes([]);
+    setFechaPublicacion(getTodayDate()); // Configurar fecha actual por defecto
     setEditId(null);
     setShowNoticiaPopup(false);
   };
+
+  const getTodayDate = () => {
+    const today = new Date();
+    // Asegurar que usamos la fecha local del usuario sin problemas de zona horaria
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
 
   // Sort function
   const sortNoticias = (field) => {
@@ -418,13 +464,40 @@ const AdminNoticias = () => {
     });
   };
 
-  const formatDate = (date) => {
-    if (!date) return '';
-    return new Date(date).toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+
+    // Si es una fecha en formato YYYY-MM-DD
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+      const [year, month, day] = dateString.split('-').map(num => parseInt(num));
+
+      // Crear una fecha local sin problemas de zona horaria
+      const date = new Date(year, month - 1, day);
+
+      // Formatear usando Intl.DateTimeFormat para respetar la localidad
+      return new Intl.DateTimeFormat('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).format(date);
+    }
+
+    // Intenta parsear la fecha como string
+    try {
+      const date = new Date(dateString);
+      if (!isNaN(date.getTime())) {
+        return new Intl.DateTimeFormat('es-ES', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }).format(date);
+      }
+    } catch (e) {
+      console.error('Error al formatear fecha:', e);
+    }
+
+    // Si todo falla, devuelve el string original
+    return dateString;
   };
 
   if (isLoading) {
@@ -597,6 +670,25 @@ const AdminNoticias = () => {
                         required
                         className={styles.formControl}
                       />
+                    </div>
+
+                    {/* Campo de fecha de publicación */}
+                    <div className={styles.formGroup}>
+                      <label htmlFor="fechaPublicacion">
+                        <i className="fas fa-calendar-alt"></i> Fecha de publicación
+                        <span className={styles.required}>*</span>
+                      </label>
+                      <input
+                        id="fechaPublicacion"
+                        type="date"
+                        value={fechaPublicacion}
+                        onChange={(e) => setFechaPublicacion(e.target.value)}
+                        required
+                        className={styles.formControl}
+                      />
+                      <p className={styles.helpText}>
+                        Selecciona la fecha de publicación de la noticia
+                      </p>
                     </div>
 
                     <div className={styles.formGroup}>

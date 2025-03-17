@@ -300,8 +300,8 @@
 
 .verDetalles {
     position: absolute;
-    top: 30px;
-    right: 80px;
+    bottom: 01rem;
+    right: 1rem;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 50px;
     padding: 8px 16px;
@@ -422,9 +422,9 @@
 }
 
 .jdmsbody {
-    display: flex;
-    max-height: 90vh;
-    position: relative;
+    flex-direction: column;
+        max-height: none;
+        height: auto;
 }
 
 .modalFoto {
@@ -752,12 +752,26 @@
         padding: 0;
     }
 
+    .subheading {
+        font-size: 1rem;
+    }
+
+    .headerSticky {
+        padding: 0px ;
+        top: 70px;
+    }
+
     .headerSticky h1 {
         font-size: 1.5rem;
     }
 
     .jdItem {
         height: 350px;
+    }
+
+    .jdInfo {
+        width: auto !important;
+        padding: 1rem;
     }
 
     .jdInfo h3 {

@@ -23,7 +23,7 @@
 .header-sticky {
     position: sticky;
     top: 80px;
-    background: linear-gradient(180deg, rgba(255,255,255,1) 85%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 85%, rgba(255, 255, 255, 0) 100%);
     padding: 20px 0;
     margin-bottom: 30px;
     z-index: 100;
@@ -57,6 +57,245 @@
     height: 1px;
     background: #026010;
     transition: width 0.3s ease;
+}
+
+.act-realizada .act-imagen {
+    filter: grayscale(0.8);
+    transition: filter 0.3s ease;
+}
+
+.act-realizada:hover .act-imagen {
+    filter: grayscale(0.4);
+}
+
+.realizada-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, rgba(2, 96, 16, 0.9) 0%, rgba(2, 134, 16, 0.9) 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.check-icon {
+    color: white;
+    font-size: 0.9rem;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+}
+
+/* Estilo especial para el título de actividades realizadas */
+.act-realizada .act-info h3 {
+    color: #c2c2c2;
+}
+
+.act-realizada .act-info h3::after {
+    background: #026010;
+}
+
+/* Estilo para la fecha de actividades realizadas */
+.act-realizada .fecha {
+    color: #a5a5a5;
+}
+
+/* Agregar un sutil banner diagonal */
+.act-realizada {
+    position: relative;
+    overflow: hidden;
+}
+
+.act-realizada::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 65%, rgba(2, 96, 16, 0.1) 65%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Mejoras responsivas */
+@media (max-width: 768px) {
+    .realizada-badge {
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+}
+
+
+.envivo-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, rgba(220, 20, 20, 0.9) 0%, rgba(180, 0, 0, 0.9) 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: pulseRed 1.5s infinite;
+}
+
+@keyframes pulseRed {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 20, 20, 0.6);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 20, 20, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 20, 20, 0);
+    }
+}
+
+.livestream-icon {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    margin-right: 2px;
+}
+
+.livestream-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: pulse-circle 1.2s infinite;
+}
+
+.livestream-bar {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 4px;
+}
+
+.livestream-bar span {
+    width: 3px;
+    height: 12px;
+    background-color: #fff;
+    margin: 0 1px;
+    border-radius: 3px;
+    animation: liveBarAnim 0.9s infinite;
+}
+
+.livestream-bar span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.livestream-bar span:nth-child(2) {
+    animation-delay: 0.3s;
+    height: 8px;
+}
+
+.livestream-bar span:nth-child(3) {
+    animation-delay: 0.6s;
+    height: 10px;
+}
+
+@keyframes liveBarAnim {
+
+    0%,
+    100% {
+        transform: scaleY(0.6);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes pulse-circle {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* Ajustes responsivos para el badge "En vivo" */
+@media (max-width: 768px) {
+    .envivo-badge {
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+
+    .livestream-bar span {
+        height: 10px;
+    }
+
+    .livestream-bar span:nth-child(2) {
+        height: 7px;
+    }
+
+    .livestream-bar span:nth-child(3) {
+        height: 9px;
+    }
 }
 
 .breadcrumb-actividades a:hover {
@@ -120,7 +359,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(2, 96, 16, 0.9) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 40%, rgba(2, 96, 16, 0.9) 100%);
     z-index: 1;
     transition: opacity 0.4s ease;
 }
@@ -166,7 +405,7 @@
     line-height: 1.3;
     color: #fff;
     margin-bottom: 15px;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease;
     position: relative;
 }
@@ -233,6 +472,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -273,7 +513,7 @@
     .act-page {
         padding: 30px;
     }
-    
+
     .act-info h3 {
         font-size: 1.6rem;
     }
@@ -314,8 +554,13 @@
         margin-top: 70px;
     }
 
+    .header-sticky {
+        top: 50px;
+        padding: 0px;
+    }
+
     .act-page h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .act-item {
@@ -331,7 +576,10 @@
         font-size: 0.9rem;
     }
 
-    .header-sticky {
-        padding: 15px 0;
+
+
+    .jd-info {
+        width: auto;
+        padding: 1rem;
     }
 }

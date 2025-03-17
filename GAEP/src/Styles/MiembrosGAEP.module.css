@@ -606,9 +606,9 @@
         margin: 0;
     }
 
-    .headerSticky{
-        
-        margin-bottom: 10px;
+    .headerSticky {
+        padding: 0px ;
+        top: 70px;
     }
     
     .headerSticky h1 {

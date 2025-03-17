@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
-import styles from '../Styles/Navbar.module.css';
+import styles from '../Styles/Navbar2.module.css';
 import escudo from '../assets/images/img-gaepbanner.png';
 import { FaUser } from 'react-icons/fa'; // Import user icon
 

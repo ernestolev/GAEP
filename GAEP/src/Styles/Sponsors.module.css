@@ -98,7 +98,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        padding: 0 20px;
+        padding: 0 1rem;
     }
 
     .sponsors-btn {
@@ -124,7 +124,7 @@
     .sponsors-container h3 {
         font-family: 'Montserrat', sans-serif;
         color: #026010;
-        font-size: 2.5rem;
+        font-size: 1.8rem;
         margin-bottom: 0px;
         margin-top: 5px;
     }
@@ -157,3 +157,4 @@
         animation-duration: 60s;
     }
 }
+

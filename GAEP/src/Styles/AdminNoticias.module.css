@@ -694,6 +694,8 @@
   max-width: 900px;
   max-height: 90vh;
   perspective: 1000px;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal {
@@ -704,6 +706,9 @@
   animation: modalAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid #e2e8f0;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
 }
 
 @keyframes modalAppear {
@@ -896,7 +901,13 @@
   user-select: none;
 }
 
-
+.modalHeader {
+  color: rgb(51, 136, 62);
+  padding: 1.5rem 2rem 1rem;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0; /* Evita que el header se encoja */
+}
 
 .modalHeader::after {
   content: '';
@@ -993,9 +1004,11 @@
 
 .modalBody {
   padding: 2rem;
-  max-height: calc(90vh - 150px);
   overflow-y: auto;
+  flex: 1; /* Permite que el cuerpo crezca y se encoja según sea necesario */
+  max-height: calc(90vh - 170px); /* Altura restante considerando header y footer */
 }
+
 
 .modalBody::-webkit-scrollbar {
   width: 8px;
@@ -1056,10 +1069,18 @@
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
+  margin-bottom: 1rem;
 }
 
 .quillWrapper .quill {
-  height: 200px;
+  height: auto; /* Permitir altura automática */
+  min-height: 150px; /* Altura mínima */
+  max-height: 300px; /* Altura máxima */
+}
+
+.quillWrapper .ql-container {
+  min-height: 150px; /* Establece altura mínima para el contenedor de edición */
+  overflow-y: auto; /* Permite scroll dentro del editor */
 }
 
 .toggleContainer {
@@ -1282,6 +1303,10 @@
   padding: 1.5rem 2rem;
   border-top: 1px solid #e2e8f0;
   background-color: #f8fafc;
+  flex-shrink: 0; /* Evita que el footer se encoja */
+  z-index: 5; /* Asegurar que esté por encima del contenido */
+  position: relative; /* Para el z-index */
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05); /* Sombra sutil para separarlo */
 }
 
 .actionButtons {
@@ -1597,5 +1622,46 @@
 
   .formGroup input[type="text"] {
     width: 90%;
+  }
+  .modalContainer, .modal {
+    height: 85vh; /* Usar altura completa en móviles */
+    width: 95vw; /* Usar ancho completo */
+    margin: 0;
+  }
+  
+  .modalBody {
+    padding: 1rem;
+    max-height: calc(85vh - 180px); /* Ajustar para header y footer más pequeños */
+  }
+  
+  .modalHeader {
+    padding: 1rem 1rem 0.5rem;
+  }
+  
+  .modalFooter {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .actionButtons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  /* Reorganizar los botones en el footer para móvil */
+  .modalFooter {
+    flex-direction: column-reverse;
+  }
+  
+  .backButton, .nextButton {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  /* Ajustar tamaño del editor para móviles */
+  .quillWrapper .quill {
+    max-height: 200px; /* Limitar altura en móviles */
   }
 }

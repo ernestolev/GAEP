@@ -336,6 +336,7 @@
 @media (max-width: 468px) {
     .himnoContainer {
         padding: 80px 15px 30px;
+        margin: 0px;
     }
     
     .himnoContainer::before,

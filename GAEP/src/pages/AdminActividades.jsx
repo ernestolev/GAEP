@@ -54,12 +54,29 @@ const AdminActividades = () => {
 
         // Check if it's a Firebase Timestamp
         if (dateValue && typeof dateValue === 'object' && dateValue.seconds !== undefined) {
-            return new Date(dateValue.seconds * 1000).toISOString().split('T')[0];
+            const date = new Date(dateValue.seconds * 1000);
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         }
 
-        // If it's already a string, return as is
+        // Si es un string en formato ISO (YYYY-MM-DD), lo devolvemos tal cual
+        if (typeof dateValue === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+            return dateValue;
+        }
+
+        // Si es otro formato de string, intentamos convertirlo a fecha y formatear
+        try {
+            const date = new Date(dateValue);
+            if (!isNaN(date.getTime())) {
+                return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            }
+        } catch (e) {
+            console.error("Error al formatear fecha:", e);
+        }
+
+        // Si todo lo demás falla, devolvemos el valor original
         return dateValue;
     };
+
 
     const handleRemoveImage = (indexToRemove) => {
         setImagenes(imagenes.filter((_, index) => index !== indexToRemove));
@@ -119,8 +136,10 @@ const AdminActividades = () => {
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
 
-                // Convert Timestamp to string date format
-                const formattedDate = formatDate(data.fecha);
+                // Preferir fechaTexto si existe, de lo contrario formatear fecha
+                const formattedDate = data.fechaTexto || formatDate(data.fecha);
+
+                console.log(`Actividad ${doc.id}: fecha guardada = ${data.fecha}, fecha mostrada = ${formattedDate}`);
 
                 actividadesData.push({
                     id: doc.id,
@@ -248,11 +267,17 @@ const AdminActividades = () => {
 
         setActionLoading(true);
         try {
+            // Guardar la fecha como string explícitamente
+            const fechaString = fecha;
+
+            console.log("Fecha seleccionada para guardar:", fechaString);
+
             const actividadData = {
                 titulo,
-                fecha,
+                fecha: fechaString, // Guardar la fecha como string YYYY-MM-DD
+                fechaTexto: fechaString, // Campo adicional para asegurar que se muestra correctamente
                 descripcion,
-                imagenes, // Cambio aquí: guarda el array de imágenes
+                imagenes,
                 horarioInicio,
                 horarioFin,
                 lugar,
@@ -281,7 +306,6 @@ const AdminActividades = () => {
             setActionLoading(false);
         }
     };
-
     const filteredActividades = actividades.filter(actividad =>
         actividad.titulo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         actividad.descripcion?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -411,8 +435,24 @@ const AdminActividades = () => {
                                                 <div className={styles.formGroup}>
                                                     <label>Fecha<span className={styles.requiredField}>*</span></label>
                                                     <DatePicker
-                                                        selected={fecha ? new Date(fecha) : null}
-                                                        onChange={(date) => setFecha(date ? date.toISOString().split('T')[0] : '')}
+                                                        selected={fecha ? (() => {
+                                                            // Crear fecha sin problemas de zona horaria
+                                                            const [year, month, day] = fecha.split('-').map(Number);
+                                                            return new Date(year, month - 1, day);
+                                                        })() : null}
+                                                        onChange={(date) => {
+                                                            if (!date) {
+                                                                setFecha('');
+                                                                return;
+                                                            }
+                                                            // Formatear fecha sin ajustes de zona horaria
+                                                            const year = date.getFullYear();
+                                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                                            const day = String(date.getDate()).padStart(2, '0');
+                                                            const formattedDate = `${year}-${month}-${day}`;
+                                                            console.log("Fecha seleccionada:", formattedDate);
+                                                            setFecha(formattedDate);
+                                                        }}
                                                         dateFormat="dd/MM/yyyy"
                                                         placeholderText="Selecciona una fecha"
                                                         className={styles.dateTimeInput}
@@ -426,7 +466,11 @@ const AdminActividades = () => {
                                                                 <input
                                                                     readOnly
                                                                     placeholder="Selecciona una fecha"
-                                                                    value={fecha ? new Date(fecha).toLocaleDateString() : ''}
+                                                                    value={fecha ? (() => {
+                                                                        // Mostrar fecha formateada para el usuario
+                                                                        const [year, month, day] = fecha.split('-').map(Number);
+                                                                        return new Date(year, month - 1, day).toLocaleDateString();
+                                                                    })() : ''}
                                                                 />
                                                             </div>
                                                         }
